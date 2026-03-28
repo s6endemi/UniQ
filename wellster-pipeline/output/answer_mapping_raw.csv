@@ -1,0 +1,2402 @@
+question_id,answer_id,answer_de,answer_en,row_count
+37150,69003,Prädiabetes,prediabetes,1
+37150,69004,obstruktive Schlafapnoe,obstructive sleep apnea,1
+37150,69006,Erhöhung des Cholesterins und/oder der Triglyceriden im Blut,elevation of blood cholesterol and/or triglycerides,2
+37150,69008,Keine der genannten,none of the above,32
+37151,69009,Ich bin nach einer Mahlzeit satt und höre auf zu essen.,I am full after one meal and stop eating.,3
+37151,69010,Ich bin nach einer Mahlzeit satt und esse trotzdem weiter.,I am full after one meal and still continue to eat.,10
+37151,69011,Unabhängig von den Mahlzeiten verspüre ich den ganzen Tag Hunger.,"Regardless of meals,            I feel hungry throughout the day.",15
+37151,69012,Ich esse unabhängig von meinem Hungergefühl.,I eat regardless of my feeling of hunger.,7
+37151,69013,Sonstiges,Other.,1
+37152,69018,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,4
+37153,69019,Täglich,Daily,1
+37153,69020,Mehrmals pro Woche,Several times a week,18
+37153,69021,Einmal pro Woche,Once a week,5
+37153,69022,Selten,Rarely,9
+37153,69023,Gar nicht,Not at all,3
+37154,69025,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,34
+37154,69026,Hoch - Über 140/90,High 140/90,2
+37155,69027,Nein,No,32
+37155,69028,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost more than 4% body weight in 3 months with it",2
+37155,69029,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",2
+37157,69030,Weniger als 1 Jahr,Less than 1 year,2
+37157,69031,1-5 Jahre,1-5 years,9
+37157,69032,Mehr als 5 Jahre,More than 5 years,12
+37157,69033,Seit der Kindheit oder Jugend,Since childhood or adolescence,13
+37158,107510,Ja,Yes,2
+37158,107511,Nein,No,34
+37161,69036,Nein,No,2
+37161,69037,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,18
+37161,69038,Sport,Exercise,14
+37161,69041,Hypnose,Hypnosis,1
+37161,69043,Anderes,Other,1
+37171,69045,Ich verstehe und bestätige.,I understand and confirm.,22
+37189,69046,Ich verstehe und bestätige.,I understand and confirm.,2
+37190,69047,"Ja, ich habe meine Gewichtsabnahmeziele erreicht.","Yes,      I met my weight loss goals",3
+37190,69048,"Nein, ich habe meine Gewichtsabnahmeziele nicht erreicht.","No,      I did not meet my weight loss goals.",33
+37198,69050,Ich habe gastroösophagealen Reflux,I have gastroesophageal reflux,1
+37198,69051,Keine der genannten,"None of the above"".",35
+37204,69053,Keine der genannten,None of the above,36
+37206,83132,Keine der genannten,None of the above,36
+37208,97067,Keine der genannten,None of the above,36
+37210,69075,Keine der genannten,None of the above,36
+37213,69076,Foto sofort hochladen,Upload photo immediately,22
+37213,69077,Später hochladen,Später hochladen,14
+37219,69080,Ich verstehe und bestätige.,I understand and confirm.,17
+41188,75723,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,1
+41190,75726,Nein,No,1
+41191,78002,Jetzt GoLighter nachbestellen,Go on,1
+41193,75734,Nein,No,1
+41200,82008,Regelmäßig 1 x täglich,Regelmäßig 1 x täglich,1
+41221,75747,Sport,Exercise,1
+41221,75748,Ernährungsberatung,Dietary advice,1
+41233,75757,Ich fühle mich aktiver/fitter,I feel more active/fitter,1
+41237,75769,Keine Nebenwirkungen,No side effects,1
+41248,75776,Keine Nebenwirkungen,No side effects,1
+41256,75780,Ich verstehe und bestätige,I understand and confirm,1
+41278,75801,Nichts davon,None of the above,1
+41281,75803,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,1
+46895,87334,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,4
+46896,87336,Mehrmals pro Woche,Several times a week,14
+46896,87337,Einmal pro Woche,Once a week,14
+46896,87338,Selten,Rarely,8
+46896,87339,Gar nicht,Not at all,2
+46897,87341,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,32
+46897,87342,Hoch - Über 140/90,High 140/90,6
+46898,87343,Nein,No,34
+46898,87344,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost more than 4% body weight in 3 months with it",3
+46898,87345,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+46900,87346,Weniger als 1 Jahr,Less than 1 year,2
+46900,87347,1-5 Jahre,1-5 years,12
+46900,87348,Mehr als 5 Jahre,More than 5 years,17
+46900,87349,Seit der Kindheit oder Jugend,Since childhood or adolescence,7
+46901,107266,Ja,Yes,9
+46901,107267,Nein,No,29
+46904,87352,Nein,No,2
+46904,87353,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,25
+46904,87354,Sport,Exercise,8
+46904,87359,Anderes,Other,2
+46904,87360,Krankenhausaufenthalt oder Kur oder Reha,Hospitalization or spa or rehab,1
+46914,87361,Ich verstehe und bestätige.,I understand and confirm.,24
+46932,87362,Ich verstehe und bestätige.,I understand and confirm.,3
+46941,87367,Keine der genannten,"None of the above"".",38
+46947,87369,Keine der genannten,None of the above,38
+46949,87378,Keine der genannten,None of the above,38
+46951,140243,Keiner der genannten,None of the above,38
+46953,87393,Keine der genannten,None of the above,38
+46956,87397,Foto sofort hochladen,Upload photo immediately,24
+46956,87398,Später hochladen,Upload photo later,14
+46962,87401,Ich verstehe und bestätige.,I understand and confirm.,19
+49851,97052,Prädiabetes,Prediabetes,1
+49851,97055,Erhöhung des Cholesterins und / oder der Triglyceriden im Blut,Elevation of Cholesterol and / or Triglycerides in the Blood,2
+49851,97057,Keine der genannten,None of the Above,1
+49859,97071,Prädiabetes,Prediabetes,2
+49859,97072,obstruktive Schlafapnoe,Obstructive Sleep Apnoea,1
+49859,97073,Dyslipidämie,Dyslipidaemia,1
+49859,97074,Erhöhung des Cholesterins und / oder der Triglyceriden im Blut,Elevation of Cholesterol and / or Triglycerides in the Blood,4
+49859,97076,Keine der genannten,None of the Above,2
+54320,107617,Prädiabetes,Prediabetes,5
+54320,107618,Obstruktive Schlafapnoe,Obstructive sleep apnoea,1
+54320,107619,Dyslipidämie (Fettstoffwechselstörung),Dyslipidaemia (lipid metabolism disorder),1
+54320,107620,Erhöhte Cholesterin- und / oder Triglyceridwerte,Elevated cholesterol and/or triglyceride levels,5
+54320,107622,Keine der genannten,None of the above,65
+54321,107607,Prädiabetes,Prediabetes,6
+54321,107608,Obstruktive Schlafapnoe,Obstructive sleep apnoea,3
+54321,107609,Dyslipidämie (Fettstoffwechselstörung),Dyslipidaemia (lipid metabolism disorder),1
+54321,107610,Erhöhte Cholesterin- und / oder Triglyceridwerte,Elevated cholesterol and/or triglyceride levels,7
+54321,107611,Niedriger HDL-Cholesterinspiegel,Low HDL cholesterol level,1
+54321,107612,Keine der genannten,None of the above,3
+54322,107614,1-5 Jahre,1-5 years,17
+54322,107615,Mehr als 5 Jahre,More than 5 years,44
+54322,107616,Seit der Kindheit oder Jugend,Since childhood or adolescence,28
+54324,107623,Nein,No,81
+54324,107624,"Ja, ich habe damit weniger als 4 % Körpergewicht in 3 Monaten verloren.","Yes,  I lost less than 4% of my body weight in 3 months.",4
+54324,107625,"Ja, ich habe damit mehr als 4 % Körpergewicht in 3 Monaten verloren.","Yes,  I lost more than 4% of my body weight in 3 months.",4
+54325,107645,"Ich hatte keine schwerwiegenden Nebenwirkungen, die mich dazu veranlasst haben, die Behandlung abzubrechen.",I had no serious side effects that caused me to discontinue treatment.,9
+54326,107627,Diät - eigene Diät oder ein Programm,Diet - own diet or a programme,77
+54326,107628,Sport,Sport,70
+54326,107629,Medikamente,Medication,6
+54326,107630,Ernährungsberatung,Nutritional advice,29
+54326,107631,Hypnose,Hypnosis,6
+54326,107632,Abnehm-App,Weight loss app,39
+54326,107638,Anderes,Other,4
+54326,107640,"Krankenhausaufenthalt,   Kur oder Reha","Hospital stay,     cure or rehab",3
+54328,146321,"Ja, ich habe mindestens 5 % meines gewichts verloren.","Yes,  I have lost at least 5% of my body weight.",10
+54328,146322,"Nein, ich habe weniger als 5 % meines gewichts verloren.","No,  I have lost less than 5% of my body weight.",79
+54332,107734,Täglich,Daily,2
+54332,107735,Mehrmals pro Woche,Several times a week,39
+54332,107736,Einmal pro Woche,Once a week,29
+54332,107737,Selten,Rarely,17
+54332,107738,Gar nicht,Not at all,2
+54359,107740,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,79
+54359,107741,Hoch: Über 140/90,High: Over 140/90,10
+54360,107751,Ich habe gastroösophagealen Reflux (Rückfluss von Magensäure in die Speiseröhre),I have gastroesophageal reflux (reflux of stomach acid into the oesophagus),5
+54360,107752,Keine der genannten,None of the above,84
+54365,107756,Keines der genannten,Keines der genannten,89
+54366,108575,Keine der genannten,None of the above,89
+54368,146330,Keiner der genannten,None of the above,89
+54371,107783,Keine der genannten,None of the above,89
+54373,108315,Ja,Yes,26
+54373,108316,Nein,No,63
+54374,108579,Jetzt hochladen,Upload Now,55
+54374,108580,Später hochladen,Upload Later,34
+54380,107791,Ich verstehe und bestätige,I understand and confirm,55
+54382,107792,Ich verstehe und bestätige,I understand and confirm,39
+54805,108577,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,20
+54807,109839,Nein,No,20
+55653,109852,Nein,No,20
+55662,109874,Keines der genannten,None of the above,20
+55664,109875,"2,5 mg Tirzepatid",2.5 mg Tirzepatide,18
+55664,109876,5 mg Tirzepatid,5 mg Tirzepatide,2
+55665,109881,Regelmäßig 1-mal wöchentlich,Regularly once a week,19
+55665,109882,Seltener als 1-mal wöchentlich,Less often than once a week,1
+55666,110611,Ich wende das Medikament lückenlos an.,I use the medication without interruption.,20
+55667,109891,Diät – eigene Diät oder ein spezielles Programm,Diet - own diet or a special programme,11
+55667,109892,Sport,Sport,14
+55667,109893,Andere Medikamente,Other medication,1
+55667,109894,Ernährungsberatung,Nutritional advice,4
+55667,109895,Hypnose,Hypnosis,1
+55667,109896,Abnehm-App,Weight loss app,4
+55667,109898,Anderes,Other,1
+55672,109903,Ich fühle mich aktiver / fitter.,I feel more active / fitter.,12
+55672,109904,Ich fühle mich wohler in meinem Körper.,I feel more comfortable in my body.,10
+55672,109905,Ich fühle mich selbstbewusster.,I feel more self-confident.,7
+55672,109906,"Ich fühle mich motivierter, gesund zu leben.",I feel more motivated to live a healthy life.,18
+55673,109918,Keine Nebenwirkungen,No side effects,20
+55675,109919,Gelegentliche Übelkeit oder Erbrechen (z. B. kurz nach der Injektion),Occasional nausea or vomiting (e.g. shortly after injection),3
+55675,109920,Durchfall oder Verstopfung,Diarrhoea or constipation,1
+55675,109923,Schwindel,Dizziness,2
+55675,109927,Keine Nebenwirkungen,No side effects,15
+55676,109928,Ich vestehe und bestätige.,I understand and confirm.,5
+55677,109929,Ich vestehe und bestätige.,I understand and confirm.,20
+58858,113924,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,4
+58913,113927,Nein,No,4
+58916,113934,Nein,No,4
+58921,113966,Nichts davon,None of the above,4
+58923,113967,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,4
+58924,113970,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,4
+58927,113975,Diät (eigene Diät oder ein Programm),Diet (own diet or a programme),3
+58927,113976,Sport,Exercise,3
+58927,113979,Abnehm-App,Weight loss app,2
+58929,113986,Ich fühle mich aktiver/fitter,I feel more active/fitter,1
+58929,113987,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,2
+58929,113988,Ich fühle mich selbstbewusster,I feel more confident,2
+58929,113989,"Ich fühle mich motivierter, gesund zu leben",I feel more motivated to live healthy,3
+58930,114000,Keine Nebenwirkungen,No side effects,4
+58932,114006,Keine Nebenwirkungen,No side effects,3
+58932,114007,Gelegentliche Übelkeit oder Erbrechen (z. B. nur kurzzeitig nach Injektion),Occasional nausea or vomiting (e.g. only for a short time after injection),1
+58933,114010,Ich vestehe und bestätige.,I understand and confirm.,1
+58937,114011,Ich vestehe und bestätige.,I understand and confirm.,4
+58960,114013,0.25 mg Semaglutid,0.25 mg Semaglutide,4
+59593,115444,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,1
+59648,115447,Nein,No,1
+59651,115454,Nein,No,1
+59656,115486,Nichts davon,None of the above,1
+59658,115487,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,1
+59659,115490,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,1
+59662,115495,Diät (eigene Diät oder ein Programm),Diet (own diet or a programme),1
+59664,115509,"Ich fühle mich motivierter, gesund zu leben",I feel more motivated to live healthy,1
+59665,115520,Keine Nebenwirkungen,No side effects,1
+59667,115521,Durchfall oder Verstopfung,Diarrhoea or constipation,1
+59668,115530,Ich vestehe und bestätige.,I understand and confirm.,1
+59672,115531,Ich vestehe und bestätige.,I understand and confirm.,1
+59695,115534,0.5 mg Semaglutid,0.5 mg Semaglutide,1
+61793,118321,Ja!,Yes!,12
+61793,118322,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No, I would like to stay on my current dose",8
+62344,119426,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,3
+62346,119429,Nein,No,3
+62350,119436,Nein,No,3
+62356,119458,Keines der genannten,None of the above,3
+62358,119459,"2,5 mg Tirzepatid",2.5 mg Tirzepatide,3
+62359,119465,Regelmäßig 1-mal wöchentlich,Regularly once a week,3
+62360,119468,Ich wende das Medikament lückenlos an.,I use the medication without interruption.,3
+62361,119471,Diät – eigene Diät oder ein spezielles Programm,Diet - own diet or a special programme,1
+62361,119472,Sport,Sport,3
+62366,119484,Ich fühle mich aktiver / fitter.,I feel more active / fitter.,1
+62366,119485,Ich fühle mich wohler in meinem Körper.,I feel more comfortable in my body.,2
+62366,119486,Ich fühle mich selbstbewusster.,I feel more self-confident.,1
+62366,119487,"Ich fühle mich motivierter, gesund zu leben.",I feel more motivated to live a healthy life.,2
+62367,119498,Keine Nebenwirkungen,No side effects,3
+62369,119499,Gelegentliche Übelkeit oder Erbrechen (z. B. kurz nach der Injektion),Occasional nausea or vomiting (e.g. shortly after injection),1
+62369,119507,Keine Nebenwirkungen,No side effects,2
+62370,119508,Ich vestehe und bestätige.,I understand and confirm.,1
+62371,119509,Ich vestehe und bestätige.,I understand and confirm.,3
+62376,119510,Ja!,Yes!,3
+70193,131687,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,26
+70193,131688,Hoch - Über 140/90,Hoch - Über 140/90,4
+70195,131689,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",7
+70195,131690,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",17
+70195,131691,Nein,No,6
+70196,131694,Starke Müdigkeit / Erschöpfung,Severe fatigue/exhaustion,1
+70196,131696,Nichts davon,None of the above,24
+70199,131698,Nein,No,30
+70208,131729,0.25 mg Semaglutid,0.25 mg Semaglutide,24
+70208,131730,0.5 mg Semaglutid,0.5 mg Semaglutide,3
+70208,131731,1 mg Semaglutid,1 mg Semaglutide,3
+70209,131734,Ja!,Yes!,25
+70209,131735,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No, I would like to stay on my current dose",5
+70218,131736,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,30
+70219,131739,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,30
+70220,131742,Ich fühle mich aktiver/fitter,I feel more active/fitter,10
+70220,131743,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,13
+70220,131744,Ich fühle mich selbstbewusster,I feel more confident,5
+70220,131745,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,16
+70220,131746,Ich spüre keine Veränderung,I don't feel any change,7
+70224,131748,Diät (eigene Diät oder ein Programm),Diet (own diet or a programme),14
+70224,131749,Sport,Exercise,19
+70224,131750,Ernährungsberatung,Dietary advice,2
+70224,131752,Abnehm-App,Weight loss app,4
+70224,131755,Andere,Other,1
+70225,131757,Ja,Yes,1
+70225,131758,Nein,No,29
+70229,131763,Keine der genannten,None of the above,1
+70231,131764,Ja,Yes,4
+70231,131765,Nein,No,26
+70235,131775,Keine Nebenwirkungen,No side effects,30
+70237,131776,Gelegentliche Übelkeit oder Erbrechen (z. B. nur kurzzeitig nach Injektion),Occasional nausea or vomiting (e.g. only for a short time after injection),3
+70237,131777,Durchfall oder Verstopfung,Diarrhoea or constipation,1
+70237,131779,Schwäche- oder Müdigkeitsgefühl,Feeling weak or tired,1
+70237,131780,Schwindel,Dizziness,1
+70237,131784,Keine Nebenwirkungen,No side effects,25
+70238,131785,Ich vestehe und bestätige.,I understand and confirm.,5
+70240,131789,Ich verstehe und bestätige,I understand and confirm,30
+70294,131793,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,1
+70296,131797,Nein,No,1
+70300,131804,Nein,No,1
+70309,131835,0.25 mg Semaglutid,0.25 mg Semaglutide,1
+70310,131840,Ja!,Yes!,1
+70319,131842,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,1
+70320,131845,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,1
+70321,131848,Ich fühle mich aktiver/fitter,I feel more active/fitter,1
+70321,131849,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,1
+70321,131850,Ich fühle mich selbstbewusster,I feel more confident,1
+70321,131851,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,1
+70321,131852,Ich spüre keine Veränderung,I don't feel any change,1
+70325,131855,Sport,Exercise,1
+70325,131856,Ernährungsberatung,Dietary advice,1
+70326,131864,Nein,No,1
+70332,131871,Nein,No,1
+70336,131881,Keine Nebenwirkungen,No side effects,1
+70338,131890,Keine Nebenwirkungen,No side effects,1
+70341,131895,Ich verstehe und bestätige,I understand and confirm,1
+72113,135087,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,6
+72115,135089,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",1
+72115,135090,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+72115,135091,Nein,No,4
+72116,135096,Nichts davon,None of the above,2
+72119,135098,Nein,No,6
+72128,135129,0.25 mg Semaglutid,0.25 mg Semaglutide,5
+72128,135130,0.5 mg Semaglutid,0.5 mg Semaglutide,1
+72129,135134,Ja!,Yes!,5
+72129,135135,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No, I would like to stay on my current dose",1
+72138,135136,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,6
+72139,135139,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,5
+72139,135140,Ich habe eine Einnahmepause von unter 2 Wochen.,I have a break in taking the medication of less than 2 weeks.,1
+72140,135142,Ich fühle mich aktiver/fitter,I feel more active/fitter,3
+72140,135143,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,2
+72140,135145,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,1
+72140,135146,Ich spüre keine Veränderung,I don't feel any change,3
+72141,135147,Ich verstehe und bestätige,I understand and confirm,1
+72144,135148,Diät (eigene Diät oder ein Programm),Diet (own diet or a programme),3
+72144,135149,Sport,Exercise,3
+72144,135150,Ernährungsberatung,Dietary advice,1
+72145,135158,Nein,No,6
+72151,135165,Nein,No,6
+72155,135175,Keine Nebenwirkungen,No side effects,6
+72157,135176,Gelegentliche Übelkeit oder Erbrechen (z. B. nur kurzzeitig nach Injektion),Occasional nausea or vomiting (e.g. only for a short time after injection),1
+72157,135184,Keine Nebenwirkungen,No side effects,5
+72158,135185,Ich vestehe und bestätige.,I understand and confirm.,1
+72160,135189,Ich verstehe und bestätige,I understand and confirm,6
+72763,135882,Keine der genannten,none of the above,1
+72764,135890,Abnehm App,Weight loss app,1
+72765,135896,Sonstiges,Other.,1
+72767,135903,Mehrmals pro Woche,Several times a week,1
+72768,135908,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,1
+72769,135910,Nein,No,1
+72771,135914,1-5 Jahre,1-5 years,1
+72772,135918,Nein,No,1
+72785,135919,Ich verstehe und bestätige.,I understand and confirm.,1
+72809,135922,"Nein, ich habe meine Gewichtsabnahmeziele nicht erreicht.","No,   I did not meet my weight loss goals.",1
+72817,135925,Keine der genannten,"None of the above"".",1
+72823,135927,Keine der genannten,None of the above,1
+72827,135936,Keine der genannten,None of the above,1
+72832,135946,Keine der genannten,None of the above,1
+72836,135953,Keine der genannten,None of the above,1
+72862,135959,Keine der genannten,None of the Above,1
+74932,139587,Prädiabetes,Prediabetes,15
+74932,139588,Obstruktive Schlafapnoe,Obstructive sleep apnoea,4
+74932,139589,Dyslipidämie (Fettstoffwechselstörung),Dyslipidaemia (lipid metabolism disorder),1
+74932,139590,Erhöhte Cholesterin- und / oder Triglyceridwerte,Elevated cholesterol and/or triglyceride levels,19
+74932,139591,Niedriger HDL-Cholesterinspiegel,Low HDL cholesterol level,1
+74932,139592,Keine der genannten,None of the above,123
+74933,139593,Prädiabetes,Prediabetes,8
+74933,139594,Obstruktive Schlafapnoe,Obstructive sleep apnoea,1
+74933,139595,Dyslipidämie (Fettstoffwechselstörung),Dyslipidaemia (lipid metabolism disorder),3
+74933,139596,Erhöhte Cholesterin- und / oder Triglyceridwerte,Elevated cholesterol and/or triglyceride levels,8
+74933,139597,Niedriger HDL-Cholesterinspiegel,Low HDL cholesterol level,2
+74933,139598,Keine der genannten,None of the above,8
+74934,139599,Weniger als 1 Jahr,Less than 1 year,2
+74934,139600,1-5 Jahre,1-5 years,47
+74934,139601,Mehr als 5 Jahre,More than 5 years,72
+74934,139602,Seit der Kindheit oder Jugend,Since childhood or adolescence,51
+74936,139603,Nein,No,157
+74936,139604,"Ja, ich habe damit weniger als 4 % Körpergewicht in 3 Monaten verloren.","Yes,  I lost less than 4% of my body weight in 3 months.",8
+74936,139605,"Ja, ich habe damit mehr als 4 % Körpergewicht in 3 Monaten verloren.","Yes,  I lost more than 4% of my body weight in 3 months.",7
+74937,139608,Ich hatte starke Übelkeit oder Magen-Darm-Beschwerden.,I had severe nausea or gastrointestinal complaints.,1
+74937,139609,"Ich hatte andere Nebenwirkungen, die dazu geführt haben, dass ich die Behandlung abgebrochen habe.",I had other side effects that caused me to discontinue treatment.,1
+74937,139610,"Ich hatte keine schwerwiegenden Nebenwirkungen, die mich dazu veranlasst haben, die Behandlung abzubrechen.",I had no serious side effects that caused me to discontinue treatment.,17
+74938,139611,Diät - eigene Diät oder ein Programm,Diet - own diet or a programme,146
+74938,139612,Sport,Sport,128
+74938,139613,Medikamente,Medication,9
+74938,139614,Ernährungsberatung,Nutritional advice,60
+74938,139615,Hypnose,Hypnosis,8
+74938,139616,Abnehm-App,Weight loss app,82
+74938,139617,Anderes,Other,9
+74938,139619,"Krankenhausaufenthalt,   Kur oder Reha","Hospital stay,     cure or rehab",4
+74940,139620,"Ja, ich habe mindestens 5 % meines Gesamtkörpergewichts verloren.","Yes,   I have lost at least 5% of my total body weight.",20
+74940,139621,"Nein, ich habe weniger als 5 % meines Gesamtkörpergewichts verloren.","No,   I have lost less than 5% of my total body weight.",152
+74943,139622,Ich bin nach einer Mahlzeit satt und höre auf zu essen.,I feel full after a meal and stop eating.,16
+74943,139623,Ich bin nach einer Mahlzeit satt und esse trotzdem weiter.,I feel full after a meal and still keep eating.,54
+74943,139624,Unabhängig von den Mahlzeiten verspüre ich den ganzen Tag Hunger.,"I feel hungry all day long, regardless of meals.",87
+74943,139625,Ich esse unabhängig von meinem Hungergefühl.,I eat regardless of my hunger.,72
+74943,139626,Sonstiges,Other,13
+74944,139627,Täglich,Daily,4
+74944,139628,Mehrmals pro Woche,Several times a week,52
+74944,139629,Einmal pro Woche,Once a week,45
+74944,139630,Selten,Rarely,55
+74944,139631,Gar nicht,Not at all,16
+74953,139633,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,162
+74953,139634,Hoch: Über 140/90,High: Over 140/90,10
+74954,139635,Ich habe gastroösophagealen Reflux (Rückfluss von Magensäure in die Speiseröhre),I have gastroesophageal reflux (reflux of stomach acid into the oesophagus),6
+74954,139636,Keine der genannten,None of the above,166
+74959,139640,Keines der genannten,Keines der genannten,172
+74960,139647,Keine der genannten,None of the above,172
+74962,139657,Keine der genannten,None of the above,172
+74965,139665,Keine der genannten,None of the above,172
+74967,139666,Ja,Yes,24
+74967,139667,Nein,No,148
+74968,139668,Jetzt hochladen,Upload Now,103
+74968,139669,Später hochladen,Upload Later,69
+74974,139671,Ich verstehe und bestätige,I understand and confirm,104
+74976,139673,Ich verstehe und bestätige,I understand and confirm,85
+80286,145648,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,2
+80287,145649,Täglich,Daily,1
+80287,145650,Mehrmals pro Woche,Several times a week,13
+80287,145651,Einmal pro Woche,Once a week,16
+80287,145652,Selten,Rarely,11
+80287,145653,Gar nicht,Not at all,2
+80288,145655,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,39
+80288,145656,Hoch - Über 140/90,High 140/90,4
+80289,145657,Nein,No,41
+80289,145658,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost more than 4% body weight in 3 months with it",1
+80289,145659,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+80291,145660,Weniger als 1 Jahr,Less than 1 year,1
+80291,145661,1-5 Jahre,1-5 years,16
+80291,145662,Mehr als 5 Jahre,More than 5 years,16
+80291,145663,Seit der Kindheit oder Jugend,Since childhood or adolescence,10
+80292,145664,Ja,Yes,11
+80292,145665,Nein,No,32
+80295,145666,Nein,No,2
+80295,145667,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,21
+80295,145668,Sport,Exercise,13
+80295,145669,Ernährungsberatung,Nutritional counselling,2
+80295,145670,Medikamente,medication,1
+80295,145672,Abnehm-App,Weight loss app,3
+80295,145673,Anderes,Other,1
+80305,145675,Ich verstehe und bestätige.,I understand and confirm.,25
+80323,145676,Ich verstehe und bestätige.,I understand and confirm.,3
+80331,145679,Keine der genannten,"None of the above"".",43
+80337,145681,Keine der genannten,None of the above,43
+80339,145685,Keine der genannten,None of the above,43
+80341,145698,Keiner der genannten,None of the above,43
+80343,145701,Keine der genannten,None of the above,43
+80346,145706,Foto sofort hochladen,Upload photo immediately,25
+80346,145707,Später hochladen,Upload photo later,18
+80352,145710,Ich verstehe und bestätige.,I understand and confirm.,21
+80366,145711,Prädiabetes,Prediabetes,4
+80366,145712,obstruktive Schlafapnoe,Obstructive Sleep Apnoea,1
+80366,145714,Erhöhung des Cholesterins und / oder der Triglyceriden im Blut,Elevation of Cholesterol and / or Triglycerides in the Blood,1
+80366,145715,niedriger HDL-Cholesterinspiegel,Low HDL Cholesterol Level,2
+80366,145716,Keine der genannten,None of the Above,3
+80372,145720,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,24
+80372,145721,Hoch: Über 140/90,High: Above 140/90,3
+80374,145723,Nein,No,27
+80378,145730,Nein,No,27
+80384,145752,Keines der genannten,None of the above,27
+80386,145753,"2,5 mg Tirzepatid",2.5 mg Tirzepatide,21
+80386,145754,5 mg Tirzepatid,5 mg Tirzepatide,2
+80386,145756,10 mg Tirzepatid,10 mg Tirzepatide,2
+80386,145758,15 mg Tirzepatid,15 mg Tirzepatide,2
+80387,145759,Regelmäßig 1-mal wöchentlich,Regularly once a week,26
+80387,145761,Häufiger als 1-mal wöchentlich,More often than once a week,1
+80388,145762,Ich wende das Medikament lückenlos an.,I use the medication without interruption.,26
+80388,145763,Ich habe eine Einnahmepause von unter 4 Wochen.,I have a break of less than 4 weeks.,1
+80389,145765,Diät – eigene Diät oder ein spezielles Programm,Diet - own diet or a special programme,22
+80389,145766,Sport,Sport,19
+80389,145768,Ernährungsberatung,Nutritional advice,2
+80389,145770,Abnehm-App,Weight loss app,6
+80389,145771,Anderes,Other,1
+80394,145778,Ich fühle mich aktiver / fitter.,I feel more active / fitter.,15
+80394,145779,Ich fühle mich wohler in meinem Körper.,I feel more comfortable in my body.,17
+80394,145780,Ich fühle mich selbstbewusster.,I feel more self-confident.,9
+80394,145781,"Ich fühle mich motivierter, gesund zu leben.",I feel more motivated to live a healthy life.,15
+80394,145782,Ich spüre keine Veränderung.,I don't feel any change.,1
+80395,145792,Keine Nebenwirkungen,No side effects,27
+80397,145793,Gelegentliche Übelkeit oder Erbrechen (z. B. kurz nach der Injektion),Occasional nausea or vomiting (e.g. shortly after injection),1
+80397,145795,"Allgemeine Magen-Darm-Beschwerden (z. B. Verdauungsstörungen, Magenschleimhautentzündung, Bauchschmerzen, Völlegefühl, Blähungen)","General gastrointestinal complaints (e.g. indigestion, gastritis, abdominal pain, bloating, flatulence)",1
+80397,145798,Schlafstörungen,Sleep disturbances,1
+80397,145800,Hautreaktionen an der Injektionsstelle,Skin reactions at the injection site,1
+80397,145801,Keine Nebenwirkungen,No side effects,24
+80398,145802,Ich vestehe und bestätige.,I understand and confirm.,3
+80399,145803,Ich vestehe und bestätige.,I understand and confirm.,27
+80404,145804,Ja!,Yes!,19
+80404,145805,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No, I would like to stay on my current dose",8
+81352,146608,Einmal pro Woche,Once a week,1
+81352,146609,Selten,Rarely,1
+81353,146612,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,2
+81354,146614,Nein,No,2
+81356,146618,1-5 Jahre,1-5 years,2
+81357,146622,Nein,No,2
+81360,146623,Nein,No,1
+81360,146625,Sport,Exercise,1
+81370,146632,Ich verstehe und bestätige.,I understand and confirm.,1
+81388,146633,Ich verstehe und bestätige.,I understand and confirm.,2
+81396,146636,Keine der genannten,"None of the above"".",2
+81402,146638,Keine der genannten,None of the above,2
+81404,146642,Keine der genannten,None of the above,2
+81406,146655,Keiner der genannten,None of the above,2
+81408,146658,Keine der genannten,None of the above,2
+81411,146663,Foto sofort hochladen,Upload photo immediately,1
+81411,146664,Später hochladen,Upload photo later,1
+81417,146667,Ich verstehe und bestätige.,I understand and confirm.,1
+81626,146867,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,2
+81627,146868,Täglich,Daily,1
+81627,146869,Mehrmals pro Woche,Several times a week,29
+81627,146870,Einmal pro Woche,Once a week,24
+81627,146871,Selten,Rarely,24
+81627,146872,Gar nicht,Not at all,3
+81628,146874,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,72
+81628,146875,Hoch - Über 140/90,High 140/90,9
+81629,146876,Nein,No,79
+81629,146877,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost more than 4% body weight in 3 months with it",1
+81629,146878,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+81631,146879,Weniger als 1 Jahr,Less than 1 year,2
+81631,146880,1-5 Jahre,1-5 years,21
+81631,146881,Mehr als 5 Jahre,More than 5 years,42
+81631,146882,Seit der Kindheit oder Jugend,Since childhood or adolescence,16
+81632,146883,Ja,Yes,22
+81632,146884,Nein,No,59
+81635,146885,Nein,No,2
+81635,146886,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,49
+81635,146887,Sport,Exercise,22
+81635,146888,Ernährungsberatung,Nutritional counselling,4
+81635,146891,Abnehm-App,Weight loss app,4
+81645,146894,Ich verstehe und bestätige.,I understand and confirm.,52
+81663,146895,Ich verstehe und bestätige.,I understand and confirm.,2
+81671,146897,Ich habe gastroösophagealen Reflux,I have gastroesophageal reflux,4
+81671,146898,Keine der genannten,"None of the above"".",77
+81677,146900,Keine der genannten,None of the above,81
+81679,146904,Keine der genannten,None of the above,81
+81681,146917,Keiner der genannten,None of the above,81
+81683,146920,Keine der genannten,None of the above,81
+81686,146925,Foto sofort hochladen,Upload photo immediately,52
+81686,146926,Später hochladen,Upload photo later,29
+81692,146929,Ich verstehe und bestätige.,I understand and confirm.,41
+81706,146930,Prädiabetes,Prediabetes,3
+81706,146931,obstruktive Schlafapnoe,Obstructive Sleep Apnoea,2
+81706,146932,Dyslipidämie,Dyslipidaemia,1
+81706,146933,Erhöhung des Cholesterins und / oder der Triglyceriden im Blut,Elevation of Cholesterol and / or Triglycerides in the Blood,8
+81706,146934,niedriger HDL-Cholesterinspiegel,Low HDL Cholesterol Level,2
+81706,146935,Keine der genannten,None of the Above,2
+81713,146945,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,3
+81714,146947,Mehrmals pro Woche,Several times a week,8
+81714,146948,Einmal pro Woche,Once a week,15
+81714,146949,Selten,Rarely,5
+81714,146950,Gar nicht,Not at all,1
+81715,146952,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,26
+81715,146953,Hoch - Über 140/90,High 140/90,3
+81716,146954,Nein,No,26
+81716,146955,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost more than 4% body weight in 3 months with it",2
+81716,146956,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+81718,146957,Weniger als 1 Jahr,Less than 1 year,1
+81718,146958,1-5 Jahre,1-5 years,7
+81718,146959,Mehr als 5 Jahre,More than 5 years,11
+81718,146960,Seit der Kindheit oder Jugend,Since childhood or adolescence,10
+81719,146961,Ja,Yes,8
+81719,146962,Nein,No,21
+81722,146963,Nein,No,1
+81722,146964,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,18
+81722,146965,Sport,Exercise,4
+81722,146966,Ernährungsberatung,Nutritional counselling,3
+81722,146967,Medikamente,medication,1
+81722,146969,Abnehm-App,Weight loss app,1
+81722,146971,Krankenhausaufenthalt oder Kur oder Reha,Hospitalization or spa or rehab,1
+81732,146972,Ich verstehe und bestätige.,I understand and confirm.,19
+81750,146973,Ich verstehe und bestätige.,I understand and confirm.,3
+81758,146975,Ich habe gastroösophagealen Reflux,I have gastroesophageal reflux,2
+81758,146976,Keine der genannten,"None of the above"".",27
+81764,146978,Keine der genannten,None of the above,29
+81766,146982,Keine der genannten,None of the above,29
+81768,146995,Keiner der genannten,None of the above,29
+81770,146998,Keine der genannten,None of the above,29
+81773,147003,Foto sofort hochladen,Upload photo immediately,19
+81773,147004,Später hochladen,Upload photo later,10
+81779,147007,Ich verstehe und bestätige.,I understand and confirm.,10
+81793,147008,Prädiabetes,Prediabetes,2
+81793,147009,obstruktive Schlafapnoe,Obstructive Sleep Apnoea,3
+81793,147011,Erhöhung des Cholesterins und / oder der Triglyceriden im Blut,Elevation of Cholesterol and / or Triglycerides in the Blood,2
+81793,147013,Keine der genannten,None of the Above,2
+82417,147782,Einmal pro Woche,Once a week,1
+82418,147786,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,1
+82419,147788,Nein,No,1
+82421,147793,Mehr als 5 Jahre,More than 5 years,1
+82422,147796,Nein,No,1
+82425,147803,Abnehm-App,Weight loss app,1
+82461,147810,Keine der genannten,"None of the above"".",1
+82467,147812,Keine der genannten,None of the above,1
+82469,147816,Keine der genannten,None of the above,1
+82471,147829,Keiner der genannten,None of the above,1
+82473,147832,Keine der genannten,None of the above,1
+82476,147838,Später hochladen,Upload photo later,1
+82482,147841,Ich verstehe und bestätige.,I understand and confirm.,1
+84071,149949,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,22
+84071,149950,Hoch - Über 140/90,Hoch - Über 140/90,3
+84073,149951,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",6
+84073,149952,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",15
+84073,149953,Nein,No,4
+84074,149958,Nichts davon,None of the above,21
+84077,149960,Nein,No,25
+84086,149991,0.25 mg Semaglutid,0.25 mg Semaglutide,9
+84086,149992,0.5 mg Semaglutid,0.5 mg Semaglutide,5
+84086,149993,1 mg Semaglutid,1 mg Semaglutide,9
+84086,149994,1.7 mg Semaglutid,1.7 mg Semaglutid,1
+84086,149995,2.4 mg Semaglutid,2.4 mg Semaglutid,1
+84087,149996,Ja!,Yes!,13
+84087,149997,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No, I would like to stay on my current dose",12
+84096,149998,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,24
+84096,150000,Häufiger als 1 x wöchentlich,More frequently than 1 x weekly,1
+84097,150001,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,23
+84097,150002,Ich habe eine Einnahmepause von unter 2 Wochen.,I have a break in taking the medication of less than 2 weeks.,2
+84098,150004,Ich fühle mich aktiver/fitter,I feel more active/fitter,12
+84098,150005,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,18
+84098,150006,Ich fühle mich selbstbewusster,I feel more confident,13
+84098,150007,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,12
+84098,150008,Ich spüre keine Veränderung,I don't feel any change,1
+84099,150009,Ich verstehe und bestätige,I understand and confirm,2
+84102,150010,Diät (eigene Diät oder ein Programm),Diet (own diet or a programme),13
+84102,150011,Sport,Exercise,21
+84102,150014,Abnehm-App,Weight loss app,3
+84103,150020,Nein,No,25
+84109,150026,Ja,Yes,1
+84109,150027,Nein,No,24
+84113,150037,Keine Nebenwirkungen,No side effects,25
+84115,150038,Gelegentliche Übelkeit oder Erbrechen (z. B. nur kurzzeitig nach Injektion),Occasional nausea or vomiting (e.g. only for a short time after injection),1
+84115,150046,Keine Nebenwirkungen,No side effects,24
+84116,150047,Ich vestehe und bestätige.,I understand and confirm.,1
+84118,150051,Ich verstehe und bestätige,I understand and confirm,25
+84172,150055,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,2
+84174,150057,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",1
+84174,150058,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+84175,150064,Nichts davon,None of the above,2
+84178,150066,Nein,No,2
+84187,150097,0.25 mg Semaglutid,0.25 mg Semaglutide,1
+84187,150098,0.5 mg Semaglutid,0.5 mg Semaglutide,1
+84188,150102,Ja!,Yes!,2
+84197,150104,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,2
+84198,150107,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,1
+84198,150108,Ich habe eine Einnahmepause von unter 2 Wochen.,I have a break in taking the medication of less than 2 weeks.,1
+84199,150110,Ich fühle mich aktiver/fitter,I feel more active/fitter,2
+84199,150111,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,2
+84199,150112,Ich fühle mich selbstbewusster,I feel more confident,2
+84199,150113,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,1
+84200,150115,Ich verstehe und bestätige,I understand and confirm,1
+84203,150116,Diät (eigene Diät oder ein Programm),Diet (own diet or a programme),2
+84203,150117,Sport,Exercise,1
+84203,150120,Abnehm-App,Weight loss app,2
+84204,150126,Nein,No,2
+84210,150133,Nein,No,2
+84214,150143,Keine Nebenwirkungen,No side effects,2
+84216,150152,Keine Nebenwirkungen,No side effects,2
+84219,150157,Ich verstehe und bestätige,I understand and confirm,2
+84378,150271,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,1
+84380,150275,Nein,No,1
+84384,150282,Nein,No,1
+84393,150313,0.25 mg Semaglutid,0.25 mg Semaglutide,1
+84394,150318,Ja!,Yes!,1
+84403,150320,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,1
+84404,150323,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,1
+84405,150330,Ich spüre keine Veränderung,I don't feel any change,1
+84409,150333,Sport,Exercise,1
+84410,150342,Nein,No,1
+84416,150349,Nein,No,1
+84420,150359,Keine Nebenwirkungen,No side effects,1
+84422,150368,Keine Nebenwirkungen,No side effects,1
+84425,150373,Ich verstehe und bestätige,I understand and confirm,1
+84479,150377,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,2
+84481,150380,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+84481,150381,Nein,No,1
+84482,150386,Nichts davon,None of the above,1
+84485,150388,Nein,No,2
+84494,150419,0.25 mg Semaglutid,0.25 mg Semaglutide,2
+84495,150424,Ja!,Yes!,2
+84504,150426,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,1
+84504,150428,Häufiger als 1 x wöchentlich,More frequently than 1 x weekly,1
+84505,150429,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,2
+84506,150432,Ich fühle mich aktiver/fitter,I feel more active/fitter,1
+84506,150435,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,1
+84510,150439,Sport,Exercise,2
+84511,150448,Nein,No,2
+84517,150455,Nein,No,2
+84521,150465,Keine Nebenwirkungen,No side effects,2
+84523,150474,Keine Nebenwirkungen,No side effects,2
+84526,150479,Ich verstehe und bestätige,I understand and confirm,2
+90279,156839,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,1
+90280,156841,Mehrmals pro Woche,Several times a week,4
+90280,156842,Einmal pro Woche,Once a week,6
+90280,156843,Selten,Rarely,1
+90281,156846,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,9
+90281,156847,Hoch - Über 140/90,High 140/90,2
+90282,156848,Nein,No,10
+90282,156849,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost more than 4% body weight in 3 months with it",1
+90284,156852,1-5 Jahre,1-5 years,1
+90284,156853,Mehr als 5 Jahre,More than 5 years,9
+90284,156854,Seit der Kindheit oder Jugend,Since childhood or adolescence,1
+90285,156856,Nein,No,11
+90288,156857,Nein,No,2
+90288,156858,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,3
+90288,156859,Sport,Exercise,5
+90288,156863,Abnehm-App,Weight loss app,1
+90298,156866,Ich verstehe und bestätige.,I understand and confirm.,11
+90316,156867,Ich verstehe und bestätige.,I understand and confirm.,3
+90324,156870,Keine der genannten,"None of the above"".",11
+90330,156872,Keine der genannten,None of the above,11
+90332,156876,Keine der genannten,None of the above,11
+90334,156889,Keiner der genannten,None of the above,11
+90336,156892,Keine der genannten,None of the above,11
+90355,156902,Keine der genannten,None of the Above,2
+90368,156908,Prädiabetes,Prediabetes,2
+90368,156909,obstruktive Schlafapnoe,Obstructive Sleep Apnoea,2
+90368,156911,Erhöhung des Cholesterins und / oder der Triglyceriden im Blut,Elevation of Cholesterol and / or Triglycerides in the Blood,4
+90368,156913,Keine der genannten,None of the Above,4
+90369,156914,Weniger als 1 Jahr,Less than 1 year,4
+90369,156915,1-5 Jahre,1-5 years,11
+90369,156916,Mehr als 5 Jahre,More than 5 years,29
+90369,156917,Seit der Kindheit oder Jugend,Since childhood or adolescence,17
+90371,156918,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost more than 4% body weight in 3 months with it",3
+90371,156920,Nein,No,58
+90372,156925,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,3
+90375,156926,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,53
+90375,156927,Sport,Exercise,49
+90375,156928,Ernährungsberatung,Nutritional counselling,24
+90375,156929,Medikamente,medication,1
+90375,156930,Hypnose,Hypnosis,8
+90375,156931,Abnehm-App,Weight loss app,25
+90375,156932,"Krankenhausaufenthalt, Kur oder Reha","Hospitalization, spa or rehab",1
+90375,156933,Anderes,Other,3
+90377,156935,Täglich,Daily,2
+90377,156936,Mehrmals pro Woche,Several times a week,23
+90377,156937,Einmal pro Woche,Once a week,25
+90377,156938,Selten,Rarely,9
+90377,156939,Gar nicht,Not at all,2
+90378,156941,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,55
+90378,156942,Hoch - Über 140/90,High - Above 140/90,6
+90379,156949,Keine der genannten,None of the above,61
+90382,156957,Keine der genannten,None of the above,61
+90384,156963,Keine der genannten,None of the above,61
+90387,156964,Ja,Yes,4
+90387,156965,Nein,No,57
+90389,156970,Keine der genannten,None of the above,61
+90395,156976,Ich verstehe und bestätige.,I understand and confirm.,61
+91264,158864,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,6
+91266,158867,Nein,No,6
+91270,158874,Nein,No,6
+91276,158896,Keines der genannten,None of the above,6
+91278,158897,"2,5 mg Tirzepatid",2.5 mg Tirzepatide,6
+91279,158903,Regelmäßig 1-mal wöchentlich,Regularly once a week,6
+91280,158906,Ich wende das Medikament lückenlos an.,I use the medication without interruption.,5
+91280,158908,Ich habe eine Einnahmepause von über 4 Wochen.,I have taken a break of more than 4 weeks.,1
+91281,158909,Diät – eigene Diät oder ein spezielles Programm,Diet - own diet or a special programme,1
+91281,158910,Sport,Sport,4
+91281,158912,Ernährungsberatung,Nutritional advice,2
+91281,158914,Abnehm-App,Weight loss app,1
+91281,158915,Anderes,Other,1
+91282,158918,Ich verstehe und bestätige,I understand and confirm,2
+91286,158922,Ich fühle mich aktiver / fitter.,I feel more active / fitter.,2
+91286,158923,Ich fühle mich wohler in meinem Körper.,I feel more comfortable in my body.,3
+91286,158924,Ich fühle mich selbstbewusster.,I feel more self-confident.,2
+91286,158925,"Ich fühle mich motivierter, gesund zu leben.",I feel more motivated to live a healthy life.,5
+91287,158936,Keine Nebenwirkungen,No side effects,6
+91289,158945,Keine Nebenwirkungen,No side effects,6
+91291,158947,Ich vestehe und bestätige.,I understand and confirm.,6
+91296,158948,Ja!,Yes!,3
+91296,158949,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No, I would like to stay on my current dose",3
+92216,159999,Keine der genannten,None of the above,1
+92217,160001,Obstruktive Schlafapnoe,Obstructive sleep apnoea,1
+92218,160007,1-5 Jahre,1-5 years,1
+92218,160008,Mehr als 5 Jahre,More than 5 years,1
+92220,160010,Nein,No,2
+92222,160018,Diät - eigene Diät oder ein Programm,Diet - own diet or a programme,1
+92222,160019,Sport,Sport,1
+92222,160024,Anderes,Other,1
+92224,160027,"Ja, ich habe mindestens 5 % meines Gesamtkörpergewichts verloren.","Yes,   I have lost at least 5% of my total body weight.",1
+92224,160028,"Nein, ich habe weniger als 5 % meines Gesamtkörpergewichts verloren.","No,   I have lost less than 5% of my total body weight.",1
+92227,160029,Ich bin nach einer Mahlzeit satt und höre auf zu essen.,I feel full after a meal and stop eating.,1
+92227,160032,Ich esse unabhängig von meinem Hungergefühl.,I eat regardless of my hunger.,1
+92228,160035,Mehrmals pro Woche,Several times a week,1
+92228,160038,Gar nicht,Not at all,1
+92237,160040,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,1
+92237,160041,Hoch: Über 140/90,High: Over 140/90,1
+92238,160043,Keine der genannten,None of the above,2
+92243,160047,Keines der genannten,Keines der genannten,2
+92244,160054,Keine der genannten,None of the above,2
+92246,160064,Keine der genannten,None of the above,2
+92249,160072,Keine der genannten,None of the above,2
+92251,160073,Ja,Yes,1
+92251,160074,Nein,No,1
+92252,160075,Jetzt hochladen,Upload Now,1
+92252,160076,Später hochladen,Upload Later,1
+92258,160078,Ich verstehe und bestätige,I understand and confirm,1
+92260,160080,Ich verstehe und bestätige,I understand and confirm,1
+92269,160084,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,3
+92271,160087,Nein,No,3
+92275,160094,Nein,No,3
+92281,160116,Keines der genannten,None of the above,3
+92283,160117,"2,5 mg Tirzepatid",2.5 mg Tirzepatide,1
+92283,160120,10 mg Tirzepatid,10 mg Tirzepatide,1
+92283,160122,15 mg Tirzepatid,15 mg Tirzepatide,1
+92284,160123,Regelmäßig 1-mal wöchentlich,Regularly once a week,3
+92285,160126,Ich wende das Medikament lückenlos an.,I use the medication without interruption.,1
+92285,160127,Ich habe eine Einnahmepause von unter 4 Wochen.,I have a break of less than 4 weeks.,1
+92285,160128,Ich habe eine Einnahmepause von über 4 Wochen.,I have taken a break of more than 4 weeks.,1
+92286,160129,Diät – eigene Diät oder ein spezielles Programm,Diet - own diet or a special programme,3
+92286,160130,Sport,Sport,3
+92286,160132,Ernährungsberatung,Nutritional advice,1
+92286,160133,Hypnose,Hypnosis,1
+92286,160135,Anderes,Other,1
+92287,160138,Ich verstehe und bestätige,I understand and confirm,1
+92291,160142,Ich fühle mich aktiver / fitter.,I feel more active / fitter.,2
+92291,160143,Ich fühle mich wohler in meinem Körper.,I feel more comfortable in my body.,1
+92291,160144,Ich fühle mich selbstbewusster.,I feel more self-confident.,2
+92291,160145,"Ich fühle mich motivierter, gesund zu leben.",I feel more motivated to live a healthy life.,2
+92292,160156,Keine Nebenwirkungen,No side effects,3
+92294,160163,Veränderungen im Geschmacksempfinden,Changes in taste sensation,1
+92294,160165,Keine Nebenwirkungen,No side effects,2
+92295,160166,Ich vestehe und bestätige.,I understand and confirm.,1
+92296,160167,Ich vestehe und bestätige.,I understand and confirm.,3
+92301,160168,Ja!,Yes!,1
+92301,160169,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No, I would like to stay on my current dose",2
+92456,160451,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,25
+92458,160454,Nein,No,25
+92462,160461,Nein,No,25
+92468,160483,Keines der genannten,None of the above,25
+92470,160484,"2,5 mg Tirzepatid",2.5 mg Tirzepatide,9
+92470,160485,5 mg Tirzepatid,5 mg Tirzepatide,8
+92470,160486,"7,5 mg Tirzepatid",7.5 mg Tirzepatide,3
+92470,160487,10 mg Tirzepatid,10 mg Tirzepatide,5
+92471,160490,Regelmäßig 1-mal wöchentlich,Regularly once a week,25
+92472,160493,Ich wende das Medikament lückenlos an.,I use the medication without interruption.,23
+92472,160494,Ich habe eine Einnahmepause von unter 4 Wochen.,I have a break of less than 4 weeks.,1
+92472,160495,Ich habe eine Einnahmepause von über 4 Wochen.,I have taken a break of more than 4 weeks.,1
+92473,160496,Diät – eigene Diät oder ein spezielles Programm,Diet - own diet or a special programme,18
+92473,160497,Sport,Sport,16
+92473,160499,Ernährungsberatung,Nutritional advice,1
+92473,160501,Abnehm-App,Weight loss app,7
+92473,160502,Anderes,Other,1
+92474,160505,Ich verstehe und bestätige,I understand and confirm,1
+92478,160509,Ich fühle mich aktiver / fitter.,I feel more active / fitter.,18
+92478,160510,Ich fühle mich wohler in meinem Körper.,I feel more comfortable in my body.,19
+92478,160511,Ich fühle mich selbstbewusster.,I feel more self-confident.,14
+92478,160512,"Ich fühle mich motivierter, gesund zu leben.",I feel more motivated to live a healthy life.,16
+92478,160513,Ich spüre keine Veränderung.,I don't feel any change.,3
+92479,160523,Keine Nebenwirkungen,No side effects,25
+92481,160524,Gelegentliche Übelkeit oder Erbrechen (z. B. kurz nach der Injektion),Occasional nausea or vomiting (e.g. shortly after injection),4
+92481,160525,Durchfall oder Verstopfung,Diarrhoea or constipation,3
+92481,160527,Schwäche- oder Müdigkeitsgefühl,Feeling weak or tired,1
+92481,160528,Schwindel,Dizziness,1
+92481,160532,Keine Nebenwirkungen,No side effects,17
+92482,160533,Ich vestehe und bestätige.,I understand and confirm.,8
+92483,160534,Ich vestehe und bestätige.,I understand and confirm.,25
+92488,160535,Ja!,Yes!,12
+92488,160536,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No, I would like to stay on my current dose",13
+95409,164540,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,4
+95411,164542,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",1
+95411,164543,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",3
+95412,164549,Nichts davon,None of the above,4
+95415,164551,Nein,No,4
+95424,164582,0.25 mg Semaglutid,0.25 mg Semaglutide,3
+95424,164583,0.5 mg Semaglutid,0.5 mg Semaglutide,1
+95425,164587,Ja!,Yes!,3
+95425,164588,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No, I would like to stay on my current dose",1
+95434,164589,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,4
+95435,164592,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,4
+95436,164595,Ich fühle mich aktiver/fitter,I feel more active/fitter,1
+95436,164596,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,4
+95436,164597,Ich fühle mich selbstbewusster,I feel more confident,1
+95436,164598,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,1
+95440,164601,Diät (eigene Diät oder ein Programm),Diet (own diet or a programme),3
+95440,164602,Sport,Exercise,3
+95441,164611,Nein,No,4
+95447,164618,Nein,No,4
+95451,164628,Keine Nebenwirkungen,No side effects,4
+95453,164634,Schlafstörungen,Sleep disturbances,1
+95453,164637,Keine Nebenwirkungen,No side effects,3
+95454,164638,Ich vestehe und bestätige.,I understand and confirm.,1
+95456,164642,Ich verstehe und bestätige,I understand and confirm,4
+95512,164654,Mehrmals pro Woche,Several times a week,4
+95512,164655,Einmal pro Woche,Once a week,5
+95512,164656,Selten,Rarely,4
+95513,164659,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,12
+95513,164660,Hoch - Über 140/90,High 140/90,1
+95514,164661,Nein,No,13
+95516,164665,1-5 Jahre,1-5 years,6
+95516,164666,Mehr als 5 Jahre,More than 5 years,5
+95516,164667,Seit der Kindheit oder Jugend,Since childhood or adolescence,2
+95517,164668,Ja,Yes,2
+95517,164669,Nein,No,11
+95520,164671,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,7
+95520,164672,Sport,Exercise,5
+95520,164673,Ernährungsberatung,Nutritional counselling,1
+95530,164679,Ich verstehe und bestätige.,I understand and confirm.,9
+95548,164680,Ich verstehe und bestätige.,I understand and confirm.,2
+95556,164683,Keine der genannten,"None of the above"".",13
+95562,164685,Keine der genannten,None of the above,13
+95564,164689,Keine der genannten,None of the above,13
+95566,164702,Keiner der genannten,None of the above,13
+95568,164705,Keine der genannten,None of the above,13
+95571,164710,Foto sofort hochladen,Upload photo immediately,9
+95571,164711,Später hochladen,Upload photo later,4
+95577,164714,Ich verstehe und bestätige.,I understand and confirm.,5
+95591,164716,obstruktive Schlafapnoe,Obstructive Sleep Apnoea,1
+95591,164720,Keine der genannten,None of the Above,1
+95785,164908,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,1
+95787,164911,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+95788,164917,Nichts davon,None of the above,1
+95791,164919,Nein,No,1
+95800,164950,0.25 mg Semaglutid,0.25 mg Semaglutide,1
+95801,164955,Ja!,Yes!,1
+95810,164957,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,1
+95811,164960,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,1
+95812,164964,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,1
+95816,164969,Diät (eigene Diät oder ein Programm),Diet (own diet or a programme),1
+95816,164970,Sport,Exercise,1
+95817,164979,Nein,No,1
+95823,164986,Nein,No,1
+95827,164996,Keine Nebenwirkungen,No side effects,1
+95829,165005,Keine Nebenwirkungen,No side effects,1
+95832,165010,Ich verstehe und bestätige,I understand and confirm,1
+95888,165022,Mehrmals pro Woche,Several times a week,2
+95888,165023,Einmal pro Woche,Once a week,2
+95888,165024,Selten,Rarely,2
+95889,165027,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,6
+95890,165029,Nein,No,6
+95892,165032,Weniger als 1 Jahr,Less than 1 year,1
+95892,165033,1-5 Jahre,1-5 years,3
+95892,165034,Mehr als 5 Jahre,More than 5 years,1
+95892,165035,Seit der Kindheit oder Jugend,Since childhood or adolescence,1
+95893,165036,Ja,Yes,1
+95893,165037,Nein,No,5
+95896,165038,Nein,No,1
+95896,165039,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,2
+95896,165040,Sport,Exercise,3
+95906,165047,Ich verstehe und bestätige.,I understand and confirm.,3
+95924,165048,Ich verstehe und bestätige.,I understand and confirm.,1
+95932,165051,Keine der genannten,"None of the above"".",6
+95938,165053,Keine der genannten,None of the above,6
+95940,165057,Keine der genannten,None of the above,6
+95942,165070,Keiner der genannten,None of the above,6
+95944,165073,Keine der genannten,None of the above,6
+95947,165078,Foto sofort hochladen,Upload photo immediately,3
+95947,165079,Später hochladen,Upload photo later,3
+95953,165082,Ich verstehe und bestätige.,I understand and confirm.,3
+95967,165086,Erhöhung des Cholesterins und / oder der Triglyceriden im Blut,Elevation of Cholesterol and / or Triglycerides in the Blood,2
+95967,165088,Keine der genannten,None of the Above,1
+95973,165092,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,5
+95973,165093,Hoch - Über 140/90,Hoch - Über 140/90,1
+95975,165094,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",3
+95975,165095,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",3
+95976,165101,Nichts davon,None of the above,6
+95979,165103,Nein,No,6
+95988,165137,1.7 mg Semaglutid,1.7 mg Semaglutid,1
+95988,165138,2.4 mg Semaglutid,2.4 mg Semaglutid,5
+95989,165139,Ja!,Yes!,4
+95989,165140,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No, I would like to stay on my current dose",2
+95998,165141,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,5
+95998,165142,Seltener als 1 x wöchentlich,Less frequently than 1 x weekly,1
+95999,165144,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,3
+95999,165145,Ich habe eine Einnahmepause von unter 2 Wochen.,I have a break in taking the medication of less than 2 weeks.,2
+95999,165146,Ich habe eine Einnahmepause von über 2 Wochen,I have a break in taking the medication of more than 2 Weeks.,1
+96000,165147,Ich fühle mich aktiver/fitter,I feel more active/fitter,3
+96000,165148,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,4
+96000,165149,Ich fühle mich selbstbewusster,I feel more confident,2
+96000,165150,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,3
+96001,165152,Ich verstehe und bestätige,I understand and confirm,3
+96004,165153,Diät (eigene Diät oder ein Programm),Diet (own diet or a programme),2
+96004,165154,Sport,Exercise,6
+96004,165157,Abnehm-App,Weight loss app,2
+96005,165163,Nein,No,6
+96011,165170,Nein,No,6
+96015,165180,Keine Nebenwirkungen,No side effects,6
+96017,165189,Keine Nebenwirkungen,No side effects,6
+96020,165194,Ich verstehe und bestätige,I understand and confirm,6
+96075,165204,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,3
+96076,165206,Mehrmals pro Woche,Several times a week,2
+96076,165207,Einmal pro Woche,Once a week,3
+96076,165208,Selten,Rarely,1
+96077,165211,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,6
+96078,165213,Nein,No,3
+96078,165214,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost more than 4% body weight in 3 months with it",2
+96078,165215,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+96080,165217,1-5 Jahre,1-5 years,1
+96080,165218,Mehr als 5 Jahre,More than 5 years,2
+96080,165219,Seit der Kindheit oder Jugend,Since childhood or adolescence,3
+96081,165220,Ja,Yes,1
+96081,165221,Nein,No,5
+96084,165223,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,3
+96084,165224,Sport,Exercise,2
+96084,165228,Abnehm-App,Weight loss app,1
+96094,165231,Ich verstehe und bestätige.,I understand and confirm.,5
+96112,165232,Ich verstehe und bestätige.,I understand and confirm.,1
+96120,165235,Keine der genannten,"None of the above"".",2
+96126,165237,Keine der genannten,None of the above,6
+96128,165241,Keine der genannten,None of the above,6
+96130,165254,Keiner der genannten,None of the above,6
+96132,165257,Keine der genannten,None of the above,6
+96135,165262,Foto sofort hochladen,Upload photo immediately,5
+96135,165263,Später hochladen,Upload photo later,1
+96141,165266,Ich verstehe und bestätige.,I understand and confirm.,1
+96162,165282,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,1
+96163,165283,Täglich,Daily,1
+96163,165284,Mehrmals pro Woche,Several times a week,6
+96163,165285,Einmal pro Woche,Once a week,2
+96163,165286,Selten,Rarely,3
+96163,165287,Gar nicht,Not at all,1
+96164,165289,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,13
+96165,165291,Nein,No,12
+96165,165293,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+96167,165295,1-5 Jahre,1-5 years,4
+96167,165296,Mehr als 5 Jahre,More than 5 years,5
+96167,165297,Seit der Kindheit oder Jugend,Since childhood or adolescence,4
+96168,165298,Ja,Yes,2
+96168,165299,Nein,No,11
+96171,165300,Nein,No,1
+96171,165301,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,8
+96171,165302,Sport,Exercise,3
+96171,165306,Abnehm-App,Weight loss app,1
+96181,165309,Ich verstehe und bestätige.,I understand and confirm.,7
+96199,165310,Ich verstehe und bestätige.,I understand and confirm.,1
+96207,165313,Keine der genannten,"None of the above"".",13
+96213,165315,Keine der genannten,None of the above,13
+96215,165319,Keine der genannten,None of the above,13
+96217,165332,Keiner der genannten,None of the above,13
+96219,165335,Keine der genannten,None of the above,13
+96222,165340,Foto sofort hochladen,Upload photo immediately,7
+96222,165341,Später hochladen,Upload photo later,6
+96228,165344,Ich verstehe und bestätige.,I understand and confirm.,6
+96242,165345,Prädiabetes,Prediabetes,1
+96242,165346,obstruktive Schlafapnoe,Obstructive Sleep Apnoea,1
+96242,165348,Erhöhung des Cholesterins und / oder der Triglyceriden im Blut,Elevation of Cholesterol and / or Triglycerides in the Blood,2
+96242,165350,Keine der genannten,None of the Above,1
+96249,165360,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,2
+96250,165363,Einmal pro Woche,Once a week,2
+96250,165364,Selten,Rarely,1
+96251,165367,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,3
+96252,165369,Nein,No,1
+96252,165370,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost more than 4% body weight in 3 months with it",2
+96254,165373,1-5 Jahre,1-5 years,2
+96254,165375,Seit der Kindheit oder Jugend,Since childhood or adolescence,1
+96255,165376,Ja,Yes,2
+96255,165377,Nein,No,1
+96258,165379,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,1
+96258,165380,Sport,Exercise,2
+96268,165387,Ich verstehe und bestätige.,I understand and confirm.,1
+96294,165391,Keine der genannten,"None of the above"".",1
+96300,165393,Keine der genannten,None of the above,3
+96302,165397,Keine der genannten,None of the above,3
+96304,165410,Keiner der genannten,None of the above,3
+96306,165413,Keine der genannten,None of the above,3
+96309,165418,Foto sofort hochladen,Upload photo immediately,1
+96309,165419,Später hochladen,Upload photo later,2
+96315,165422,Ich verstehe und bestätige.,I understand and confirm.,2
+96336,165438,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,1
+96337,165439,Täglich,Daily,1
+96337,165440,Mehrmals pro Woche,Several times a week,3
+96337,165442,Selten,Rarely,4
+96337,165443,Gar nicht,Not at all,2
+96338,165445,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,9
+96338,165446,Hoch - Über 140/90,High 140/90,1
+96339,165447,Nein,No,10
+96341,165450,Weniger als 1 Jahr,Less than 1 year,1
+96341,165451,1-5 Jahre,1-5 years,3
+96341,165452,Mehr als 5 Jahre,More than 5 years,1
+96341,165453,Seit der Kindheit oder Jugend,Since childhood or adolescence,5
+96342,165454,Ja,Yes,4
+96342,165455,Nein,No,6
+96345,165457,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,5
+96345,165458,Sport,Exercise,2
+96345,165460,Medikamente,medication,1
+96345,165462,Abnehm-App,Weight loss app,1
+96345,165463,Anderes,Other,1
+96355,165465,Ich verstehe und bestätige.,I understand and confirm.,5
+96373,165466,Ich verstehe und bestätige.,I understand and confirm.,1
+96381,165469,Keine der genannten,"None of the above"".",10
+96387,165471,Keine der genannten,None of the above,10
+96389,165475,Keine der genannten,None of the above,10
+96391,165488,Keiner der genannten,None of the above,10
+96393,165491,Keine der genannten,None of the above,10
+96396,165496,Foto sofort hochladen,Upload photo immediately,5
+96396,165497,Später hochladen,Upload photo later,5
+96402,165500,Ich verstehe und bestätige.,I understand and confirm.,5
+96416,165504,Erhöhung des Cholesterins und / oder der Triglyceriden im Blut,Elevation of Cholesterol and / or Triglycerides in the Blood,1
+96509,165588,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,1
+96511,165592,Nein,No,1
+96515,165599,Nein,No,1
+96524,165631,0.5 mg Semaglutid,0.5 mg Semaglutide,1
+96525,165635,Ja!,Yes!,1
+96534,165637,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,1
+96535,165640,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,1
+96536,165647,Ich spüre keine Veränderung,I don't feel any change,1
+96540,165650,Sport,Exercise,1
+96541,165659,Nein,No,1
+96547,165666,Nein,No,1
+96551,165676,Keine Nebenwirkungen,No side effects,1
+96553,165685,Keine Nebenwirkungen,No side effects,1
+96556,165690,Ich verstehe und bestätige,I understand and confirm,1
+96610,165694,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,3
+96612,165696,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",1
+96612,165697,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",2
+96613,165703,Nichts davon,None of the above,3
+96616,165705,Nein,No,3
+96625,165736,0.25 mg Semaglutid,0.25 mg Semaglutide,2
+96625,165739,1.7 mg Semaglutid,1.7 mg Semaglutid,1
+96626,165741,Ja!,Yes!,1
+96626,165742,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No, I would like to stay on my current dose",2
+96635,165743,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,3
+96636,165746,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,3
+96637,165749,Ich fühle mich aktiver/fitter,I feel more active/fitter,2
+96637,165750,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,2
+96637,165751,Ich fühle mich selbstbewusster,I feel more confident,1
+96637,165752,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,3
+96641,165755,Diät (eigene Diät oder ein Programm),Diet (own diet or a programme),2
+96641,165756,Sport,Exercise,2
+96641,165757,Ernährungsberatung,Dietary advice,1
+96641,165759,Abnehm-App,Weight loss app,1
+96642,165765,Nein,No,3
+96648,165772,Nein,No,3
+96652,165782,Keine Nebenwirkungen,No side effects,3
+96654,165791,Keine Nebenwirkungen,No side effects,3
+96657,165796,Ich verstehe und bestätige,I understand and confirm,3
+96833,165909,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,14
+96835,165911,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",6
+96835,165912,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",5
+96835,165913,Nein,No,3
+96836,165918,Nichts davon,None of the above,11
+96839,165920,Nein,No,14
+96848,165951,0.25 mg Semaglutid,0.25 mg Semaglutide,4
+96848,165952,0.5 mg Semaglutid,0.5 mg Semaglutide,3
+96848,165953,1 mg Semaglutid,1 mg Semaglutide,4
+96848,165954,1.7 mg Semaglutid,1.7 mg Semaglutid,3
+96849,165956,Ja!,Yes!,11
+96849,165957,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No, I would like to stay on my current dose",3
+96858,165958,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,14
+96859,165961,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,14
+96860,165964,Ich fühle mich aktiver/fitter,I feel more active/fitter,8
+96860,165965,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,9
+96860,165966,Ich fühle mich selbstbewusster,I feel more confident,7
+96860,165967,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,8
+96860,165968,Ich spüre keine Veränderung,I don't feel any change,2
+96864,165970,Diät (eigene Diät oder ein Programm),Diet (own diet or a programme),11
+96864,165971,Sport,Exercise,9
+96864,165974,Abnehm-App,Weight loss app,3
+96864,165977,Andere,Other,1
+96865,165980,Nein,No,14
+96871,165987,Nein,No,14
+96875,165997,Keine Nebenwirkungen,No side effects,14
+96877,165998,Gelegentliche Übelkeit oder Erbrechen (z. B. nur kurzzeitig nach Injektion),Occasional nausea or vomiting (e.g. only for a short time after injection),3
+96877,165999,Durchfall oder Verstopfung,Diarrhoea or constipation,1
+96877,166006,Keine Nebenwirkungen,No side effects,10
+96878,166007,Ich vestehe und bestätige.,I understand and confirm.,4
+96880,166011,Ich verstehe und bestätige,I understand and confirm,14
+96934,166015,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,55
+96934,166016,Hoch - Über 140/90,Hoch - Über 140/90,3
+96936,166017,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",17
+96936,166018,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",32
+96936,166019,Nein,No,9
+96937,166024,Nichts davon,None of the above,50
+96940,166026,Nein,No,58
+96949,166057,0.25 mg Semaglutid,0.25 mg Semaglutide,34
+96949,166058,0.5 mg Semaglutid,0.5 mg Semaglutide,14
+96949,166059,1 mg Semaglutid,1 mg Semaglutide,7
+96949,166061,2.4 mg Semaglutid,2.4 mg Semaglutid,3
+96950,166062,Ja!,Yes!,41
+96950,166063,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No, I would like to stay on my current dose",17
+96959,166064,Regelmäßig 1 x wöchentlich,Regularly 1 x weekly,56
+96959,166065,Seltener als 1 x wöchentlich,Less frequently than 1 x weekly,2
+96960,166067,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,54
+96960,166068,Ich habe eine Einnahmepause von unter 2 Wochen.,I have a break in taking the medication of less than 2 weeks.,3
+96960,166069,Ich habe eine Einnahmepause von über 2 Wochen,I have a break in taking the medication of more than 2 Weeks.,1
+96961,166070,Ich fühle mich aktiver/fitter,I feel more active/fitter,27
+96961,166071,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,31
+96961,166072,Ich fühle mich selbstbewusster,I feel more confident,17
+96961,166073,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,36
+96961,166074,Ich spüre keine Veränderung,I don't feel any change,4
+96962,166075,Ich verstehe und bestätige,I understand and confirm,5
+96965,166076,Diät (eigene Diät oder ein Programm),Diet (own diet or a programme),34
+96965,166077,Sport,Exercise,32
+96965,166078,Ernährungsberatung,Dietary advice,7
+96965,166080,Abnehm-App,Weight loss app,7
+96965,166083,Andere,Other,1
+96966,166085,Ja,Yes,1
+96966,166086,Nein,No,57
+96970,166091,Keine der genannten,None of the above,1
+96972,166092,Ja,Yes,4
+96972,166093,Nein,No,54
+96976,166103,Keine Nebenwirkungen,No side effects,58
+96978,166104,Gelegentliche Übelkeit oder Erbrechen (z. B. nur kurzzeitig nach Injektion),Occasional nausea or vomiting (e.g. only for a short time after injection),12
+96978,166105,Durchfall oder Verstopfung,Diarrhoea or constipation,2
+96978,166107,Schwäche- oder Müdigkeitsgefühl,Feeling weak or tired,2
+96978,166112,Keine Nebenwirkungen,No side effects,43
+96979,166113,Ich vestehe und bestätige.,I understand and confirm.,16
+96981,166117,Ich verstehe und bestätige,I understand and confirm,58
+99041,168706,Keine der genannten,None of the above,15
+99043,168714,1-5 Jahre,1-5 years,5
+99043,168715,Mehr als 5 Jahre,More than 5 years,4
+99043,168716,Seit der Kindheit oder Jugend,Since childhood or adolescence,6
+99045,168717,Nein,No,15
+99047,168725,Diät - eigene Diät oder ein Programm,Diet - own diet or a programme,14
+99047,168726,Sport,Sport,9
+99047,168728,Ernährungsberatung,Nutritional advice,3
+99047,168730,Abnehm-App,Weight loss app,9
+99049,168734,"Ja, ich habe mindestens 5 % meines Gesamtkörpergewichts verloren.","Yes,   I have lost at least 5% of my total body weight.",2
+99049,168735,"Nein, ich habe weniger als 5 % meines Gesamtkörpergewichts verloren.","No,   I have lost less than 5% of my total body weight.",13
+99052,168737,Ich bin nach einer Mahlzeit satt und esse trotzdem weiter.,I feel full after a meal and still keep eating.,3
+99052,168738,Unabhängig von den Mahlzeiten verspüre ich den ganzen Tag Hunger.,"I feel hungry all day long, regardless of meals.",9
+99052,168739,Ich esse unabhängig von meinem Hungergefühl.,I eat regardless of my hunger.,6
+99053,168742,Mehrmals pro Woche,Several times a week,4
+99053,168743,Einmal pro Woche,Once a week,5
+99053,168744,Selten,Rarely,5
+99053,168745,Gar nicht,Not at all,1
+99062,168747,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,14
+99062,168748,Hoch: Über 140/90,High: Over 140/90,1
+99063,168749,Ich habe gastroösophagealen Reflux (Rückfluss von Magensäure in die Speiseröhre),I have gastroesophageal reflux (reflux of stomach acid into the oesophagus),1
+99063,168750,Keine der genannten,None of the above,14
+99068,168754,Keines der genannten,Keines der genannten,15
+99069,168761,Keine der genannten,None of the above,15
+99071,168771,Keine der genannten,None of the above,15
+99074,168779,Keine der genannten,None of the above,15
+99076,168781,Nein,No,15
+99077,168782,Jetzt hochladen,Upload Now,10
+99077,168783,Später hochladen,Upload Later,5
+99083,168785,Ich verstehe und bestätige,I understand and confirm,10
+99085,168787,Ich verstehe und bestätige,I understand and confirm,5
+102713,172711,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,7
+102715,172714,Nein,No,7
+102719,172721,Nein,No,7
+102725,172743,Keines der genannten,None of the above,7
+102727,172744,"2,5 mg Tirzepatid",2.5 mg Tirzepatide,5
+102727,172746,"7,5 mg Tirzepatid",7.5 mg Tirzepatide,1
+102727,172748,"12,5 mg Tirzepatid",12.5 mg Tirzepatide,1
+102728,172750,Regelmäßig 1-mal wöchentlich,Regularly once a week,7
+102729,172753,Ich wende das Medikament lückenlos an.,I use the medication without interruption.,6
+102729,172754,Ich habe eine Einnahmepause von unter 4 Wochen.,I have a break of less than 4 weeks.,1
+102730,172756,Diät – eigene Diät oder ein spezielles Programm,Diet - own diet or a special programme,5
+102730,172757,Sport,Sport,5
+102730,172761,Abnehm-App,Weight loss app,1
+102730,172762,Anderes,Other,2
+102735,172769,Ich fühle mich aktiver / fitter.,I feel more active / fitter.,6
+102735,172770,Ich fühle mich wohler in meinem Körper.,I feel more comfortable in my body.,5
+102735,172771,Ich fühle mich selbstbewusster.,I feel more self-confident.,5
+102735,172772,"Ich fühle mich motivierter, gesund zu leben.",I feel more motivated to live a healthy life.,3
+102736,172783,Keine Nebenwirkungen,No side effects,7
+102738,172784,Gelegentliche Übelkeit oder Erbrechen (z. B. kurz nach der Injektion),Occasional nausea or vomiting (e.g. shortly after injection),1
+102738,172792,Keine Nebenwirkungen,No side effects,6
+102739,172793,Ich vestehe und bestätige.,I understand and confirm.,1
+102740,172794,Ich vestehe und bestätige.,I understand and confirm.,7
+102745,172795,Ja!,Yes!,5
+102745,172796,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No, I would like to stay on my current dose",2
+102751,172798,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,66
+102751,172799,Hoch: Über 140/90,High: Above 140/90,1
+102753,172800,Ja,Yes,1
+102753,172801,Nein,No,66
+102755,172806,Keines der genannten,None of the above,1
+102757,172808,Nein,No,67
+102763,172830,Keines der genannten,None of the above,67
+102765,172831,"2,5 mg Tirzepatid",2.5 mg Tirzepatide,31
+102765,172832,5 mg Tirzepatid,5 mg Tirzepatide,14
+102765,172833,"7,5 mg Tirzepatid",7.5 mg Tirzepatide,6
+102765,172834,10 mg Tirzepatid,10 mg Tirzepatide,12
+102765,172835,"12,5 mg Tirzepatid",12.5 mg Tirzepatide,2
+102765,172836,15 mg Tirzepatid,15 mg Tirzepatide,2
+102766,172837,Regelmäßig 1-mal wöchentlich,Regularly once a week,66
+102766,172838,Seltener als 1-mal wöchentlich,Less often than once a week,1
+102767,172840,Ich wende das Medikament lückenlos an.,I use the medication without interruption.,64
+102767,172841,Ich habe eine Einnahmepause von unter 4 Wochen.,I have a break of less than 4 weeks.,2
+102767,172842,Ich habe eine Einnahmepause von über 4 Wochen.,I have taken a break of more than 4 weeks.,1
+102768,172843,Diät – eigene Diät oder ein spezielles Programm,Diet - own diet or a special programme,43
+102768,172844,Sport,Sport,58
+102768,172845,Andere Medikamente,Other medication,1
+102768,172846,Ernährungsberatung,Nutritional advice,6
+102768,172848,Abnehm-App,Weight loss app,17
+102768,172849,Anderes,Other,1
+102769,172852,Ich verstehe und bestätige,I understand and confirm,2
+102773,172856,Ich fühle mich aktiver / fitter.,I feel more active / fitter.,46
+102773,172857,Ich fühle mich wohler in meinem Körper.,I feel more comfortable in my body.,52
+102773,172858,Ich fühle mich selbstbewusster.,I feel more self-confident.,29
+102773,172859,"Ich fühle mich motivierter, gesund zu leben.",I feel more motivated to live a healthy life.,44
+102773,172860,Ich spüre keine Veränderung.,I don't feel any change.,2
+102774,172870,Keine Nebenwirkungen,No side effects,67
+102776,172871,Gelegentliche Übelkeit oder Erbrechen (z. B. kurz nach der Injektion),Occasional nausea or vomiting (e.g. shortly after injection),3
+102776,172872,Durchfall oder Verstopfung,Diarrhoea or constipation,3
+102776,172873,"Allgemeine Magen-Darm-Beschwerden (z. B. Verdauungsstörungen, Magenschleimhautentzündung, Bauchschmerzen, Völlegefühl, Blähungen)","General gastrointestinal complaints (e.g. indigestion, gastritis, abdominal pain, bloating, flatulence)",2
+102776,172874,Schwäche- oder Müdigkeitsgefühl,Feeling weak or tired,2
+102776,172875,Schwindel,Dizziness,2
+102776,172876,Schlafstörungen,Sleep disturbances,1
+102776,172878,Hautreaktionen an der Injektionsstelle,Skin reactions at the injection site,2
+102776,172879,Keine Nebenwirkungen,No side effects,56
+102777,172880,Ich vestehe und bestätige.,I understand and confirm.,12
+102778,172881,Ich vestehe und bestätige.,I understand and confirm.,67
+102783,172882,Ja!,Yes!,37
+102783,172883,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No, I would like to stay on my current dose",30
+105249,176716,Mehrmals pro Woche,Several times a week,1
+105249,176717,Einmal pro Woche,Once a week,1
+105250,176721,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,2
+105251,176723,Nein,No,2
+105253,176728,Mehr als 5 Jahre,More than 5 years,2
+105254,176730,Ja,Yes,1
+105254,176731,Nein,No,1
+105257,176733,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,1
+105257,176734,Sport,Exercise,1
+105267,176741,Ich verstehe und bestätige.,I understand and confirm.,1
+105299,176747,Keine der genannten,None of the above,2
+105301,176751,Keine der genannten,None of the above,2
+105303,176764,Keiner der genannten,None of the above,2
+105305,176767,Keine der genannten,None of the above,2
+105308,176772,Foto sofort hochladen,Upload photo immediately,1
+105308,176773,Später hochladen,Upload photo later,1
+105314,176776,Ich verstehe und bestätige.,I understand and confirm.,1
+106738,178352,Ja,Yes,1
+106738,178353,Nein,No,16
+106739,178355,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,16
+106739,178356,Hoch - Über 140/90,High - Above 140/90,1
+106740,178357,Keine der genannten,none of the above,1
+106740,178359,Andere Medikamente gegen Übergewicht (z. B. Semaglutid),Other medication against overweight,1
+106741,178363,Nein,No,17
+106748,178371,Regelmäßig 1 x täglich,Regularly 1 x daily,15
+106748,178372,Seltener als 1 x täglich,Less frequently than 1 x daily,2
+106769,178374,Nein,No,3
+106769,178375,Diät (eigene Diät oder ein Programm),Diet (own diet or a programme),5
+106769,178376,Sport,Exercise,13
+106769,178377,Ernährungsberatung,Dietary advice,4
+106769,178379,Abnehm-App,Weight loss app,3
+106769,178382,Andere,Other,1
+106781,178386,Ich fühle mich aktiver/fitter,I feel more active/fitter,7
+106781,178387,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,10
+106781,178388,Ich fühle mich selbstbewusster,I feel more confident,6
+106781,178389,"Ich fühle mich motivierter, gesund zu leben",I feel more motivated to live healthy,10
+106781,178390,Ich spüre keine Veränderung,I don't feel any change,2
+106785,178392,Keine Nebenwirkungen,No side effects,17
+106796,178401,Durchfall oder Verstopfung,Diarrhoea or constipation,3
+106796,178407,Keine Nebenwirkungen,No side effects,14
+106796,178408,Gelegentliche Übelkeit oder Erbrechen (z. B. nur kurzzeitig nach Injektion),Occasional nausea or vomiting (e.g. only for a short time after injection),1
+106797,178410,Habe ich verstanden,I understand,3
+106804,178411,Ich verstehe und bestätige,I understand and confirm,17
+106826,178436,Nichts davon,None of the above,17
+106860,178437,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,12
+106860,178439,Ich habe eine Einnahmepause von über 3 Tagen.,I have a break in taking the medication of more than 3 days.,5
+106862,178440,Ich verstehe und bestätige,I understand and confirm,6
+108698,180772,Keine der genannten,none of the above,3
+108699,180773,Ich bin nach einer Mahlzeit satt und höre auf zu essen.,I am full after one meal and stop eating.,1
+108699,180775,Unabhängig von den Mahlzeiten verspüre ich den ganzen Tag Hunger.,"Regardless of meals,           I feel hungry throughout the day.",1
+108699,180777,Sonstiges,Other.,1
+108700,180782,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,1
+108701,180784,Mehrmals pro Woche,Several times a week,1
+108701,180785,Einmal pro Woche,Once a week,1
+108701,180786,Selten,Rarely,1
+108702,180789,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,3
+108703,180791,Nein,No,3
+108705,180795,1-5 Jahre,1-5 years,1
+108705,180796,Mehr als 5 Jahre,More than 5 years,2
+108706,180798,Ja,Yes,1
+108706,180799,Nein,No,2
+108709,180801,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,1
+108709,180802,Sport,Exercise,1
+108709,180806,Abnehm-App,Weight loss app,1
+108719,180809,Ich verstehe und bestätige.,I understand and confirm.,1
+108738,180811,"Ja, ich habe meine Gewichtsabnahmeziele erreicht.","Yes,      I met my weight loss goals",2
+108738,180812,"Nein, ich habe meine Gewichtsabnahmeziele nicht erreicht.","No,      I did not meet my weight loss goals.",1
+108746,180815,Keine der genannten,None of the above,3
+108752,180816,Keine der genannten,None of the above,3
+108754,180826,Keine der genannten,None of the above,3
+108756,180836,Keine der genannten,None of the above,3
+108758,180843,Keine der genannten,None of the above,3
+108761,180844,Foto sofort hochladen,Upload photo immediately,1
+108761,180845,Später hochladen,Upload later,2
+108767,180848,Ich verstehe und bestätige.,I understand and confirm.,2
+108800,180865,Keine der genannten,none of the above,12
+108801,180867,Ich bin nach einer Mahlzeit satt und esse trotzdem weiter.,I am full after one meal and still continue to eat.,3
+108801,180868,Unabhängig von den Mahlzeiten verspüre ich den ganzen Tag Hunger.,"Regardless of meals,           I feel hungry throughout the day.",5
+108801,180869,Ich esse unabhängig von meinem Hungergefühl.,I eat regardless of my feeling of hunger.,3
+108801,180870,Sonstiges,Other.,1
+108803,180877,Mehrmals pro Woche,Several times a week,2
+108803,180878,Einmal pro Woche,Once a week,2
+108803,180879,Selten,Rarely,7
+108803,180880,Gar nicht,Not at all,1
+108804,180882,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,11
+108804,180883,Hoch - Über 140/90,High 140/90,1
+108805,180884,Nein,No,12
+108807,180888,1-5 Jahre,1-5 years,2
+108807,180889,Mehr als 5 Jahre,More than 5 years,8
+108807,180890,Seit der Kindheit oder Jugend,Since childhood or adolescence,2
+108808,180891,Ja,Yes,2
+108808,180892,Nein,No,10
+108811,180893,Nein,No,1
+108811,180894,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,5
+108811,180895,Sport,Exercise,1
+108811,180898,Hypnose,Hypnosis,1
+108811,180899,Abnehm-App,Weight loss app,4
+108821,180902,Ich verstehe und bestätige.,I understand and confirm.,1
+108839,180903,Ich verstehe und bestätige.,I understand and confirm.,2
+108840,180904,"Ja, ich habe meine Gewichtsabnahmeziele erreicht.","Yes,      I met my weight loss goals",1
+108840,180905,"Nein, ich habe meine Gewichtsabnahmeziele nicht erreicht.","No,      I did not meet my weight loss goals.",11
+108848,180908,Keine der genannten,None of the above,12
+108854,180909,Keine der genannten,None of the above,12
+108856,180919,Keine der genannten,None of the above,12
+108858,180929,Keine der genannten,None of the above,12
+108860,180936,Keine der genannten,None of the above,12
+108863,180937,Foto sofort hochladen,Upload photo immediately,1
+108863,180938,Später hochladen,Upload later,11
+108869,180941,Ich verstehe und bestätige.,I understand and confirm.,11
+108897,180946,niedriger HDL-Cholesterinspiegel,Low HDL Cholesterol Level,1
+108902,180958,Keine der genannten,none of the above,12
+108903,180959,Ich bin nach einer Mahlzeit satt und höre auf zu essen.,I am full after one meal and stop eating.,1
+108903,180960,Ich bin nach einer Mahlzeit satt und esse trotzdem weiter.,I am full after one meal and still continue to eat.,1
+108903,180961,Unabhängig von den Mahlzeiten verspüre ich den ganzen Tag Hunger.,"Regardless of meals,           I feel hungry throughout the day.",8
+108903,180962,Ich esse unabhängig von meinem Hungergefühl.,I eat regardless of my feeling of hunger.,1
+108903,180963,Sonstiges,Other.,1
+108904,180967,"Ich hatte andere Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I had other side effects due to which I discontinued treatment.,1
+108904,180968,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,10
+108904,304134,Keine der genannten Nebenwirkungen,None of the listed side effects,1
+108905,180969,Täglich,Daily,1
+108905,180970,Mehrmals pro Woche,Several times a week,4
+108905,180971,Einmal pro Woche,Once a week,4
+108905,180972,Selten,Rarely,2
+108905,180973,Gar nicht,Not at all,1
+108906,180975,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,15
+108907,180977,Nein,No,4
+108907,180978,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost more than 4% body weight in 3 months with it",6
+108907,180979,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",5
+108909,180981,1-5 Jahre,1-5 years,5
+108909,180982,Mehr als 5 Jahre,More than 5 years,6
+108909,180983,Seit der Kindheit oder Jugend,Since childhood or adolescence,4
+108910,180985,Nein,No,15
+108913,180987,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,8
+108913,180988,Sport,Exercise,5
+108913,180989,Ernährungsberatung,Nutritional counselling,1
+108913,180992,Abnehm-App,Weight loss app,2
+108923,180995,Ich verstehe und bestätige.,I understand and confirm.,9
+108942,180997,"Ja, ich habe meine Gewichtsabnahmeziele erreicht.","Yes,      I met my weight loss goals",3
+108942,180998,"Nein, ich habe meine Gewichtsabnahmeziele nicht erreicht.","No,      I did not meet my weight loss goals.",9
+108950,181001,Keine der genannten,None of the above,12
+108956,181002,Keine der genannten,None of the above,15
+108958,181012,Keine der genannten,None of the above,12
+108958,304143,Keine der genannten,None of the above,3
+108960,181022,Keine der genannten,None of the above,12
+108960,304151,Keine der genannten,None of the above,3
+108962,181029,Keine der genannten,None of the above,15
+108965,181030,Foto sofort hochladen,Upload photo immediately,9
+108965,181031,Später hochladen,Upload later,6
+108971,181034,Ich verstehe und bestätige.,I understand and confirm.,6
+108999,181040,Keine der genannten,None of the Above,3
+109490,181590,Mehrmals pro Woche,Several times a week,1
+109491,181595,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,1
+109492,181597,Nein,No,1
+109494,181603,Seit der Kindheit oder Jugend,Since childhood or adolescence,1
+109495,181605,Nein,No,1
+109498,181608,Sport,Exercise,1
+109534,181619,Keine der genannten,"None of the above"".",1
+109540,181621,Keine der genannten,None of the above,1
+109542,181625,Keine der genannten,None of the above,1
+109544,181638,Keiner der genannten,None of the above,1
+109546,181641,Keine der genannten,None of the above,1
+109549,181647,Später hochladen,Upload photo later,1
+109555,181650,Ich verstehe und bestätige.,I understand and confirm.,1
+118018,191719,1-5 Jahre,1-5 years,1
+118018,191720,Mehr als 5 Jahre,More than 5 years,2
+118018,191721,Seit der Kindheit oder Jugend,Since childhood or adolescence,1
+118020,191722,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost more than 4% body weight in 3 months with it",2
+118020,191723,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost less than 4% body weight in 3 months with it",1
+118020,191724,Nein,No,1
+118021,191729,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,2
+118021,304019,Keine der genannten Nebenwirkungen,None of the listed side effects,1
+118024,191730,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,2
+118024,191731,Sport,Exercise,4
+118024,191732,Ernährungsberatung,Nutritional counselling,1
+118024,191735,Abnehm-App,Weight loss app,1
+118026,191741,Einmal pro Woche,Once a week,1
+118026,191742,Selten,Rarely,2
+118027,191745,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,3
+118027,191746,Hoch - Über 140/90,High - Above 140/90,1
+118028,191753,Keine der genannten,None of the above,4
+118031,191761,Keine der genannten,None of the above,3
+118031,304027,Keine der genannten,None of the above,1
+118033,191767,Keine der genannten,None of the above,4
+118036,191768,Ja,Yes,2
+118036,191769,Nein,No,2
+118038,191775,Keine der genannten,None of the above,4
+118044,191778,Ich verstehe und bestätige.,I understand and confirm.,4
+119117,193608,Mehr als 5 Jahre,More than 5 years,1
+119119,193610,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost more than 4% body weight in 3 months with it",1
+119120,193617,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,1
+119123,193618,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,1
+119123,193619,Sport,Exercise,1
+119123,193620,Ernährungsberatung,Nutritional counselling,1
+119125,193628,Mehrmals pro Woche,Several times a week,1
+119126,193633,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,1
+119127,193641,Keine der genannten,None of the above,1
+119130,193649,Keine der genannten,None of the above,1
+119132,193655,Keine der genannten,None of the above,1
+119135,193657,Nein,No,1
+119137,193663,Keine der genannten,None of the above,1
+119143,193666,Ich verstehe und bestätige.,I understand and confirm.,1
+119152,193678,Mehr als 5 Jahre,More than 5 years,1
+119152,193679,Seit der Kindheit oder Jugend,Since childhood or adolescence,3
+119154,193680,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost more than 4% body weight in 3 months with it",1
+119154,193681,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost less than 4% body weight in 3 months with it",1
+119154,193682,Nein,No,2
+119155,193687,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,1
+119155,304042,Keine der genannten Nebenwirkungen,None of the listed side effects,1
+119158,193688,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,4
+119158,193689,Sport,Exercise,3
+119158,193690,Ernährungsberatung,Nutritional counselling,2
+119158,193692,Hypnose,Hypnosis,1
+119158,193693,Abnehm-App,Weight loss app,2
+119160,193698,Mehrmals pro Woche,Several times a week,1
+119160,193699,Einmal pro Woche,Once a week,1
+119160,193700,Selten,Rarely,1
+119161,193703,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,3
+119161,193704,Hoch - Über 140/90,High - Above 140/90,1
+119162,193711,Keine der genannten,None of the above,4
+119165,193719,Keine der genannten,None of the above,3
+119165,304050,Keine der genannten,None of the above,1
+119167,193725,Keine der genannten,None of the above,4
+119170,193726,Ja,Yes,1
+119170,193727,Nein,No,3
+119172,193733,Keine der genannten,None of the above,4
+119178,193736,Ich verstehe und bestätige.,I understand and confirm.,4
+126732,202893,Keine der genannten,None of the Above,1
+126733,202895,1-5 Jahre,1-5 years,1
+126733,202896,Mehr als 5 Jahre,More than 5 years,2
+126733,202897,Seit der Kindheit oder Jugend,Since childhood or adolescence,2
+126735,202899,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost less than 4% body weight in 3 months with it",3
+126735,202900,Nein,No,2
+126736,202905,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,3
+126739,202906,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,4
+126739,202907,Sport,Exercise,3
+126739,202911,Abnehm-App,Weight loss app,2
+126741,202917,Einmal pro Woche,Once a week,2
+126741,202918,Selten,Rarely,2
+126741,202919,Gar nicht,Not at all,1
+126742,202921,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,5
+126743,202929,Keine der genannten,None of the above,5
+126746,202937,Keine der genannten,None of the above,5
+126748,202943,Keine der genannten,None of the above,5
+126751,202945,Nein,No,5
+126753,202951,Keine der genannten,None of the above,5
+126759,202954,Ich verstehe und bestätige.,I understand and confirm.,5
+127346,203712,1-5 Jahre,1-5 years,1
+127346,203714,Seit der Kindheit oder Jugend,Since childhood or adolescence,1
+127348,203715,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost more than 4% body weight in 3 months with it",1
+127348,203717,Nein,No,1
+127349,304088,Keine der genannten Nebenwirkungen,None of the listed side effects,1
+127352,203723,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,2
+127352,203724,Sport,Exercise,2
+127352,203726,Medikamente,medication,1
+127352,203728,Abnehm-App,Weight loss app,1
+127355,203738,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,1
+127355,203739,Hoch - Über 140/90,High - Above 140/90,1
+127356,203746,Keine der genannten,None of the above,2
+127359,304096,Keine der genannten,None of the above,2
+127361,203760,Keine der genannten,None of the above,2
+127364,203761,Ja,Yes,1
+127364,203762,Nein,No,1
+127366,203768,Keine der genannten,None of the above,2
+127372,203771,Ich verstehe und bestätige.,I understand and confirm.,2
+127465,203858,Keine der genannten,none of the above,2
+127466,203859,Ich bin nach einer Mahlzeit satt und höre auf zu essen.,I am full after one meal and stop eating.,1
+127466,203861,Unabhängig von den Mahlzeiten verspüre ich den ganzen Tag Hunger.,"Regardless of meals,           I feel hungry throughout the day.",1
+127467,203868,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,2
+127468,203871,Einmal pro Woche,Once a week,2
+127469,203875,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,2
+127470,203878,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost more than 4% body weight in 3 months with it",1
+127470,203879,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+127472,203882,Mehr als 5 Jahre,More than 5 years,2
+127473,203885,Nein,No,2
+127476,203888,Sport,Exercise,2
+127486,203895,Ich verstehe und bestätige.,I understand and confirm.,2
+127505,203898,"Nein, ich habe meine Gewichtsabnahmeziele nicht erreicht.","No,       I did not meet my weight loss goals.",2
+127513,203901,Keine der genannten,None of the above,2
+127519,203902,Keine der genannten,None of the above,2
+127521,203912,Keine der genannten,None of the above,2
+127523,203922,Keine der genannten,None of the above,2
+127525,203929,Keine der genannten,None of the above,2
+127528,203930,Foto sofort hochladen,Upload photo immediately,2
+127562,203936,obstruktive Schlafapnoe,Obstructive Sleep Apnoea,1
+128155,205060,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,4
+128157,205062,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",3
+128157,205063,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+128158,205069,Nichts davon,None of the above,4
+128161,205071,Nein,No,4
+128169,205089,1 mg Semaglutid,1 mg Semaglutide,1
+128169,205090,1.7 mg Semaglutid,1.7 mg Semaglutid,1
+128169,205091,2.4 mg Semaglutid,2.4 mg Semaglutid,2
+128170,205092,Ja!,Yes!,3
+128170,205093,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No,     I would like to stay on my current dose",1
+128179,205094,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,4
+128180,205097,Ich fühle mich aktiver/fitter,I feel more active/fitter,4
+128180,205098,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,4
+128180,205099,Ich fühle mich selbstbewusster,I feel more confident,4
+128180,205100,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,4
+128184,205103,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),3
+128184,205104,Sport,Exercise,4
+128184,205106,Ernährungsberatung,Nutritional counselling,1
+128191,205116,keine Nebenwirkungen,No side effects,4
+128193,205130,Keine Nebenwirkungen,No side effects,4
+128196,205135,Ich verstehe und bestätige,I understand and confirm,4
+128267,205144,Nein,"No""",4
+128269,205146,Nein,"No""",4
+132241,209887,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,13
+132241,209888,Hoch - Über 140/90,Hoch - Über 140/90,1
+132243,209889,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",10
+132243,209890,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",3
+132243,209891,Nein,No,1
+132244,209896,Nichts davon,None of the above,13
+132247,209898,Nein,No,14
+132255,209914,0.25 mg Semaglutid,0.25 mg Semaglutide,5
+132255,209916,1 mg Semaglutid,1 mg Semaglutide,1
+132255,209917,1.7 mg Semaglutid,1.7 mg Semaglutid,2
+132255,209918,2.4 mg Semaglutid,2.4 mg Semaglutid,6
+132256,209919,Ja!,Yes!,6
+132256,209920,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No,     I would like to stay on my current dose",8
+132265,209921,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,11
+132265,209922,Ich habe eine Einnahmepause von unter 2 Wochen.,I have a break in taking the medication of less than 2 weeks.,2
+132265,209923,Ich habe eine Einnahmepause von über 2 Wochen,I have a break in taking the medication of more than 2 Weeks.,1
+132266,209924,Ich fühle mich aktiver/fitter,I feel more active/fitter,8
+132266,209925,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,10
+132266,209926,Ich fühle mich selbstbewusster,I feel more confident,6
+132266,209927,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,6
+132267,209929,Ich verstehe und bestätige,I understand and confirm,2
+132270,209930,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),4
+132270,209931,Sport,Exercise,11
+132270,209933,Ernährungsberatung,Nutritional counselling,1
+132270,209935,App zur Gewichtsabnahme,App for weight loss,2
+132270,209937,Andere,Other,1
+132277,209943,keine Nebenwirkungen,No side effects,14
+132279,209955,Veränderte Geschmacksempfindungen,Altered taste sensations,1
+132279,209957,Keine Nebenwirkungen,No side effects,13
+132280,209958,Ich vestehe und bestätige.,I understand and confirm.,1
+132282,209962,Ich verstehe und bestätige,I understand and confirm,14
+132352,209969,Ich verstehe und bestätige,I understand and confirm,2
+132353,209971,Nein,"No""",14
+132355,209973,Nein,"No""",14
+132357,209975,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,3
+132359,209977,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",2
+132359,209978,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+132360,209984,Nichts davon,None of the above,3
+132363,209986,Nein,No,3
+132371,210002,0.25 mg Semaglutid,0.25 mg Semaglutide,1
+132371,210006,2.4 mg Semaglutid,2.4 mg Semaglutid,2
+132372,210007,Ja!,Yes!,1
+132372,210008,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No,     I would like to stay on my current dose",2
+132381,210009,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,2
+132381,210011,Ich habe eine Einnahmepause von über 2 Wochen,I have a break in taking the medication of more than 2 Weeks.,1
+132382,210012,Ich fühle mich aktiver/fitter,I feel more active/fitter,1
+132382,210013,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,2
+132382,210014,Ich fühle mich selbstbewusster,I feel more confident,1
+132382,210015,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,1
+132382,210016,Ich spüre keine Veränderung,I don't feel any change,1
+132383,210017,Ich verstehe und bestätige,I understand and confirm,1
+132386,210018,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),1
+132386,210019,Sport,Exercise,3
+132393,210031,keine Nebenwirkungen,No side effects,3
+132395,210045,Keine Nebenwirkungen,No side effects,3
+132398,210050,Ich verstehe und bestätige,I understand and confirm,3
+132469,210059,Nein,"No""",3
+132471,210061,Nein,"No""",3
+132473,210063,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,10
+132475,210065,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",8
+132475,210066,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",2
+132476,210072,Nichts davon,None of the above,10
+132479,210074,Nein,No,10
+132487,210091,0.5 mg Semaglutid,0.5 mg Semaglutide,6
+132487,210093,1.7 mg Semaglutid,1.7 mg Semaglutid,2
+132487,210094,2.4 mg Semaglutid,2.4 mg Semaglutid,2
+132488,210095,Ja!,Yes!,3
+132488,210096,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No,     I would like to stay on my current dose",7
+132497,210097,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,9
+132497,210098,Ich habe eine Einnahmepause von unter 2 Wochen.,I have a break in taking the medication of less than 2 weeks.,1
+132498,210100,Ich fühle mich aktiver/fitter,I feel more active/fitter,6
+132498,210101,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,6
+132498,210102,Ich fühle mich selbstbewusster,I feel more confident,6
+132498,210103,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,6
+132502,210106,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),3
+132502,210107,Sport,Exercise,10
+132502,210109,Ernährungsberatung,Nutritional counselling,1
+132502,210111,App zur Gewichtsabnahme,App for weight loss,1
+132509,210119,keine Nebenwirkungen,No side effects,10
+132511,210125,Gelegentliche Übelkeit oder Erbrechen (z. B. nur kurzzeitig nach Injektion),Occasional nausea or vomiting (e.g. only for a short time after injection),1
+132511,210133,Keine Nebenwirkungen,No side effects,9
+132512,210134,Ich vestehe und bestätige.,I understand and confirm.,1
+132514,210138,Ich verstehe und bestätige,I understand and confirm,10
+132584,210145,Ich verstehe und bestätige,I understand and confirm,1
+132585,210147,Nein,"No""",10
+132587,210149,Nein,"No""",10
+132589,210151,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,26
+132591,210153,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",14
+132591,210154,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",8
+132591,210155,Nein,No,4
+132592,210160,Nichts davon,None of the above,22
+132595,210162,Nein,No,26
+132603,210178,0.25 mg Semaglutid,0.25 mg Semaglutide,6
+132603,210179,0.5 mg Semaglutid,0.5 mg Semaglutide,5
+132603,210180,1 mg Semaglutid,1 mg Semaglutide,5
+132603,210181,1.7 mg Semaglutid,1.7 mg Semaglutid,6
+132603,210182,2.4 mg Semaglutid,2.4 mg Semaglutid,4
+132604,210183,Ja!,Yes!,12
+132604,210184,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No,     I would like to stay on my current dose",14
+132613,210185,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,15
+132613,210186,Ich habe eine Einnahmepause von unter 2 Wochen.,I have a break in taking the medication of less than 2 weeks.,8
+132613,210187,Ich habe eine Einnahmepause von über 2 Wochen,I have a break in taking the medication of more than 2 Weeks.,3
+132614,210188,Ich fühle mich aktiver/fitter,I feel more active/fitter,14
+132614,210189,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,19
+132614,210190,Ich fühle mich selbstbewusster,I feel more confident,13
+132614,210191,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,15
+132614,210192,Ich spüre keine Veränderung,I don't feel any change,4
+132615,210193,Ich verstehe und bestätige,I understand and confirm,4
+132618,210194,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),11
+132618,210195,Sport,Exercise,21
+132618,210197,Ernährungsberatung,Nutritional counselling,7
+132618,210199,App zur Gewichtsabnahme,App for weight loss,3
+132625,210207,keine Nebenwirkungen,No side effects,26
+132627,210213,Gelegentliche Übelkeit oder Erbrechen (z. B. nur kurzzeitig nach Injektion),Occasional nausea or vomiting (e.g. only for a short time after injection),3
+132627,210214,Durchfall oder Verstopfung,Diarrhoea or constipation,2
+132627,210219,Veränderte Geschmacksempfindungen,Altered taste sensations,1
+132627,210220,Hautreaktionen an der Injektionsstelle,Skin reactions at the injection site,1
+132627,210221,Keine Nebenwirkungen,No side effects,19
+132628,210222,Ich vestehe und bestätige.,I understand and confirm.,7
+132630,210226,Ich verstehe und bestätige,I understand and confirm,26
+132700,210233,Ich verstehe und bestätige,I understand and confirm,10
+132701,210235,Nein,"No""",26
+132703,210237,Nein,"No""",26
+132705,210239,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,1
+132707,210242,Nein,No,1
+132711,210249,Nein,No,1
+132717,210271,Keines der genannten,None of the above,1
+132719,210274,"7,5 mg Tirzepatid",7.5 mg Tirzepatide,1
+132720,210278,Regelmäßig 1-mal wöchentlich,Regularly once a week,1
+132721,210281,Ich wende das Medikament lückenlos an.,I use the medication without interruption.,1
+132722,210284,Diät – eigene Diät oder ein spezielles Programm,Diet - own diet or a special programme,1
+132727,210298,Ich fühle mich wohler in meinem Körper.,I feel more comfortable in my body.,1
+132728,210311,Keine Nebenwirkungen,No side effects,1
+132730,210320,Keine Nebenwirkungen,No side effects,1
+132732,210322,Ich vestehe und bestätige.,I understand and confirm.,1
+132737,210323,Ja!,Yes!,1
+132772,210364,Prädiabetes,Prediabetes,1
+132773,210371,1-5 Jahre,1-5 years,1
+132775,210375,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost less than 4% body weight in 3 months with it",1
+132776,210381,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,1
+132779,210383,Sport,Exercise,1
+132779,210384,Ernährungsberatung,Nutritional counselling,1
+132781,210394,Selten,Rarely,1
+132782,210397,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,1
+132783,210405,Keine der genannten,None of the above,1
+132786,210413,Keine der genannten,None of the above,1
+132788,210419,Keine der genannten,None of the above,1
+132791,210421,Nein,No,1
+132793,210427,Keine der genannten,None of the above,1
+132799,210430,Ich verstehe und bestätige.,I understand and confirm.,1
+137699,216396,Mehr als 5 Jahre,More than 5 years,2
+137699,216397,Seit der Kindheit oder Jugend,Since childhood or adolescence,1
+137701,216399,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost less than 4% body weight in 3 months with it",3
+137702,216405,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,3
+137705,216406,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,3
+137705,216407,Sport,Exercise,2
+137705,216411,Abnehm-App,Weight loss app,1
+137707,216417,Einmal pro Woche,Once a week,2
+137707,216419,Gar nicht,Not at all,1
+137708,216421,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,3
+137709,216429,Keine der genannten,None of the above,3
+137712,216437,Keine der genannten,None of the above,3
+137714,216443,Keine der genannten,None of the above,3
+137717,216445,Nein,No,3
+137719,216451,Keine der genannten,None of the above,3
+137725,216454,Ich verstehe und bestätige.,I understand and confirm.,3
+138048,216858,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,30
+138050,216860,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",18
+138050,216861,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",11
+138050,216862,Nein,No,1
+138051,216867,Nichts davon,None of the above,29
+138054,216869,Nein,No,30
+138062,216885,0.25 mg Semaglutid,0.25 mg Semaglutide,7
+138062,216886,0.5 mg Semaglutid,0.5 mg Semaglutide,1
+138062,216887,1 mg Semaglutid,1 mg Semaglutide,3
+138062,216888,1.7 mg Semaglutid,1.7 mg Semaglutid,5
+138062,216889,2.4 mg Semaglutid,2.4 mg Semaglutid,14
+138063,216890,Ja!,Yes!,19
+138063,216891,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No,     I would like to stay on my current dose",11
+138072,216892,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,11
+138072,216893,Ich habe eine Einnahmepause von unter 2 Wochen.,I have a break in taking the medication of less than 2 weeks.,7
+138072,216894,Ich habe eine Einnahmepause von über 2 Wochen,I have a break in taking the medication of more than 2 Weeks.,12
+138073,216895,Ich fühle mich aktiver/fitter,I feel more active/fitter,19
+138073,216896,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,21
+138073,216897,Ich fühle mich selbstbewusster,I feel more confident,14
+138073,216898,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,17
+138073,216899,Ich spüre keine Veränderung,I don't feel any change,1
+138074,216900,Ich verstehe und bestätige,I understand and confirm,13
+138077,216901,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),15
+138077,216902,Sport,Exercise,27
+138077,216904,Ernährungsberatung,Nutritional counselling,2
+138077,216905,Hypnose,Hypnosis,2
+138077,216906,App zur Gewichtsabnahme,App for weight loss,3
+138084,216914,keine Nebenwirkungen,No side effects,30
+138086,216922,"Allgemeine Magen-Darm-Beschwerden (Verdauungsstörungen,    Magenschleimhautentzündung,    Magenschmerzen,    Völlegefühl,    Blähungen,   etc.)","General gastrointestinal complaints (indigestion,                    gastritis,                    stomach pain,                    bloating,                    flatulence,                etc.)",1
+138086,216927,Hautreaktionen an der Injektionsstelle,Skin reactions at the injection site,1
+138086,216928,Keine Nebenwirkungen,No side effects,28
+138087,216929,Ich vestehe und bestätige.,I understand and confirm.,2
+138089,216933,Ich verstehe und bestätige,I understand and confirm,30
+138159,216940,Ich verstehe und bestätige,I understand and confirm,8
+138160,216942,Nein,"No""",30
+138162,216944,Nein,"No""",30
+140022,219536,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,2
+140024,219538,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,              I lost more than 4% body weight in 3 months with it",1
+140024,219539,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,        I lost less than 4% body weight in 3 months with it",1
+140025,219545,Nichts davon,None of the above,2
+140027,219547,Nein,No,2
+140035,219563,10 mg Tirzepatid,10 mg Tirzepatide,1
+140035,219566,"2,5 mg Tirzepatid",2.5 mg Tirzepatide,1
+140036,219569,Ja!,Yes!,1
+140036,219570,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No,       I would like to stay on my current dose",1
+140045,219571,Ich wende das Medikament lückenlos an.,"I use the medication without interruption."",      “I have a break of less than 4 weeks.”,      ""I have a break of more than 4 weeks.",2
+140046,219574,Ich fühle mich aktiver/fitter,I feel more active/fitter,1
+140046,219575,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,1
+140046,219577,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,1
+140050,219580,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),1
+140050,219581,Sport,Exercise,2
+140050,219583,Ernährungsberatung,Nutritional counselling,1
+140050,219585,App zur Gewichtsabnahme,App for weight loss,1
+140057,219598,keine Nebenwirkungen,No side effects,2
+140059,219607,Keine Nebenwirkungen,No side effects,2
+140062,219612,Ich verstehe und bestätige,I understand and confirm,2
+140115,219616,Keine der genannten,None of the above,2
+140133,219621,Nein,"No""",2
+140161,219623,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,70
+140163,219625,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,              I lost more than 4% body weight in 3 months with it",43
+140163,219626,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,        I lost less than 4% body weight in 3 months with it",26
+140163,219627,Nein,No,1
+140164,219632,Nichts davon,None of the above,69
+140166,219634,Nein,No,70
+140174,219650,10 mg Tirzepatid,10 mg Tirzepatide,12
+140174,219651,15 mg Tirzepatid,15 mg Tirzepatide,9
+140174,219652,5 mg Tirzepatid,5 mg Tirzepatide,19
+140174,219653,"2,5 mg Tirzepatid",2.5 mg Tirzepatide,9
+140174,219654,"7,5 mg Tirzepatid",7.5 mg Tirzepatide,9
+140174,219655,"12,5 mg Tirzepatid",12.5 mg Tirzepatide,12
+140175,219656,Ja!,Yes!,23
+140175,219657,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No,       I would like to stay on my current dose",47
+140184,219658,Ich wende das Medikament lückenlos an.,"I use the medication without interruption."",      “I have a break of less than 4 weeks.”,      ""I have a break of more than 4 weeks.",61
+140184,219659,Ich habe eine Einnahmepause von unter 4 Wochen.,,6
+140184,219660,Ich habe eine Einnahmepause von über 4 Wochen.,,3
+140185,219661,Ich fühle mich aktiver/fitter,I feel more active/fitter,46
+140185,219662,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,59
+140185,219663,Ich fühle mich selbstbewusster,I feel more confident,36
+140185,219664,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,45
+140185,219665,Ich spüre keine Veränderung,I don't feel any change,8
+140186,219666,Ich verstehe und bestätige,I understand and confirm,3
+140189,219667,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),36
+140189,219668,Sport,Exercise,58
+140189,219670,Ernährungsberatung,Nutritional counselling,2
+140189,219672,App zur Gewichtsabnahme,App for weight loss,15
+140189,219674,Andere,Other,4
+140196,219685,keine Nebenwirkungen,No side effects,70
+140198,219686,Gelegentliche Übelkeit oder Erbrechen (z. B. nur kurzzeitig nach Injektion),Occasional nausea or vomiting (e.g. only for a short time after injection),2
+140198,219687,Durchfall oder Verstopfung,Diarrhoea or constipation,2
+140198,219690,Schwindel,Dizziness,1
+140198,219694,Keine Nebenwirkungen,No side effects,66
+140199,219695,Ich vestehe und bestätige.,I understand and confirm.,4
+140201,219699,Ich verstehe und bestätige,I understand and confirm,70
+140254,219703,Keine der genannten,None of the above,70
+140271,219706,Ich verstehe und bestätige,I understand and confirm,10
+140272,219708,Nein,"No""",70
+140439,219797,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,4
+140441,219799,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,              I lost more than 4% body weight in 3 months with it",2
+140441,219800,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,        I lost less than 4% body weight in 3 months with it",2
+140442,219806,Nichts davon,None of the above,4
+140444,219808,Nein,No,4
+140452,219825,15 mg Tirzepatid,15 mg Tirzepatide,1
+140452,219827,"2,5 mg Tirzepatid",2.5 mg Tirzepatide,2
+140452,219828,"7,5 mg Tirzepatid",7.5 mg Tirzepatide,1
+140453,219830,Ja!,Yes!,2
+140453,219831,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No,       I would like to stay on my current dose",2
+140462,219832,Ich wende das Medikament lückenlos an.,"I use the medication without interruption."",      “I have a break of less than 4 weeks.”,      ""I have a break of more than 4 weeks.",2
+140462,219833,Ich habe eine Einnahmepause von unter 4 Wochen.,,1
+140462,219834,Ich habe eine Einnahmepause von über 4 Wochen.,,1
+140463,219835,Ich fühle mich aktiver/fitter,I feel more active/fitter,4
+140463,219836,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,3
+140463,219837,Ich fühle mich selbstbewusster,I feel more confident,4
+140463,219838,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,2
+140464,219840,Ich verstehe und bestätige,I understand and confirm,1
+140467,219841,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),4
+140467,219842,Sport,Exercise,3
+140467,219846,App zur Gewichtsabnahme,App for weight loss,1
+140474,219859,keine Nebenwirkungen,No side effects,4
+140476,219860,Gelegentliche Übelkeit oder Erbrechen (z. B. nur kurzzeitig nach Injektion),Occasional nausea or vomiting (e.g. only for a short time after injection),1
+140476,219868,Keine Nebenwirkungen,No side effects,3
+140477,219869,Ich vestehe und bestätige.,I understand and confirm.,1
+140479,219873,Ich verstehe und bestätige,I understand and confirm,4
+140532,219877,Keine der genannten,None of the above,4
+140549,219880,Ich verstehe und bestätige,I understand and confirm,1
+140550,219882,Nein,"No""",4
+140578,219884,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,11
+140580,219886,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,              I lost more than 4% body weight in 3 months with it",4
+140580,219887,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,        I lost less than 4% body weight in 3 months with it",5
+140580,219888,Nein,No,2
+140581,219893,Nichts davon,None of the above,9
+140583,219895,Nein,No,11
+140591,219911,10 mg Tirzepatid,10 mg Tirzepatide,1
+140591,219912,15 mg Tirzepatid,15 mg Tirzepatide,2
+140591,219913,5 mg Tirzepatid,5 mg Tirzepatide,4
+140591,219914,"2,5 mg Tirzepatid",2.5 mg Tirzepatide,2
+140591,219915,"7,5 mg Tirzepatid",7.5 mg Tirzepatide,2
+140592,219917,Ja!,Yes!,2
+140592,219918,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No,       I would like to stay on my current dose",9
+140601,219919,Ich wende das Medikament lückenlos an.,"I use the medication without interruption."",      “I have a break of less than 4 weeks.”,      ""I have a break of more than 4 weeks.",9
+140601,219920,Ich habe eine Einnahmepause von unter 4 Wochen.,,1
+140601,219921,Ich habe eine Einnahmepause von über 4 Wochen.,,1
+140602,219922,Ich fühle mich aktiver/fitter,I feel more active/fitter,9
+140602,219923,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,9
+140602,219924,Ich fühle mich selbstbewusster,I feel more confident,7
+140602,219925,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,8
+140603,219927,Ich verstehe und bestätige,I understand and confirm,1
+140606,219928,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),8
+140606,219929,Sport,Exercise,8
+140606,219931,Ernährungsberatung,Nutritional counselling,1
+140606,219933,App zur Gewichtsabnahme,App for weight loss,3
+140606,219935,Andere,Other,2
+140613,219946,keine Nebenwirkungen,No side effects,11
+140615,219955,Keine Nebenwirkungen,No side effects,11
+140618,219960,Ich verstehe und bestätige,I understand and confirm,11
+140671,219964,Keine der genannten,None of the above,11
+140688,219967,Ich verstehe und bestätige,I understand and confirm,1
+140689,219969,Nein,"No""",11
+146507,227332,Seit der Kindheit oder Jugend,Since childhood or adolescence,1
+146509,227335,Nein,No,1
+146513,227341,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,1
+146513,227342,Sport,Exercise,1
+146513,227346,Abnehm-App,Weight loss app,1
+146515,227353,Selten,Rarely,1
+146516,227356,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,1
+146517,227364,Keine der genannten,None of the above,1
+146520,227372,Keine der genannten,None of the above,1
+146522,227378,Keine der genannten,None of the above,1
+146525,227380,Nein,No,1
+146527,227386,Keine der genannten,None of the above,1
+146533,227389,Ich verstehe und bestätige.,I understand and confirm.,1
+147551,228488,Mehr als 5 Jahre,More than 5 years,2
+147553,228490,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost more than 4% body weight in 3 months with it",1
+147553,228492,Nein,No,1
+147554,228497,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,1
+147557,228498,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,2
+147557,228499,Sport,Exercise,1
+147557,228501,Medikamente,medication,1
+147559,228510,Selten,Rarely,2
+147560,228513,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,2
+147561,228521,Keine der genannten,None of the above,2
+147564,228529,Keine der genannten,None of the above,2
+147566,228535,Keine der genannten,None of the above,2
+147569,228537,Nein,No,2
+147571,228543,Keine der genannten,None of the above,2
+147577,228546,Ich verstehe und bestätige.,I understand and confirm.,2
+147583,303405,Keine der genannten Nebenwirkungen,None of the listed side effects,1
+147585,228561,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,1
+147586,228565,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+147588,228568,Mehr als 5 Jahre,More than 5 years,1
+147589,228571,Nein,No,1
+147592,228573,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,1
+147592,228574,Sport,Exercise,1
+147634,228587,Keine der genannten,None of the above,1
+147636,228591,Keine der genannten,None of the above,1
+147638,303415,Keine der genannten,None of the above,1
+147640,228607,Keine der genannten,None of the above,1
+147643,228613,Später hochladen,Upload photo later,1
+147649,228616,Ich verstehe und bestätige.,I understand and confirm.,1
+147810,228800,Seit der Kindheit oder Jugend,Since childhood or adolescence,1
+147812,228802,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost less than 4% body weight in 3 months with it",1
+147813,228808,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,1
+147816,228810,Sport,Exercise,1
+147818,228820,Einmal pro Woche,Once a week,1
+147819,228824,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,1
+147820,228832,Keine der genannten,None of the above,1
+147823,228840,Keine der genannten,None of the above,1
+147825,228846,Keine der genannten,None of the above,1
+147828,228848,Nein,No,1
+147830,228854,Keine der genannten,None of the above,1
+147834,228855,Ich verstehe und bestätige.,I understand and confirm.,1
+147843,228868,Seit der Kindheit oder Jugend,Since childhood or adolescence,1
+147845,228869,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost more than 4% body weight in 3 months with it",1
+147846,228876,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,1
+147849,228877,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,1
+147849,228878,Sport,Exercise,1
+147849,228879,Ernährungsberatung,Nutritional counselling,1
+147849,228880,Medikamente,medication,1
+147849,228881,Hypnose,Hypnosis,1
+147849,228882,Abnehm-App,Weight loss app,1
+147851,228887,Mehrmals pro Woche,Several times a week,1
+147852,228892,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,1
+147853,228900,Keine der genannten,None of the above,1
+147856,228908,Keine der genannten,None of the above,1
+147858,228914,Keine der genannten,None of the above,1
+147861,228916,Nein,No,1
+147863,228922,Keine der genannten,None of the above,1
+147867,228923,Ich verstehe und bestätige.,I understand and confirm.,1
+148911,230799,Keine der genannten,None of the Above,2
+148912,230801,1-5 Jahre,1-5 years,3
+148912,230802,Mehr als 5 Jahre,More than 5 years,2
+148914,230804,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost more than 4% body weight in 3 months with it",1
+148914,230805,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost less than 4% body weight in 3 months with it",1
+148914,230806,Nein,No,3
+148915,230811,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,2
+148918,230812,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,3
+148918,230813,Sport,Exercise,3
+148918,230814,Ernährungsberatung,Nutritional counselling,3
+148918,230817,Abnehm-App,Weight loss app,2
+148920,230822,Mehrmals pro Woche,Several times a week,1
+148920,230823,Einmal pro Woche,Once a week,1
+148920,230824,Selten,Rarely,2
+148921,230827,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,5
+148922,230835,Keine der genannten,None of the above,5
+148925,230843,Keine der genannten,None of the above,4
+148925,304004,Keine der genannten,None of the above,1
+148927,230849,Keine der genannten,None of the above,5
+148930,230850,Ja,Yes,1
+148930,230851,Nein,No,4
+148932,230857,Keine der genannten,None of the above,5
+148938,230860,Ich verstehe und bestätige.,I understand and confirm.,5
+159443,257129,10 mg Tirzepatid,10 mg Tirzepatide,1
+159444,257099,Ich verstehe und bestätige,I understand and confirm,1
+159447,242492,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,1
+159449,242495,Nein,No,1
+159453,242501,Nein,No,1
+159457,242518,Nein,No,1
+159475,242525,Keines der genannten,None of the above,1
+159478,243867,Ich habe eine Einnahmepause von über 5 Wochen gehabt.,I have had a break in use of more than 5 weeks.,1
+159479,242530,Mehr Bewegung oder Sport,More exercise or sport,1
+159479,242533,App zur Gewichtsabnahme,App for weight loss,1
+159484,242541,Ich fühle mich aktiver / fitter.,I feel more active / fitter.,1
+159484,242542,Ich fühle mich wohler in meinem Körper.,I feel more comfortable in my body.,1
+159486,242555,Keine Nebenwirkungen,No side effects,1
+159488,242563,Keine Nebenwirkungen,No side effects,1
+159492,242565,Ich vestehe und bestätige,I understand and confirm,1
+159519,256818,Ich möchte eine niedrigere Dosis – z. B. wegen Nebenwirkungen.,I would like a lower dose – e.g. due to side effects.,4
+159519,256819,Ich möchte bei meiner aktuellen Dosis bleiben und vorerst nicht erhöhen.,I would like to stay at my current dose and not increase it for the time being.,2
+159520,257080,Ich verstehe und bestätige,I understand and confirm,2
+159522,242617,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,6
+159524,242620,Nein,No,6
+159527,242626,Nein,No,6
+159529,242643,Nein,No,6
+159532,242650,Keines der genannten,None of the above,6
+159534,243844,Ich habe das Medikament lückenlos angewendet.,I have used the medication continuously.,5
+159534,243845,Ich habe eine Einnahmepause von weniger als 3 Wochen gehabt.,I have had a break in use of less than 3 weeks.,1
+159535,242654,Diät – eigene Diät oder ein spezielles Programm,Diet - own diet or a special programme,1
+159535,242655,Mehr Bewegung oder Sport,More exercise or sport,6
+159540,242666,Ich fühle mich aktiver / fitter.,I feel more active / fitter.,5
+159540,242667,Ich fühle mich wohler in meinem Körper.,I feel more comfortable in my body.,4
+159540,242668,Ich fühle mich selbstbewusster.,I feel more self-confident.,4
+159540,242669,"Ich fühle mich motivierter, gesund zu leben.",I feel more motivated to live healthily.,6
+159541,242680,Keine Nebenwirkungen,No side effects,6
+159543,242681,Gelegentliche Übelkeit oder Erbrechen (z. B. kurz nach der Injektion),Occasional nausea or vomiting (e.g. shortly after the injection),1
+159543,242682,"Magen-Darm-Beschwerden (z. B. Bauchschmerzen, Völlegefühl, Blähungen, Durchfall, Verstopfung oder bekannte Magenschleimhautentzündung)","Gastrointestinal complaints (e.g. abdominal pain,  bloating,  flatulence,  diarrhoea,  constipation or known gastritis)",1
+159543,242688,Keine Nebenwirkungen,No side effects,4
+159544,242689,Ich vestehe und bestätige,I understand and confirm,2
+159545,242690,Ich vestehe und bestätige,I understand and confirm,6
+159547,243023,Unzufrieden – Ich habe die höhere Dosis nicht gut vertragen.,Dissatisfied - I did not tolerate the higher dose well.,1
+159547,243024,"Zufrieden – Ich habe zwar mehr als 4 % meines Ausgangsgewichts verloren, fühle mich mit der niedrigeren Dosis aber wohler.","Satisfied - I have lost more than 4% of my initial weight,              but I feel more comfortable with the lower dose.",3
+159548,243032,Zufrieden – Ich habe mehr als 4 % meines Ausgangsgewichts verloren.,Satisfied - I have lost more than 4% of my initial weight.,2
+159821,257102,0.5 mg Semaglutid,0.5 mg Semaglutide,2
+159826,257083,Ich möchte eine niedrigere Dosis – z. B. wegen Nebenwirkungen.,I would like a lower dose – e.g. due to side effects.,4
+159826,257084,Ich möchte bei meiner aktuellen Dosis bleiben und vorerst nicht erhöhen.,I would like to stay at my current dose and not increase it for the time being.,4
+159827,257085,Ich verstehe und bestätige,I understand and confirm,1
+159829,243037,Normal: 90/60 bis 140/90,Normal: 90/60 to 140/90,8
+159831,243040,Nein,No,8
+159834,243046,Nein,No,8
+159836,243063,Nein,No,8
+159839,243070,Keines der genannten,None of the above,8
+159841,243860,Ich habe das Medikament lückenlos angewendet.,I have used the medication continuously.,5
+159841,243862,Ich habe eine Einnahmepause von zwischen 3 bis 5 Wochen gehabt.,I have had a break in use of between 3 and 5 weeks.,3
+159842,243074,Diät – eigene Diät oder ein spezielles Programm,Diet - own diet or a special programme,4
+159842,243075,Mehr Bewegung oder Sport,More exercise or sport,8
+159842,243076,Ernährungsberatung,Nutritional advice,1
+159842,243078,App zur Gewichtsabnahme,App for weight loss,1
+159843,243082,Ich verstehe und bestätige,I understand and confirm,3
+159847,243086,Ich fühle mich aktiver / fitter.,I feel more active / fitter.,7
+159847,243087,Ich fühle mich wohler in meinem Körper.,I feel more comfortable in my body.,7
+159847,243088,Ich fühle mich selbstbewusster.,I feel more self-confident.,5
+159847,243089,"Ich fühle mich motivierter, gesund zu leben.",I feel more motivated to live healthily.,6
+159848,243100,Keine Nebenwirkungen,No side effects,8
+159850,243107,"Hautreaktionen an der Injektionsstelle (z. B. Rötung, Schwellung, Juckreiz)","Skin reactions at the injection site (e.g. redness,  swelling,  itching)",1
+159850,243108,Keine Nebenwirkungen,No side effects,7
+159851,243109,Ich vestehe und bestätige,I understand and confirm,1
+159852,243110,Ich vestehe und bestätige,I understand and confirm,8
+159854,243112,"Zufrieden – Ich habe zwar mehr als 4 % meines Ausgangsgewichts verloren, fühle mich mit der niedrigeren Dosis aber wohler.","Satisfied - I have lost more than 4% of my initial weight,          but I feel more comfortable with the lower dose.",4
+159855,243113,Unzufrieden – Ich habe leichte Nebenwirkungen und mache mir Sorgen wegen einer möglichen Dosis-Erhöhung.,Unsatisfied - I have slight side effects and am worried about a possible increase in dose.,1
+159855,243115,Zufrieden – Ich habe mehr als 4 % meines Ausgangsgewichts verloren.,Satisfied - I have lost more than 4% of my initial weight.,3
+159856,257117,2.5 mg Tirzepatid,2.5 mg Tirzepatide,1
+159856,257119,7.5 mg Tirzepatid,7.5 mg Tirzepatide,1
+159856,257120,10 mg Tirzepatid,10 mg Tirzepatide,2
+160460,243869,Ich verstehe und bestätige,I understand and confirm,1
+161696,245337,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,12
+161698,245339,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",6
+161698,245340,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",4
+161698,245341,Nein,No,2
+161699,245346,Nichts davon,None of the above,11
+161702,245348,Nein,No,12
+161710,245364,0.25 mg Semaglutid,0.25 mg Semaglutide,3
+161710,245366,1 mg Semaglutid,1 mg Semaglutide,6
+161710,245368,2.4 mg Semaglutid,2.4 mg Semaglutid,3
+161711,245369,Ja!,Yes!,4
+161711,245370,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No,     I would like to stay on my current dose",8
+161720,245371,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,8
+161720,245372,Ich habe eine Einnahmepause von unter 2 Wochen.,I have a break in taking the medication of less than 2 weeks.,4
+161721,245374,Ich fühle mich aktiver/fitter,I feel more active/fitter,7
+161721,245375,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,8
+161721,245376,Ich fühle mich selbstbewusster,I feel more confident,7
+161721,245377,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,8
+161722,245379,Ich verstehe und bestätige,I understand and confirm,2
+161725,245380,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),9
+161725,245381,Sport,Exercise,9
+161725,245383,Ernährungsberatung,Nutritional counselling,2
+161725,245385,App zur Gewichtsabnahme,App for weight loss,2
+161725,245387,Andere,Other,1
+161732,245393,keine Nebenwirkungen,No side effects,12
+161734,245407,Keine Nebenwirkungen,No side effects,12
+161737,245412,Ich verstehe und bestätige,I understand and confirm,12
+161807,245419,Ich verstehe und bestätige,I understand and confirm,4
+161808,245421,Nein,"No""",12
+161810,245423,Nein,"No""",12
+172415,256751,Selten,Rarely,1
+172415,256752,Gar nicht,Not at all,1
+172416,256754,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,2
+172417,256756,Nein,No,2
+172419,256760,1-5 Jahre,1-5 years,1
+172419,256761,Mehr als 5 Jahre,More than 5 years,1
+172420,256764,Nein,No,2
+172423,256767,Sport,Exercise,2
+172433,256774,Ich verstehe und bestätige.,I understand and confirm.,1
+172465,256780,Keine der genannten,None of the above,2
+172467,256784,Keine der genannten,None of the above,2
+172469,256797,Keiner der genannten,None of the above,2
+172471,256800,Keine der genannten,None of the above,2
+172474,256805,Foto sofort hochladen,Upload photo immediately,1
+172474,256806,Später hochladen,Upload photo later,1
+172480,256809,Ich verstehe und bestätige.,I understand and confirm.,1
+172494,256810,Prädiabetes,Prediabetes,1
+172776,257074,Ich verstehe und bestätige,I understand and confirm,1
+172989,257531,1.7 mg Semaglutid,1.7 mg Semaglutide,3
+172989,257532,2.4 mg Semaglutid,2.4 mg Semaglutide,1
+172990,257533,Ich verstehe und bestätige,I understand and confirm,1
+173027,257534,2.5 mg Tirzepatid,2.5 mg Tirzepatide,1
+173027,257536,7.5 mg Tirzepatid,7.5 mg Tirzepatide,2
+173027,257539,15 mg Tirzepatid,15 mg Tirzepatide,1
+173028,257540,Ich verstehe und bestätige,I understand and confirm,2
+173397,257963,Mehr als 5 Jahre,More than 5 years,1
+173399,257967,Nein,No,1
+173403,257973,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,1
+173403,257974,Sport,Exercise,1
+173403,257975,Ernährungsberatung,Nutritional counselling,1
+173403,257978,Abnehm-App,Weight loss app,1
+173405,257985,Selten,Rarely,1
+173406,257988,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,1
+173407,257996,Keine der genannten,None of the above,1
+173410,258004,Keine der genannten,None of the above,1
+173412,258010,Keine der genannten,None of the above,1
+173415,258012,Nein,No,1
+173417,258018,Keine der genannten,None of the above,1
+173423,258021,Ich verstehe und bestätige.,I understand and confirm.,1
+173686,258334,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,19
+173688,258336,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,              I lost more than 4% body weight in 3 months with it",10
+173688,258337,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,        I lost less than 4% body weight in 3 months with it",9
+173689,258343,Nichts davon,None of the above,19
+173691,258345,Nein,No,19
+173699,258361,10 mg Tirzepatid,10 mg Tirzepatide,2
+173699,258362,15 mg Tirzepatid,15 mg Tirzepatide,1
+173699,258363,5 mg Tirzepatid,5 mg Tirzepatide,7
+173699,258364,"2,5 mg Tirzepatid",2.5 mg Tirzepatide,3
+173699,258365,"7,5 mg Tirzepatid",7.5 mg Tirzepatide,4
+173699,258366,"12,5 mg Tirzepatid",12.5 mg Tirzepatide,2
+173700,258367,Ja!,Yes!,9
+173700,258368,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No,       I would like to stay on my current dose",10
+173709,258369,Ich wende das Medikament lückenlos an.,"I use the medication without interruption."",      “I have a break of less than 4 weeks.”,      ""I have a break of more than 4 weeks.",15
+173709,258370,Ich habe eine Einnahmepause von unter 4 Wochen.,,2
+173709,258371,Ich habe eine Einnahmepause von über 4 Wochen.,,2
+173710,258372,Ich fühle mich aktiver/fitter,I feel more active/fitter,11
+173710,258373,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,11
+173710,258374,Ich fühle mich selbstbewusster,I feel more confident,11
+173710,258375,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,12
+173710,258376,Ich spüre keine Veränderung,I don't feel any change,1
+173711,258377,Ich verstehe und bestätige,I understand and confirm,2
+173714,258378,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),9
+173714,258379,Sport,Exercise,12
+173714,258381,Ernährungsberatung,Nutritional counselling,3
+173714,258383,App zur Gewichtsabnahme,App for weight loss,5
+173714,258385,Andere,Other,1
+173721,258396,keine Nebenwirkungen,No side effects,19
+173723,258397,Gelegentliche Übelkeit oder Erbrechen (z. B. nur kurzzeitig nach Injektion),Occasional nausea or vomiting (e.g. only for a short time after injection),1
+173723,258398,Durchfall oder Verstopfung,Diarrhoea or constipation,2
+173723,258403,Veränderte Geschmacksempfindungen,Altered taste sensations,1
+173723,258405,Keine Nebenwirkungen,No side effects,16
+173724,258406,Ich vestehe und bestätige.,I understand and confirm.,3
+173726,258410,Ich verstehe und bestätige,I understand and confirm,19
+173779,258414,Keine der genannten,None of the above,19
+173796,258417,Ich verstehe und bestätige,I understand and confirm,2
+173797,258419,Nein,"No""",19
+173970,258511,Nein,No,1
+173971,258513,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,1
+173973,258521,Nein,No,1
+173980,258529,Regelmäßig 1 x täglich,Regularly 1 x daily,1
+174001,258532,Nein,No,1
+174013,258547,"Ich fühle mich motivierter, gesund zu leben",I feel more motivated to live healthy,1
+174017,258550,Keine Nebenwirkungen,No side effects,1
+174028,258565,Keine Nebenwirkungen,No side effects,1
+174036,258569,Ich verstehe und bestätige,I understand and confirm,1
+174058,258594,Nichts davon,None of the above,1
+174092,258595,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,1
+189159,275035,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,4
+189161,275037,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",1
+189161,275038,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",2
+189161,275039,Nein,No,1
+189162,275044,Nichts davon,None of the above,3
+189165,275046,Nein,No,4
+189173,275063,0.5 mg Semaglutid,0.5 mg Semaglutide,1
+189173,275064,1 mg Semaglutid,1 mg Semaglutide,2
+189173,275066,2.4 mg Semaglutid,2.4 mg Semaglutid,1
+189174,275067,Ja!,Yes!,2
+189174,275068,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No,     I would like to stay on my current dose",2
+189183,275069,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,1
+189183,275070,Ich habe eine Einnahmepause von unter 2 Wochen.,I have a break in taking the medication of less than 2 weeks.,1
+189183,275071,Ich habe eine Einnahmepause von über 2 Wochen,I have a break in taking the medication of more than 2 Weeks.,2
+189184,275072,Ich fühle mich aktiver/fitter,I feel more active/fitter,3
+189184,275073,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,3
+189184,275074,Ich fühle mich selbstbewusster,I feel more confident,3
+189184,275075,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,3
+189185,275077,Ich verstehe und bestätige,I understand and confirm,2
+189188,275078,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),2
+189188,275079,Sport,Exercise,3
+189188,275083,App zur Gewichtsabnahme,App for weight loss,1
+189195,275091,keine Nebenwirkungen,No side effects,4
+189197,275105,Keine Nebenwirkungen,No side effects,4
+189200,275110,Ich verstehe und bestätige,I understand and confirm,4
+189270,275117,Ich verstehe und bestätige,I understand and confirm,1
+189271,275119,Nein,"No""",4
+189273,275121,Nein,"No""",4
+189550,275577,1-5 Jahre,1-5 years,1
+189550,275579,Seit der Kindheit oder Jugend,Since childhood or adolescence,2
+189551,275580,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost more than 4% body weight in 3 months with it",2
+189551,275582,Nein,No,1
+189552,275587,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,2
+189555,275588,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,2
+189555,275589,Sport,Exercise,1
+189555,275590,Ernährungsberatung,Nutritional counselling,2
+189555,275595,Anderes,Other,1
+189557,275598,Mehrmals pro Woche,Several times a week,1
+189557,275599,Einmal pro Woche,Once a week,2
+189558,275603,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,3
+189559,275611,Keine der genannten,None of the above,3
+189562,275619,Keine der genannten,None of the above,3
+189564,275625,Keine der genannten,None of the above,3
+189567,275626,Ja,Yes,1
+189567,275627,Nein,No,2
+189569,275633,Keine der genannten,None of the above,3
+189573,275634,Ich verstehe und bestätige.,I understand and confirm.,3
+189729,275794,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,1
+189731,275797,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+189732,275803,Nichts davon,None of the above,1
+189735,275805,Nein,No,1
+189743,275822,0.5 mg Semaglutid,0.5 mg Semaglutide,1
+189744,275826,Ja!,Yes!,1
+189753,275828,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,1
+189754,275831,Ich fühle mich aktiver/fitter,I feel more active/fitter,1
+189754,275832,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,1
+189754,275833,Ich fühle mich selbstbewusster,I feel more confident,1
+189754,275834,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,1
+189758,275837,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),1
+189758,275838,Sport,Exercise,1
+189765,275850,keine Nebenwirkungen,No side effects,1
+189767,275864,Keine Nebenwirkungen,No side effects,1
+189770,275869,Ich verstehe und bestätige,I understand and confirm,1
+189841,275878,Nein,"No""",1
+189843,275880,Nein,"No""",1
+189848,275895,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,1
+189849,275897,Nein,No,1
+189851,275902,Mehr als 5 Jahre,More than 5 years,1
+189852,275905,Nein,No,1
+189855,275907,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,1
+189855,275909,Ernährungsberatung,Nutritional counselling,1
+189855,275912,Abnehm-App,Weight loss app,1
+189865,275915,Ich verstehe und bestätige.,I understand and confirm.,1
+189891,275919,Keine der genannten,"None of the above"".",1
+189897,275921,Keine der genannten,None of the above,1
+189899,275925,Keine der genannten,None of the above,1
+189901,303933,Keine der genannten,None of the above,1
+189903,275941,Keine der genannten,None of the above,1
+189906,275946,Foto sofort hochladen,Upload photo immediately,1
+189932,275960,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,5
+189932,275961,Hoch - Über 140/90,Hoch - Über 140/90,1
+189934,275962,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",3
+189934,275963,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",2
+189934,275964,Nein,No,1
+189935,275969,Nichts davon,None of the above,5
+189938,275971,Nein,No,6
+189946,275987,0.25 mg Semaglutid,0.25 mg Semaglutide,2
+189946,275989,1 mg Semaglutid,1 mg Semaglutide,1
+189946,275991,2.4 mg Semaglutid,2.4 mg Semaglutid,3
+189947,275992,Ja!,Yes!,6
+189956,275994,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,3
+189956,275996,Ich habe eine Einnahmepause von über 2 Wochen,I have a break in taking the medication of more than 2 Weeks.,3
+189957,275997,Ich fühle mich aktiver/fitter,I feel more active/fitter,6
+189957,275998,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,4
+189957,275999,Ich fühle mich selbstbewusster,I feel more confident,4
+189957,276000,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,4
+189958,276002,Ich verstehe und bestätige,I understand and confirm,3
+189961,276003,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),3
+189961,276004,Sport,Exercise,6
+189968,276016,keine Nebenwirkungen,No side effects,6
+189970,276030,Keine Nebenwirkungen,No side effects,6
+189973,276035,Ich verstehe und bestätige,I understand and confirm,6
+190044,276044,Nein,"No""",6
+190046,276046,Nein,"No""",6
+190052,276058,Mehr als 5 Jahre,More than 5 years,2
+190054,276061,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost less than 4% body weight in 3 months with it",1
+190054,276062,Nein,No,1
+190055,276067,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,1
+190058,276068,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,2
+190058,276069,Sport,Exercise,2
+190058,276070,Ernährungsberatung,Nutritional counselling,1
+190060,276078,Mehrmals pro Woche,Several times a week,1
+190060,276079,Einmal pro Woche,Once a week,1
+190061,276083,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,2
+190062,276091,Keine der genannten,None of the above,2
+190065,276099,Keine der genannten,None of the above,2
+190067,276105,Keine der genannten,None of the above,2
+190070,276107,Nein,No,2
+190072,276113,Keine der genannten,None of the above,2
+190078,276116,Ich verstehe und bestätige.,I understand and confirm.,2
+190666,276763,Selten,Rarely,1
+190667,276766,Normal - Zwischen 90/60 - 140/90,Normal 90/60 - 140/90,1
+190668,276768,Nein,No,1
+190670,276773,Mehr als 5 Jahre,More than 5 years,1
+190671,276775,Ja,Yes,1
+190674,276780,Ernährungsberatung,Nutritional counselling,1
+190710,276790,Keine der genannten,"None of the above"".",1
+190716,276792,Keine der genannten,None of the above,1
+190718,276796,Keine der genannten,None of the above,1
+190720,276809,Keiner der genannten,None of the above,1
+190722,276812,Keine der genannten,None of the above,1
+190725,276818,Später hochladen,Upload photo later,1
+190730,276820,Ich verstehe und bestätige.,I understand and confirm.,1
+190744,276821,Prädiabetes,Prediabetes,1
+190873,276930,Seit der Kindheit oder Jugend,Since childhood or adolescence,2
+190874,276931,"Ja, ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost more than 4% body weight in 3 months with it",1
+190874,276932,"Ja, ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,    I lost less than 4% body weight in 3 months with it",1
+190875,276938,"Ich hatte keine schweren Nebenwirkungen, aufgrund derer ich die Behandlung abgebrochen habe.",I did not have severe side effects due to which I discontinued treatment.,2
+190878,276939,Diät - eigene Diät oder ein Programm,Diet - own diet or a program,2
+190878,276940,Sport,Exercise,2
+190878,276941,Ernährungsberatung,Nutritional counselling,1
+190878,276944,Abnehm-App,Weight loss app,2
+190880,276949,Mehrmals pro Woche,Several times a week,2
+190881,276954,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,2
+190882,276962,Keine der genannten,None of the above,2
+190885,276970,Keine der genannten,None of the above,2
+190887,276976,Keine der genannten,None of the above,2
+190890,276978,Nein,No,2
+190892,276984,Keine der genannten,None of the above,2
+190896,276985,Ich verstehe und bestätige.,I understand and confirm.,2
+200621,294133,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,5
+200623,294135,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",2
+200623,294136,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",3
+200624,294142,Nichts davon,None of the above,5
+200627,294144,Nein,No,5
+200635,294161,0.5 mg Semaglutid,0.5 mg Semaglutide,2
+200635,294162,1 mg Semaglutid,1 mg Semaglutide,2
+200635,294164,2.4 mg Semaglutid,2.4 mg Semaglutid,1
+200636,294165,Ja!,Yes!,3
+200636,294166,"Nein, ich möchte auf meiner aktuellen Dosis bleiben","No,     I would like to stay on my current dose",2
+200645,294167,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,4
+200645,294168,Ich habe eine Einnahmepause von unter 2 Wochen.,I have a break in taking the medication of less than 2 weeks.,1
+200646,294170,Ich fühle mich aktiver/fitter,I feel more active/fitter,3
+200646,294171,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,2
+200646,294172,Ich fühle mich selbstbewusster,I feel more confident,4
+200646,294173,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,2
+200646,294174,Ich spüre keine Veränderung,I don't feel any change,1
+200650,294176,Diät - (eigene Diät oder ein Programm),Diet - (your own diet or a programme),3
+200650,294177,Sport,Exercise,4
+200650,294183,Andere,Other,1
+200657,294189,keine Nebenwirkungen,No side effects,5
+200659,294195,Gelegentliche Übelkeit oder Erbrechen (z. B. nur kurzzeitig nach Injektion),Occasional nausea or vomiting (e.g. only for a short time after injection),1
+200659,294203,Keine Nebenwirkungen,No side effects,4
+200660,294204,Ich vestehe und bestätige.,I understand and confirm.,1
+200662,294208,Ich verstehe und bestätige,I understand and confirm,5
+200732,294215,Ich verstehe und bestätige,I understand and confirm,1
+200733,294217,Nein,"No""",5
+200735,294219,Nein,"No""",5
+203292,297820,Keine der genannten Nebenwirkungen,None of the listed side effects,1
+203293,297821,Ja,Yes,1
+203295,297826,Seit der Kindheit oder Jugend,Since childhood or adolescence,1
+203296,297828,Nein,No,1
+203298,297830,Sport,Exercise,1
+203308,297838,Ich verstehe und bestätige.,I understand and confirm.,1
+203327,297840,Normal - Zwischen 90/60 - 140/90,Normal - Between 90/60 - 140/90,1
+203340,297845,Keines davon,None of these,1
+203342,297852,Keine der genannten,None of the above,1
+203344,297860,Keine der genannten,None of the above,1
+203346,297865,Keine der genannten,None of the above,1
+206389,301610,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,3
+206391,301612,"Ja,   ich habe damit mehr als 4% Körpergewicht in 3 Monaten verloren","Yes,             I lost more than 4% body weight in 3 months with it",1
+206391,301613,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+206391,301614,Nein,No,1
+206392,301619,Nichts davon,None of the above,2
+206395,301621,Nein,No,3
+206403,301637,0.25 mg Semaglutid,0.25 mg Semaglutide,1
+206403,301638,0.5 mg Semaglutid,0.5 mg Semaglutide,1
+206403,301641,2.4 mg Semaglutid,2.4 mg Semaglutid,1
+206404,301642,Ja!,Yes!,3
+206413,301644,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,2
+206413,301646,Ich habe eine Einnahmepause von über 2 Wochen,I have a break in taking the medication of more than 2 Weeks.,1
+206414,301647,Ich fühle mich aktiver/fitter,I feel more active/fitter,1
+206414,301648,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,2
+206414,301649,Ich fühle mich selbstbewusster,I feel more confident,1
+206414,301650,"Ich fühle mich motivierter,   gesund zu leben",I feel more motivated to live healthy,1
+206414,301651,Ich spüre keine Veränderung,I don't feel any change,1
+206415,301652,Ich verstehe und bestätige,I understand and confirm,1
+206418,301654,Sport,Exercise,1
+206418,301656,Ernährungsberatung,Nutritional counselling,1
+206418,301658,App zur Gewichtsabnahme,App for weight loss,1
+206418,301659,Krankenhausaufenthalt oder Reha,Hospitalisation or rehab,1
+206418,301660,Andere,Other,1
+206425,301666,keine Nebenwirkungen,No side effects,3
+206427,301680,Keine Nebenwirkungen,No side effects,3
+206428,301681,Ich vestehe und bestätige.,I understand and confirm.,1
+206430,301685,Ich verstehe und bestätige,I understand and confirm,3
+206501,301694,Nein,"No""",3
+206503,301696,Nein,"No""",3
+208708,304761,Normal - Zwischen 90/60 - 140/90,Normal - Zwischen 90/60 - 140/90,1
+208710,304764,"Ja,   ich habe damit weniger als 4% Körpergewicht in 3 Monaten verloren","Yes,       I lost less than 4% body weight in 3 months with it",1
+208711,304770,Nichts davon,None of the above,1
+208714,304772,Nein,No,1
+208722,304790,1 mg Semaglutid,1 mg Semaglutide,1
+208723,304793,Ja!,Yes!,1
+208732,304795,Ich wende das Medikament lückenlos an.,I use the medication without any gaps.,1
+208733,304798,Ich fühle mich aktiver/fitter,I feel more active/fitter,1
+208733,304799,Ich fühle mich wohler in meinem Körper,I feel more comfortable in my body,1
+208737,304805,Sport,Exercise,1
+208744,304817,keine Nebenwirkungen,No side effects,1
+208746,304831,Keine Nebenwirkungen,No side effects,1
+208749,304836,Ich verstehe und bestätige,I understand and confirm,1
+208820,304845,Nein,"No""",1
+208822,304847,Nein,"No""",1

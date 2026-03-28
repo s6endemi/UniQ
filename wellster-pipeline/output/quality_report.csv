@@ -1,0 +1,50 @@
+check_type,severity,user_id,treatment_id,description,details
+bmi_spike,warning,381239,1215237,BMI changed by 7.4 points between measurements,From 42.2 to 49.6
+bmi_spike,warning,381444,1320824,BMI changed by 5.4 points between measurements,From 31.6 to 26.3
+bmi_spike,warning,382007,1347264,BMI changed by 5.4 points between measurements,From 36.4 to 31.1
+bmi_spike,warning,382158,1246824,BMI changed by 11.5 points between measurements,From 43.1 to 31.6
+bmi_spike,warning,383615,1104372,BMI changed by 5.8 points between measurements,From 40.0 to 34.2
+bmi_spike,warning,383827,1057808,BMI changed by 5.2 points between measurements,From 33.9 to 28.6
+bmi_spike,warning,383907,1335430,BMI changed by 11.4 points between measurements,From 42.2 to 30.8
+bmi_spike,warning,385364,1122325,BMI changed by 7.2 points between measurements,From 50.2 to 42.9
+bmi_spike,warning,386307,1278123,BMI changed by 13.8 points between measurements,From 52.8 to 39.0
+bmi_spike,warning,388626,1327253,BMI changed by 5.0 points between measurements,From 31.9 to 26.9
+bmi_spike,warning,388662,1074389,BMI changed by 6.2 points between measurements,From 34.6 to 28.4
+bmi_spike,warning,389561,1075023,BMI changed by 7.2 points between measurements,From 33.6 to 26.4
+bmi_spike,warning,391298,1237473,BMI changed by 9.4 points between measurements,From 41.5 to 32.1
+bmi_spike,warning,391343,1362540,BMI changed by 6.2 points between measurements,From 34.5 to 28.3
+bmi_spike,warning,392273,1231180,BMI changed by 5.2 points between measurements,From 33.5 to 28.3
+bmi_spike,warning,393043,1340660,BMI changed by 5.9 points between measurements,From 47.2 to 41.4
+bmi_spike,warning,393809,1166955,BMI changed by 5.2 points between measurements,From 35.0 to 29.8
+bmi_spike,warning,393862,1090945,BMI changed by 5.7 points between measurements,From 40.6 to 34.8
+bmi_spike,warning,394091,1091468,BMI changed by 5.8 points between measurements,From 37.6 to 31.8
+bmi_spike,warning,394306,1225394,BMI changed by 5.9 points between measurements,From 33.6 to 27.7
+bmi_spike,warning,394642,1300983,BMI changed by 5.2 points between measurements,From 32.7 to 27.5
+bmi_spike,warning,394833,1354210,BMI changed by 7.7 points between measurements,From 31.2 to 23.5
+bmi_spike,warning,396253,1167234,BMI changed by 7.6 points between measurements,From 34.5 to 26.9
+bmi_spike,warning,396382,1253494,BMI changed by 5.9 points between measurements,From 31.4 to 25.5
+bmi_spike,warning,397043,1346086,BMI changed by 6.4 points between measurements,From 30.1 to 23.7
+bmi_spike,warning,397952,1323369,BMI changed by 8.5 points between measurements,From 40.6 to 32.1
+undocumented_switch,info,381239,1032101,Medication switch: Mounjaro → Wegovy,Switch after 232.0 days
+undocumented_switch,info,382077,1034687,Medication switch: Wegovy → Saxenda (5 Pens) (+ Upsell),Switch after 339.0 days
+undocumented_switch,info,382098,1034728,Medication switch: Mounjaro → Saxenda (5 Pens) (+ Upsell),Switch after 317.0 days
+undocumented_switch,info,382703,1080433,Medication switch: Wegovy → Saxenda (5 Pens) (+ Upsell),Switch after 356.0 days
+undocumented_switch,info,383074,1037631,Medication switch: Wegovy → Saxenda (5 Pens) (+ Upsell),Switch after 333.0 days
+undocumented_switch,info,383402,1039667,Medication switch: Mounjaro → Wegovy,Switch after 25.0 days
+undocumented_switch,info,383907,1040123,Medication switch: Mounjaro → Wegovy,Switch after 397.0 days
+undocumented_switch,info,383945,1040249,Medication switch: Wegovy → Mounjaro,Switch after 364.0 days
+undocumented_switch,info,385207,1044708,Medication switch: Mounjaro → Wegovy,Switch after 410.0 days
+undocumented_switch,info,385604,1081570,Medication switch: Mounjaro → Saxenda (5 Pens) (+ Upsell),Switch after 378.0 days
+undocumented_switch,info,386307,1048445,Medication switch: Mounjaro → Wegovy,Switch after 305.0 days
+undocumented_switch,info,386346,1048599,Medication switch: Mounjaro → Wegovy,Switch after 44.0 days
+undocumented_switch,info,387106,1153823,Medication switch: Wegovy → Mounjaro,Switch after 258.0 days
+undocumented_switch,info,387983,1053937,Medication switch: Wegovy → Saxenda (5 Pens) (+ Upsell),Switch after 378.0 days
+undocumented_switch,info,389009,1057304,Medication switch: Mounjaro → Wegovy,Switch after 338.0 days
+undocumented_switch,info,390347,1211804,Medication switch: Mounjaro → Wegovy,Switch after 214.0 days
+undocumented_switch,info,391768,1066490,Medication switch: Mounjaro → Saxenda (5 Pens) (+ Upsell),Switch after 294.0 days
+undocumented_switch,info,393043,1070791,Medication switch: Mounjaro → Saxenda (5 Pens) (+ Upsell),Switch after 365.0 days
+undocumented_switch,info,393970,1074048,Medication switch: Mounjaro → Wegovy,Switch after 351.0 days
+undocumented_switch,info,394306,1075251,Medication switch: Mounjaro → Saxenda (5 Pens) (+ Upsell),Switch after 190.0 days
+undocumented_switch,info,398441,1116418,Medication switch: Mounjaro → Saxenda (5 Pens) (+ Upsell),Switch after 210.0 days
+undocumented_switch,info,398662,1210155,Medication switch: Wegovy → Saxenda (5 Pens) (+ Upsell),Switch after 222.0 days
+undocumented_switch,info,400773,1110611,Medication switch: Wegovy → Saxenda (5 Pens) (+ Upsell),Switch after 298.0 days

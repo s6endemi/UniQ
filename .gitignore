@@ -1,0 +1,8 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.claude/
+
+# Raw data files
+wellster-pipeline/data/raw/

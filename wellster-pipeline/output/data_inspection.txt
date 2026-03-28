@@ -1,0 +1,241 @@
+
+============================================================
+  DATA SHAPE
+============================================================
+Total rows:            23,076
+Total columns:         33
+Unique patients:       835
+Unique treatments:     1,288
+Unique surveys:        96
+Unique question IDs:   1,639
+Rows per patient:      27.6 avg
+
+============================================================
+  DATE RANGE
+============================================================
+created_at:
+  Min: 2025-01-01 09:59:03+00:00
+  Max: 2026-03-25 19:44:16+00:00
+  Non-null: 23,076
+first_order_at:
+  Min: 2025-01-01 20:15:28+00:00
+  Max: 2026-03-27 22:34:28+00:00
+  Non-null: 22,891
+updated_at:
+  Min: 2025-01-01 19:15:29+00:00
+  Max: 2026-03-27 21:34:30+00:00
+  Non-null: 23,076
+
+============================================================
+  CATEGORICAL DISTRIBUTIONS
+============================================================
+
+t_status (3 unique):
+  closed                                         19,228  (83.3%)
+  in_progress                                     3,663  (15.9%)
+  open                                              185  (0.8%)
+
+product (6 unique):
+  Mounjaro                                       11,641  (50.4%)
+  Wegovy                                         10,275  (44.5%)
+  Saxenda (5 Pens) (+ Upsell)                     1,013  (4.4%)
+  Saxenda (5 Pens)                                  116  (0.5%)
+  Saxenda (Liraglutid) - Starterkit 6 Wochen (5 Pens) (+ Upsell)      17  (0.1%)
+  Liraglutid Saxenda - Refill                        14  (0.1%)
+
+order_type (3 unique):
+  SP                                             19,228  (83.3%)
+  Sub Re-Order                                    2,792  (12.1%)
+  Sub Start                                       1,056  (4.6%)
+
+brand (1 unique):
+  GoLighter                                      23,076  (100.0%)
+
+response_type (1 unique):
+  mq                                             23,076  (100.0%)
+
+indication (1 unique):
+  Obesity                                        23,076  (100.0%)
+
+gender (2 unique):
+  female                                         17,233  (74.7%)
+  male                                            5,843  (25.3%)
+
+============================================================
+  NULL / MISSING VALUES
+============================================================
+  user_id                                   0 /  23,076  (  0.0%)
+  current_age                               0 /  23,076  (  0.0%)
+  treatment_id                              0 /  23,076  (  0.0%)
+  survey_id                                 0 /  23,076  (  0.0%)
+  follow_up_survey_id                  23,076 /  23,076  (100.0%) <<<
+  t_status                                  0 /  23,076  (  0.0%)
+  product                                   0 /  23,076  (  0.0%)
+  product_dosage                            0 /  23,076  (  0.0%)
+  product_qty                               0 /  23,076  (  0.0%)
+  single_product_name_agg                   0 /  23,076  (  0.0%)
+  indication                                0 /  23,076  (  0.0%)
+  internal_flag                             0 /  23,076  (  0.0%)
+  category                                  0 /  23,076  (  0.0%)
+  brand                                     0 /  23,076  (  0.0%)
+  order_type                                0 /  23,076  (  0.0%)
+  n_orders                                  0 /  23,076  (  0.0%)
+  created_at                                0 /  23,076  (  0.0%)
+  first_order_at                          185 /  23,076  (  0.8%)
+  updated_at                                0 /  23,076  (  0.0%)
+  shop_origin                               0 /  23,076  (  0.0%)
+  response_type                             0 /  23,076  (  0.0%)
+  question_id                               0 /  23,076  (  0.0%)
+  question_de                               0 /  23,076  (  0.0%)
+  question_en                               0 /  23,076  (  0.0%)
+  answer_id                             2,810 /  23,076  ( 12.2%)
+  answer_value                              0 /  23,076  (  0.0%)
+  answer_value_height                  21,788 /  23,076  ( 94.4%) <<<
+  answer_value_weight                  21,788 /  23,076  ( 94.4%) <<<
+  answer_de                                 0 /  23,076  (  0.0%)
+  answer_en                                17 /  23,076  (  0.1%)
+  surrogate_key                             0 /  23,076  (  0.0%)
+  gender                                    0 /  23,076  (  0.0%)
+  answer_value_array                        0 /  23,076  (  0.0%)
+
+============================================================
+  NUMERIC COLUMN STATS
+============================================================
+
+current_age:
+  Count:  23,076
+  Mean:   45.12
+  Median: 44.00
+  Min:    20.00
+  Max:    82.00
+  Std:    11.01
+
+n_orders:
+  Count:  23,076
+  Mean:   1.54
+  Median: 1.00
+  Min:    1.00
+  Max:    15.00
+  Std:    1.97
+
+product_qty:
+  Count:  23,076
+  Mean:   1.00
+  Median: 1.00
+  Min:    1.00
+  Max:    5.00
+  Std:    0.10
+
+answer_value_height:
+  Count:  1,288
+  Mean:   169.45
+  Median: 168.00
+  Min:    147.00
+  Max:    201.00
+  Std:    8.54
+
+answer_value_weight:
+  Count:  1,288
+  Mean:   92.45
+  Median: 90.00
+  Min:    56.00
+  Max:    185.00
+  Std:    16.98
+
+============================================================
+  SEMANTIC DUPLICATE QUESTIONS (same text, different IDs)
+============================================================
+Questions with multiple IDs: 122 (out of 177 unique texts)
+
+  [67 IDs] Do you suffer from any of the following conditions?...
+    IDs: [np.int64(37206), np.int64(37208), np.int64(46949), np.int64(46951), np.int64(72827), np.int64(72832), np.int64(80339), np.int64(80341)]...
+
+  [61 IDs] What are your current blood pressure readings?...
+    IDs: [np.int64(37154), np.int64(41188), np.int64(46897), np.int64(58858), np.int64(59593), np.int64(70193), np.int64(70294), np.int64(72113)]...
+
+  [60 IDs] Are you suffering from other pre-existing conditions or taking prescription medication?...
+    IDs: [np.int64(37158), np.int64(46901), np.int64(54373), np.int64(70231), np.int64(70332), np.int64(72151), np.int64(72772), np.int64(74967)]...
+
+  [49 IDs] Do the following statements apply to you?...
+    IDs: [np.int64(41233), np.int64(55672), np.int64(58929), np.int64(59664), np.int64(62366), np.int64(70220), np.int64(70321), np.int64(72140)]...
+
+  [47 IDs] Are you currently taking any of the following medications?...
+    IDs: [np.int64(37204), np.int64(46947), np.int64(54365), np.int64(72823), np.int64(74959), np.int64(80337), np.int64(81402), np.int64(81677)]...
+
+  [41 IDs] Have you taken other weight loss measures in the past?...
+    IDs: [np.int64(37161), np.int64(46904), np.int64(80295), np.int64(81360), np.int64(81635), np.int64(81722), np.int64(82425), np.int64(90288)]...
+
+  [39 IDs] How often do you do sports?...
+    IDs: [np.int64(37153), np.int64(46896), np.int64(72767), np.int64(80287), np.int64(81352), np.int64(81627), np.int64(81714), np.int64(82417)]...
+
+  [37 IDs] Have you been diagnosed with a new disease or medical condition since your last prescripti...
+    IDs: [np.int64(41193), np.int64(58916), np.int64(59651), np.int64(70199), np.int64(70300), np.int64(72119), np.int64(84077), np.int64(84178)]...
+
+  [37 IDs] Do you take the medication without gaps?...
+    IDs: [np.int64(41281), np.int64(58924), np.int64(59659), np.int64(70219), np.int64(70320), np.int64(72139), np.int64(84097), np.int64(84198)]...
+
+  [37 IDs] We need your height and weight to calculate your current BMI value....
+    IDs: [np.int64(41224), np.int64(58928), np.int64(59663), np.int64(70239), np.int64(70340), np.int64(72159), np.int64(84117), np.int64(84218)]...
+
+============================================================
+  ANSWER VALUE FORMAT ANALYSIS
+============================================================
+BMI rows (height+weight populated): 1288
+File upload / deferred rows:        241
+Non-empty answer_value_array:       0
+
+============================================================
+  PATIENT DISTRIBUTION
+============================================================
+Patients with 1 treatment:   574
+Patients with 2 treatments:  174
+Patients with 3+ treatments: 87
+
+Rows per patient — mean: 27.6, median: 20, min: 12, max: 231
+
+============================================================
+  SAMPLE ROWS (first 5)
+============================================================
+ user_id  treatment_id  question_id                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         question_en                                                                       answer_value                     product                created_at
+  398677       1199320       106769                                                                                                                                                                                                                                                                                                                                                                                                                                                                               Have you taken other measures to lose weight in parallel with the Saxenda medication? ["Diät (eigene Diät oder ein Programm)","Sport","Ernährungsberatung","Abnehm-App"] Saxenda (5 Pens) (+ Upsell) 2025-07-31 16:26:55+00:00
+  396372       1082403       108901                                                                                                                                                                                                                                                                                                                                                           So that our Doctors can evaluate whether you are suitable for Saxenda, we need your height and weight to calculate your current BMI value. * The Saxenda treatment is suitable from a BMI of at least 27.                                {"bmi":31.244992789617044,"height":158,"weight":78} Saxenda (5 Pens) (+ Upsell) 2025-03-07 21:10:16+00:00
+  396372       1082403       108965 We need the following documents so that our Medical Team can check your treatment enquiry and give you the best possible advice: A full body photo A  photo of the page of your identity card or passport that shows your date of birth and your photo. You can upload the photos now or later. We will remind you by e-mail. Your data will be treated in strict confidence and stored in accordance with the statutory provisions. They are only accessible to you and your treating Doctor. If you have any questions, please contact us at kontakt@golighter.de                                                                   Später hochladen Saxenda (5 Pens) (+ Upsell) 2025-03-07 21:10:16+00:00
+  396260       1082065        90369                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Your BMI makes you suitable for Mounjaro medication. How long have you had weight problems?                                                      Seit der Kindheit oder Jugend                    Mounjaro 2025-03-07 10:48:21+00:00
+  397043       1346086       159839                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               Have you noticed any of the following symptoms in the last few weeks?                                                           ["Keines der genannten"]                    Mounjaro 2026-02-27 10:18:11+00:00
+
+============================================================
+  ALL COLUMNS & DTYPES
+============================================================
+  user_id                             int64
+  current_age                         int64
+  treatment_id                        int64
+  survey_id                           int64
+  follow_up_survey_id                 float64
+  t_status                            object
+  product                             object
+  product_dosage                      object
+  product_qty                         int64
+  single_product_name_agg             object
+  indication                          object
+  internal_flag                       int64
+  category                            object
+  brand                               object
+  order_type                          object
+  n_orders                            int64
+  created_at                          datetime64[ns, UTC]
+  first_order_at                      datetime64[ns, UTC]
+  updated_at                          datetime64[ns, UTC]
+  shop_origin                         object
+  response_type                       object
+  question_id                         int64
+  question_de                         object
+  question_en                         object
+  answer_id                           float64
+  answer_value                        object
+  answer_value_height                 float64
+  answer_value_weight                 float64
+  answer_de                           object
+  answer_en                           object
+  surrogate_key                       object
+  gender                              object
+  answer_value_array                  object

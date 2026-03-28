@@ -1,0 +1,79 @@
+{
+  "categories": [
+    {
+      "category": "BMI_MEASUREMENT",
+      "definition": "Questions collecting height, weight, or BMI data for medical assessment"
+    },
+    {
+      "category": "MEDICAL_CONDITIONS",
+      "definition": "Questions about current medical conditions, diseases, or health problems"
+    },
+    {
+      "category": "MEDICATION_HISTORY",
+      "definition": "Questions about current prescription medications or medication history"
+    },
+    {
+      "category": "SIDE_EFFECT_REPORT",
+      "definition": "Questions about experienced side effects from medications, including past and current"
+    },
+    {
+      "category": "WEIGHT_LOSS_HISTORY",
+      "definition": "Questions about previous weight loss attempts, measures taken, or treatment outcomes"
+    },
+    {
+      "category": "LIFESTYLE_ASSESSMENT",
+      "definition": "Questions about exercise habits, diet, hunger patterns, and lifestyle factors"
+    },
+    {
+      "category": "BLOOD_PRESSURE_CHECK",
+      "definition": "Questions specifically about blood pressure readings or values"
+    },
+    {
+      "category": "WEIGHT_PROBLEM_DURATION",
+      "definition": "Questions about how long the patient has had weight problems"
+    },
+    {
+      "category": "TREATMENT_ADHERENCE",
+      "definition": "Questions about medication compliance, dosing, regularity of use, and adherence"
+    },
+    {
+      "category": "DOSE_MANAGEMENT",
+      "definition": "Questions about current medication dosage, dose changes, or dosage preferences"
+    },
+    {
+      "category": "BODY_PHOTO_UPLOAD",
+      "definition": "Questions requesting upload of full body photos for medical assessment"
+    },
+    {
+      "category": "ID_DOCUMENT_UPLOAD",
+      "definition": "Questions requesting upload of identity documents or passport photos"
+    },
+    {
+      "category": "TREATMENT_CONFIRMATION",
+      "definition": "Questions requiring patient confirmation of understanding treatment information, risks, and responsibilities"
+    },
+    {
+      "category": "TREATMENT_EFFECTIVENESS",
+      "definition": "Questions about treatment outcomes, weight loss achieved, or treatment satisfaction"
+    },
+    {
+      "category": "ADDITIONAL_WEIGHT_MEASURES",
+      "definition": "Questions about concurrent weight loss measures taken alongside medication treatment"
+    },
+    {
+      "category": "HEALTH_STATUS_UPDATE",
+      "definition": "Questions about new health problems, diagnoses, or changes since last prescription"
+    },
+    {
+      "category": "DOSE_INSTRUCTION",
+      "definition": "Informational questions providing guidance on missed doses, interruptions, or dosing instructions"
+    },
+    {
+      "category": "SIDE_EFFECT_GUIDANCE",
+      "definition": "Informational questions providing guidance on managing side effects"
+    }
+  ],
+  "mode": "discovery",
+  "total_questions": 1639,
+  "total_categories": 18
+}
