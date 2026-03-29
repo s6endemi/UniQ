@@ -2,206 +2,221 @@
 ============================================================
   DATA SHAPE
 ============================================================
-Total rows:            23,076
+Total rows:            133,996
 Total columns:         33
-Unique patients:       835
-Unique treatments:     1,288
-Unique surveys:        96
-Unique question IDs:   1,639
-Rows per patient:      27.6 avg
+Unique patients:       5,374
+Unique treatments:     8,835
+Unique surveys:        303
+Unique question IDs:   4,553
+Rows per patient:      24.9 avg
 
 ============================================================
   DATE RANGE
 ============================================================
 created_at:
-  Min: 2025-01-01 09:59:03+00:00
-  Max: 2026-03-25 19:44:16+00:00
-  Non-null: 23,076
+  Min: 2025-01-01 01:13:52+00:00
+  Max: 2026-03-25 23:47:20+00:00
+  Non-null: 133,996
 first_order_at:
-  Min: 2025-01-01 20:15:28+00:00
-  Max: 2026-03-27 22:34:28+00:00
-  Non-null: 22,891
+  Min: 2025-01-01 07:31:46+00:00
+  Max: 2026-03-28 22:25:34+00:00
+  Non-null: 133,772
 updated_at:
-  Min: 2025-01-01 19:15:29+00:00
-  Max: 2026-03-27 21:34:30+00:00
-  Non-null: 23,076
+  Min: 2025-01-01 06:31:55+00:00
+  Max: 2026-03-28 23:00:05+00:00
+  Non-null: 133,996
 
 ============================================================
   CATEGORICAL DISTRIBUTIONS
 ============================================================
 
 t_status (3 unique):
-  closed                                         19,228  (83.3%)
-  in_progress                                     3,663  (15.9%)
-  open                                              185  (0.8%)
+  closed                                        126,178  (94.2%)
+  in_progress                                     7,594  (5.7%)
+  open                                              224  (0.2%)
 
-product (6 unique):
-  Mounjaro                                       11,641  (50.4%)
-  Wegovy                                         10,275  (44.5%)
-  Saxenda (5 Pens) (+ Upsell)                     1,013  (4.4%)
-  Saxenda (5 Pens)                                  116  (0.5%)
-  Saxenda (Liraglutid) - Starterkit 6 Wochen (5 Pens) (+ Upsell)      17  (0.1%)
-  Liraglutid Saxenda - Refill                        14  (0.1%)
+product (19 unique):
+  Sildenafil                                     68,430  (51.1%)
+  Tadalafil                                      33,971  (25.4%)
+  Mounjaro                                       11,641  (8.7%)
+  Wegovy                                         10,275  (7.7%)
+  Hezkue Sildenafil Mundspray                     4,298  (3.2%)
+  Viagra                                          2,353  (1.8%)
+  Saxenda (5 Pens) (+ Upsell)                     1,013  (0.8%)
+  Vardenafil                                        640  (0.5%)
+  Cialis                                            609  (0.5%)
+  Spedra                                            345  (0.3%)
+  Saxenda (5 Pens)                                  116  (0.1%)
+  Cialis (+ Upsell)                                  70  (0.1%)
+  Tadalafil (+ Upsell)                               66  (0.0%)
+  Esomeprazol                                        53  (0.0%)
+  Vardenafil (+ Upsell)                              35  (0.0%)
+  Sildenafil (+ Upsell)                              33  (0.0%)
+  Saxenda (Liraglutid) - Starterkit 6 Wochen (5 Pens) (+ Upsell)      17  (0.0%)
+  Levitra                                            17  (0.0%)
+  Liraglutid Saxenda - Refill                        14  (0.0%)
 
 order_type (3 unique):
-  SP                                             19,228  (83.3%)
-  Sub Re-Order                                    2,792  (12.1%)
-  Sub Start                                       1,056  (4.6%)
+  SP                                            126,217  (94.2%)
+  Sub Re-Order                                    5,853  (4.4%)
+  Sub Start                                       1,926  (1.4%)
 
-brand (1 unique):
-  GoLighter                                      23,076  (100.0%)
+brand (2 unique):
+  Spring                                        110,920  (82.8%)
+  GoLighter                                      23,076  (17.2%)
 
 response_type (1 unique):
-  mq                                             23,076  (100.0%)
+  mq                                            133,996  (100.0%)
 
-indication (1 unique):
-  Obesity                                        23,076  (100.0%)
+indication (2 unique):
+  Erektionsstörungen                            110,920  (82.8%)
+  Obesity                                        23,076  (17.2%)
 
 gender (2 unique):
-  female                                         17,233  (74.7%)
-  male                                            5,843  (25.3%)
+  male                                          116,595  (87.0%)
+  female                                         17,401  (13.0%)
 
 ============================================================
   NULL / MISSING VALUES
 ============================================================
-  user_id                                   0 /  23,076  (  0.0%)
-  current_age                               0 /  23,076  (  0.0%)
-  treatment_id                              0 /  23,076  (  0.0%)
-  survey_id                                 0 /  23,076  (  0.0%)
-  follow_up_survey_id                  23,076 /  23,076  (100.0%) <<<
-  t_status                                  0 /  23,076  (  0.0%)
-  product                                   0 /  23,076  (  0.0%)
-  product_dosage                            0 /  23,076  (  0.0%)
-  product_qty                               0 /  23,076  (  0.0%)
-  single_product_name_agg                   0 /  23,076  (  0.0%)
-  indication                                0 /  23,076  (  0.0%)
-  internal_flag                             0 /  23,076  (  0.0%)
-  category                                  0 /  23,076  (  0.0%)
-  brand                                     0 /  23,076  (  0.0%)
-  order_type                                0 /  23,076  (  0.0%)
-  n_orders                                  0 /  23,076  (  0.0%)
-  created_at                                0 /  23,076  (  0.0%)
-  first_order_at                          185 /  23,076  (  0.8%)
-  updated_at                                0 /  23,076  (  0.0%)
-  shop_origin                               0 /  23,076  (  0.0%)
-  response_type                             0 /  23,076  (  0.0%)
-  question_id                               0 /  23,076  (  0.0%)
-  question_de                               0 /  23,076  (  0.0%)
-  question_en                               0 /  23,076  (  0.0%)
-  answer_id                             2,810 /  23,076  ( 12.2%)
-  answer_value                              0 /  23,076  (  0.0%)
-  answer_value_height                  21,788 /  23,076  ( 94.4%) <<<
-  answer_value_weight                  21,788 /  23,076  ( 94.4%) <<<
-  answer_de                                 0 /  23,076  (  0.0%)
-  answer_en                                17 /  23,076  (  0.1%)
-  surrogate_key                             0 /  23,076  (  0.0%)
-  gender                                    0 /  23,076  (  0.0%)
-  answer_value_array                        0 /  23,076  (  0.0%)
+  user_id                                   0 / 133,996  (  0.0%)
+  current_age                               0 / 133,996  (  0.0%)
+  treatment_id                              0 / 133,996  (  0.0%)
+  survey_id                                 0 / 133,996  (  0.0%)
+  follow_up_survey_id                 133,996 / 133,996  (100.0%) <<<
+  t_status                                  0 / 133,996  (  0.0%)
+  product                                   0 / 133,996  (  0.0%)
+  product_dosage                            0 / 133,996  (  0.0%)
+  product_qty                               0 / 133,996  (  0.0%)
+  single_product_name_agg                   0 / 133,996  (  0.0%)
+  indication                                0 / 133,996  (  0.0%)
+  internal_flag                             0 / 133,996  (  0.0%)
+  category                                  0 / 133,996  (  0.0%)
+  brand                                     0 / 133,996  (  0.0%)
+  order_type                                0 / 133,996  (  0.0%)
+  n_orders                                  0 / 133,996  (  0.0%)
+  created_at                                0 / 133,996  (  0.0%)
+  first_order_at                          224 / 133,996  (  0.2%)
+  updated_at                                0 / 133,996  (  0.0%)
+  shop_origin                               0 / 133,996  (  0.0%)
+  response_type                             0 / 133,996  (  0.0%)
+  question_id                               0 / 133,996  (  0.0%)
+  question_de                               0 / 133,996  (  0.0%)
+  question_en                               0 / 133,996  (  0.0%)
+  answer_id                             7,227 / 133,996  (  5.4%)
+  answer_value                              0 / 133,996  (  0.0%)
+  answer_value_height                 128,291 / 133,996  ( 95.7%) <<<
+  answer_value_weight                 128,291 / 133,996  ( 95.7%) <<<
+  answer_de                                 0 / 133,996  (  0.0%)
+  answer_en                                48 / 133,996  (  0.0%)
+  surrogate_key                             0 / 133,996  (  0.0%)
+  gender                                    0 / 133,996  (  0.0%)
+  answer_value_array                        0 / 133,996  (  0.0%)
 
 ============================================================
   NUMERIC COLUMN STATS
 ============================================================
 
 current_age:
-  Count:  23,076
-  Mean:   45.12
-  Median: 44.00
-  Min:    20.00
-  Max:    82.00
-  Std:    11.01
+  Count:  133,996
+  Mean:   48.50
+  Median: 48.00
+  Min:    19.00
+  Max:    88.00
+  Std:    11.60
 
 n_orders:
-  Count:  23,076
-  Mean:   1.54
+  Count:  133,996
+  Mean:   1.22
   Median: 1.00
   Min:    1.00
   Max:    15.00
-  Std:    1.97
+  Std:    1.36
 
 product_qty:
-  Count:  23,076
-  Mean:   1.00
-  Median: 1.00
+  Count:  133,996
+  Mean:   21.41
+  Median: 24.00
   Min:    1.00
-  Max:    5.00
-  Std:    0.10
+  Max:    84.00
+  Std:    17.43
 
 answer_value_height:
-  Count:  1,288
-  Mean:   169.45
-  Median: 168.00
-  Min:    147.00
-  Max:    201.00
-  Std:    8.54
+  Count:  5,705
+  Mean:   178.80
+  Median: 180.00
+  Min:    100.00
+  Max:    210.00
+  Std:    9.25
 
 answer_value_weight:
-  Count:  1,288
-  Mean:   92.45
+  Count:  5,705
+  Mean:   91.62
   Median: 90.00
-  Min:    56.00
-  Max:    185.00
-  Std:    16.98
+  Min:    40.00
+  Max:    200.00
+  Std:    15.82
 
 ============================================================
   SEMANTIC DUPLICATE QUESTIONS (same text, different IDs)
 ============================================================
-Questions with multiple IDs: 122 (out of 177 unique texts)
+Questions with multiple IDs: 158 (out of 238 unique texts)
 
-  [67 IDs] Do you suffer from any of the following conditions?...
-    IDs: [np.int64(37206), np.int64(37208), np.int64(46949), np.int64(46951), np.int64(72827), np.int64(72832), np.int64(80339), np.int64(80341)]...
+  [264 IDs] What are your current blood pressure readings?...
+    IDs: [np.int64(8802), np.int64(13848), np.int64(15321), np.int64(17400), np.int64(23679), np.int64(23849), np.int64(35335), np.int64(37154)]...
 
-  [61 IDs] What are your current blood pressure readings?...
-    IDs: [np.int64(37154), np.int64(41188), np.int64(46897), np.int64(58858), np.int64(59593), np.int64(70193), np.int64(70294), np.int64(72113)]...
+  [210 IDs] Have you experienced the following side effects while taking the PDE-5 inhibitor ((Sildena...
+    IDs: [np.int64(4730), np.int64(20810), np.int64(20812), np.int64(46573), np.int64(48634), np.int64(48635), np.int64(49687), np.int64(49688)]...
 
-  [60 IDs] Are you suffering from other pre-existing conditions or taking prescription medication?...
-    IDs: [np.int64(37158), np.int64(46901), np.int64(54373), np.int64(70231), np.int64(70332), np.int64(72151), np.int64(72772), np.int64(74967)]...
+  [202 IDs] Are you currently taking any of the following medications? Please select the appropriate o...
+    IDs: [np.int64(4728), np.int64(8809), np.int64(13855), np.int64(15328), np.int64(17407), np.int64(20808), np.int64(23687), np.int64(23857)]...
 
-  [49 IDs] Do the following statements apply to you?...
-    IDs: [np.int64(41233), np.int64(55672), np.int64(58929), np.int64(59664), np.int64(62366), np.int64(70220), np.int64(70321), np.int64(72140)]...
+  [201 IDs] Please confirm that you have answered all questions truthfully. We are not liable for any ...
+    IDs: [np.int64(8812), np.int64(13858), np.int64(15331), np.int64(17410), np.int64(23702), np.int64(23872), np.int64(35345), np.int64(45871)]...
 
-  [47 IDs] Are you currently taking any of the following medications?...
-    IDs: [np.int64(37204), np.int64(46947), np.int64(54365), np.int64(72823), np.int64(74959), np.int64(80337), np.int64(81402), np.int64(81677)]...
+  [200 IDs] Do you have Diabetes?...
+    IDs: [np.int64(34170), np.int64(41994), np.int64(42036), np.int64(46361), np.int64(46568), np.int64(46739), np.int64(46747), np.int64(46752)]...
 
-  [41 IDs] Have you taken other weight loss measures in the past?...
-    IDs: [np.int64(37161), np.int64(46904), np.int64(80295), np.int64(81360), np.int64(81635), np.int64(81722), np.int64(82425), np.int64(90288)]...
+  [134 IDs] We need your height and weight to calculate your current BMI value....
+    IDs: [np.int64(8804), np.int64(13850), np.int64(15323), np.int64(17402), np.int64(23683), np.int64(23853), np.int64(35337), np.int64(41224)]...
 
-  [39 IDs] How often do you do sports?...
-    IDs: [np.int64(37153), np.int64(46896), np.int64(72767), np.int64(80287), np.int64(81352), np.int64(81627), np.int64(81714), np.int64(82417)]...
+  [105 IDs] How satisfied are you with your sex life since taking the PDE-5 inhibitor ((Sildenafil (Vi...
+    IDs: [np.int64(4724), np.int64(20805), np.int64(48629), np.int64(49682), np.int64(51002), np.int64(51020), np.int64(51038), np.int64(51126)]...
 
-  [37 IDs] Have you been diagnosed with a new disease or medical condition since your last prescripti...
-    IDs: [np.int64(41193), np.int64(58916), np.int64(59651), np.int64(70199), np.int64(70300), np.int64(72119), np.int64(84077), np.int64(84178)]...
+  [105 IDs] How often could you maintain an erection during sexual intercourse while taking the PDE-5 ...
+    IDs: [np.int64(19644), np.int64(20814), np.int64(48637), np.int64(49690), np.int64(51010), np.int64(51028), np.int64(51046), np.int64(51134)]...
 
-  [37 IDs] Do you take the medication without gaps?...
-    IDs: [np.int64(41281), np.int64(58924), np.int64(59659), np.int64(70219), np.int64(70320), np.int64(72139), np.int64(84097), np.int64(84198)]...
+  [105 IDs] Have you been newly diagnosed with any of the following conditions or medical events by a ...
+    IDs: [np.int64(4726), np.int64(20806), np.int64(48630), np.int64(49683), np.int64(51003), np.int64(51021), np.int64(51039), np.int64(51127)]...
 
-  [37 IDs] We need your height and weight to calculate your current BMI value....
-    IDs: [np.int64(41224), np.int64(58928), np.int64(59663), np.int64(70239), np.int64(70340), np.int64(72159), np.int64(84117), np.int64(84218)]...
+  [105 IDs] How often did you achieve an erection sufficient for penetration and sexual intercourse wh...
+    IDs: [np.int64(19643), np.int64(20813), np.int64(48636), np.int64(49689), np.int64(51009), np.int64(51027), np.int64(51045), np.int64(51133)]...
 
 ============================================================
   ANSWER VALUE FORMAT ANALYSIS
 ============================================================
-BMI rows (height+weight populated): 1288
+BMI rows (height+weight populated): 5705
 File upload / deferred rows:        241
 Non-empty answer_value_array:       0
 
 ============================================================
   PATIENT DISTRIBUTION
 ============================================================
-Patients with 1 treatment:   574
-Patients with 2 treatments:  174
-Patients with 3+ treatments: 87
+Patients with 1 treatment:   3482
+Patients with 2 treatments:  1105
+Patients with 3+ treatments: 787
 
-Rows per patient — mean: 27.6, median: 20, min: 12, max: 231
+Rows per patient — mean: 24.9, median: 18, min: 3, max: 231
 
 ============================================================
   SAMPLE ROWS (first 5)
 ============================================================
- user_id  treatment_id  question_id                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         question_en                                                                       answer_value                     product                created_at
-  398677       1199320       106769                                                                                                                                                                                                                                                                                                                                                                                                                                                                               Have you taken other measures to lose weight in parallel with the Saxenda medication? ["Diät (eigene Diät oder ein Programm)","Sport","Ernährungsberatung","Abnehm-App"] Saxenda (5 Pens) (+ Upsell) 2025-07-31 16:26:55+00:00
-  396372       1082403       108901                                                                                                                                                                                                                                                                                                                                                           So that our Doctors can evaluate whether you are suitable for Saxenda, we need your height and weight to calculate your current BMI value. * The Saxenda treatment is suitable from a BMI of at least 27.                                {"bmi":31.244992789617044,"height":158,"weight":78} Saxenda (5 Pens) (+ Upsell) 2025-03-07 21:10:16+00:00
-  396372       1082403       108965 We need the following documents so that our Medical Team can check your treatment enquiry and give you the best possible advice: A full body photo A  photo of the page of your identity card or passport that shows your date of birth and your photo. You can upload the photos now or later. We will remind you by e-mail. Your data will be treated in strict confidence and stored in accordance with the statutory provisions. They are only accessible to you and your treating Doctor. If you have any questions, please contact us at kontakt@golighter.de                                                                   Später hochladen Saxenda (5 Pens) (+ Upsell) 2025-03-07 21:10:16+00:00
-  396260       1082065        90369                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Your BMI makes you suitable for Mounjaro medication. How long have you had weight problems?                                                      Seit der Kindheit oder Jugend                    Mounjaro 2025-03-07 10:48:21+00:00
-  397043       1346086       159839                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               Have you noticed any of the following symptoms in the last few weeks?                                                           ["Keines der genannten"]                    Mounjaro 2026-02-27 10:18:11+00:00
+ user_id  treatment_id  question_id                                                                                                                                                                                                                                                                                                                                                                                                                           question_en                                        answer_value product                created_at
+  383615       1220063       132497                                                                                                                                                                                                                                                                                                                                                                                              Do you take the medication without gaps?              Ich wende das Medikament lückenlos an.  Wegovy 2025-08-28 20:34:27+00:00
+  387032       1069331        96978                                                                                                                                                                                                                                                                                                                                                Have the following side effects occurred since you started using the medicine? (2 / 2)                            ["Keine Nebenwirkungen"]  Wegovy 2025-02-18 10:10:48+00:00
+  387369       1069215        96976                                                                                                                                                                                                                                                                                                                                                Have the following side effects occurred since you started using the medicine? (1 / 2)                            ["Keine Nebenwirkungen"]  Wegovy 2025-02-18 07:48:09+00:00
+  392544       1069203        96248                                                                                                                                                                                                                                                                Please enter your height and weight so that we can calculate your BMI* and check your suitability for Wegovy®. The Wegovy treatment is suitable from a BMI of min. 27. {"bmi":39.54840454299622,"height":172,"weight":117}  Wegovy 2025-02-18 07:22:43+00:00
+  392544       1069203        96309 To check your enquiry, the Medical Team needs - 1 full body photo. - 1 photo of your identity card / passport (page with date of birth & photo). Upload the photos now or later - we will remind you by e-mail. Your data will be treated confidentially, stored in accordance with legal requirements and will only be accessible to you and the Doctor treating you. If you have any questions, please contact kontakt@golighter.de                                    Später hochladen  Wegovy 2025-02-18 07:22:43+00:00
 
 ============================================================
   ALL COLUMNS & DTYPES

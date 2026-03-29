@@ -22,7 +22,7 @@ DATA_RAW_DIR = PROJECT_ROOT / "data" / "raw"
 OUTPUT_DIR = PROJECT_ROOT / "output"
 
 # Raw data file — the Wellster CSV export (set to latest dataset)
-RAW_DATA_FILE = DATA_RAW_DIR / "bq-results-20260328-172622-1774718792351.csv"
+RAW_DATA_FILE = DATA_RAW_DIR / "treatment_answer.csv"
 
 # Output files
 MAPPING_TABLE = OUTPUT_DIR / "mapping_table.csv"

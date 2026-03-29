@@ -1,79 +1,35 @@
 {
   "categories": [
     {
-      "category": "BMI_MEASUREMENT",
-      "definition": "Questions collecting height, weight, or BMI data for medical assessment"
+      "category": "TREATMENT_HISTORY",
+      "definition": "Questions about previous treatment experience with the same or similar services/providers"
     },
     {
-      "category": "MEDICAL_CONDITIONS",
-      "definition": "Questions about current medical conditions, diseases, or health problems"
+      "category": "DIAGNOSTIC_HISTORY",
+      "definition": "Questions about previous diagnostic procedures and tests performed"
     },
     {
-      "category": "MEDICATION_HISTORY",
-      "definition": "Questions about current prescription medications or medication history"
+      "category": "MEDICATION_PREFERENCE",
+      "definition": "Questions about patient preferences for specific medications or treatment approaches"
     },
     {
-      "category": "SIDE_EFFECT_REPORT",
-      "definition": "Questions about experienced side effects from medications, including past and current"
+      "category": "MEDICAL_CONSULTATION_ADVICE",
+      "definition": "Advisory statements recommending consultation with healthcare providers"
     },
     {
-      "category": "WEIGHT_LOSS_HISTORY",
-      "definition": "Questions about previous weight loss attempts, measures taken, or treatment outcomes"
+      "category": "DEMOGRAPHIC_INFO",
+      "definition": "Basic demographic information such as gender, age, etc."
     },
     {
-      "category": "LIFESTYLE_ASSESSMENT",
-      "definition": "Questions about exercise habits, diet, hunger patterns, and lifestyle factors"
+      "category": "SYMPTOM_ASSESSMENT",
+      "definition": "Questions assessing specific symptoms or functional issues related to the condition"
     },
     {
-      "category": "BLOOD_PRESSURE_CHECK",
-      "definition": "Questions specifically about blood pressure readings or values"
-    },
-    {
-      "category": "WEIGHT_PROBLEM_DURATION",
-      "definition": "Questions about how long the patient has had weight problems"
-    },
-    {
-      "category": "TREATMENT_ADHERENCE",
-      "definition": "Questions about medication compliance, dosing, regularity of use, and adherence"
-    },
-    {
-      "category": "DOSE_MANAGEMENT",
-      "definition": "Questions about current medication dosage, dose changes, or dosage preferences"
-    },
-    {
-      "category": "BODY_PHOTO_UPLOAD",
-      "definition": "Questions requesting upload of full body photos for medical assessment"
-    },
-    {
-      "category": "ID_DOCUMENT_UPLOAD",
-      "definition": "Questions requesting upload of identity documents or passport photos"
-    },
-    {
-      "category": "TREATMENT_CONFIRMATION",
-      "definition": "Questions requiring patient confirmation of understanding treatment information, risks, and responsibilities"
-    },
-    {
-      "category": "TREATMENT_EFFECTIVENESS",
-      "definition": "Questions about treatment outcomes, weight loss achieved, or treatment satisfaction"
-    },
-    {
-      "category": "ADDITIONAL_WEIGHT_MEASURES",
-      "definition": "Questions about concurrent weight loss measures taken alongside medication treatment"
-    },
-    {
-      "category": "HEALTH_STATUS_UPDATE",
-      "definition": "Questions about new health problems, diagnoses, or changes since last prescription"
-    },
-    {
-      "category": "DOSE_INSTRUCTION",
-      "definition": "Informational questions providing guidance on missed doses, interruptions, or dosing instructions"
-    },
-    {
-      "category": "SIDE_EFFECT_GUIDANCE",
-      "definition": "Informational questions providing guidance on managing side effects"
+      "category": "SYMPTOM_DURATION",
+      "definition": "Questions about how long specific symptoms have been present"
     }
   ],
-  "mode": "discovery",
-  "total_questions": 1639,
-  "total_categories": 18
+  "mode": "incremental",
+  "total_questions": 4553,
+  "total_categories": 26
 }

@@ -6,3 +6,6 @@ __pycache__/
 
 # Raw data files
 wellster-pipeline/data/raw/
+
+# Large output files
+wellster-pipeline/output/survey_unified.csv
