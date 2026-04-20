@@ -36,6 +36,7 @@ from src.load import load_raw_data
 from src.normalize import normalize_answers
 from src.normalize_answers_ai import normalize_answers_ai
 from src.quality import run_quality
+from src.semantic_mapping_ai import generate_semantic_mapping
 from src.unify import run_unify
 
 
@@ -56,6 +57,7 @@ class PipelineArtifacts:
     quality_report: pd.DataFrame
     taxonomy: dict = field(default_factory=dict)
     answer_normalization: dict = field(default_factory=dict)
+    semantic_mapping: dict = field(default_factory=dict)
     output_dir: Path = field(default_factory=lambda: config.OUTPUT_DIR)
 
     def category_names(self) -> set[str]:
@@ -104,13 +106,16 @@ def run_pipeline(
     # we re-save so downstream file-based consumers see the canonical column.
     survey.to_csv(config.SURVEY_UNIFIED_TABLE, index=False, encoding="utf-8")
 
+    progress("Generating semantic mapping (AI, advisory)")
+    taxonomy_doc = _load_json_if_exists(config.OUTPUT_DIR / "taxonomy.json")
+    taxonomy_categories = taxonomy_doc.get("categories", []) if taxonomy_doc else []
+    semantic_mapping = generate_semantic_mapping(taxonomy_categories)
+
     progress("Building unified tables")
     patients, episodes, bmi_df, med_hist = run_unify(survey)
 
     progress("Running quality checks")
     quality = run_quality(patients, bmi_df, episodes, med_hist)
-
-    taxonomy = _load_json_if_exists(config.OUTPUT_DIR / "taxonomy.json")
 
     return PipelineArtifacts(
         raw=raw,
@@ -121,8 +126,9 @@ def run_pipeline(
         bmi_timeline=bmi_df,
         medication_history=med_hist,
         quality_report=quality,
-        taxonomy=taxonomy,
+        taxonomy=taxonomy_doc,
         answer_normalization=answer_norm,
+        semantic_mapping=semantic_mapping,
         output_dir=config.OUTPUT_DIR,
     )
 
@@ -143,20 +149,32 @@ ARTIFACT_FILENAMES = {
     "quality_report": "quality_report.csv",
     "taxonomy": "taxonomy.json",
     "answer_normalization": "answer_normalization.json",
+    "semantic_mapping": "semantic_mapping.json",
 }
 
 
-def load_artifacts_from_disk(output_dir: Path | None = None) -> PipelineArtifacts:
+def load_artifacts_from_disk(
+    output_dir: Path | None = None,
+    *,
+    include_raw: bool = True,
+) -> PipelineArtifacts:
     """Reconstruct a `PipelineArtifacts` bundle from a previous run.
 
     Used by the Streamlit demo's "View Existing Results" path and by tests
     that want to compare fresh runs against golden fixtures. When a caller
     passes a non-default `output_dir` (e.g., `tests/fixtures/golden/`), every
     artifact is read from that directory.
+
+    `include_raw=False` skips re-parsing the raw CSV (~80 MB) and leaves
+    `artifacts.raw` as an empty DataFrame. Callers that only need the
+    unified tables (Repository, QueryService) should pass False to avoid the
+    startup cost.
     """
     output_dir = output_dir or config.OUTPUT_DIR
-    # raw is not persisted by the pipeline, so re-load from source if asked.
-    raw = load_raw_data(config.RAW_DATA_FILE) if config.RAW_DATA_FILE.exists() else pd.DataFrame()
+    if include_raw and config.RAW_DATA_FILE.exists():
+        raw = load_raw_data(config.RAW_DATA_FILE)
+    else:
+        raw = pd.DataFrame()
     return PipelineArtifacts(
         raw=raw,
         mapping=pd.read_csv(output_dir / ARTIFACT_FILENAMES["mapping"]),
@@ -168,5 +186,6 @@ def load_artifacts_from_disk(output_dir: Path | None = None) -> PipelineArtifact
         quality_report=pd.read_csv(output_dir / ARTIFACT_FILENAMES["quality_report"]),
         taxonomy=_load_json_if_exists(output_dir / ARTIFACT_FILENAMES["taxonomy"]),
         answer_normalization=_load_json_if_exists(output_dir / ARTIFACT_FILENAMES["answer_normalization"]),
+        semantic_mapping=_load_json_if_exists(output_dir / ARTIFACT_FILENAMES["semantic_mapping"]),
         output_dir=output_dir,
     )

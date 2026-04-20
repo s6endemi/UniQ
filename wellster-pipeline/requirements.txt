@@ -3,3 +3,7 @@ anthropic
 streamlit
 plotly
 openpyxl
+duckdb
+pytz
+fastapi[standard]
+httpx

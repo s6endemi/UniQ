@@ -188,19 +188,21 @@ def export_fhir_bundle(
 
     # Conditions + AdverseEvents from survey canonical answers
     if survey is not None:
+        # Use the shared parser so we handle both cases: the column may be a
+        # JSON string (fresh off the CSV) or already a Python list (if the
+        # caller pre-parsed it via `UnifiedDataRepository`). Doing
+        # json.loads(str(list)) silently produces an empty list and drops
+        # the row, which is exactly the bug Codex caught for Phase 4.
+        from src.datastore import parse_canonical
+
         seen_conditions: set[str] = set()
         seen_adverse: set[str] = set()
 
         for _, row in survey.iterrows():
             uid = int(row["user_id"])
             cat = row.get("clinical_category", "")
-            canonical_raw = row.get("answer_canonical", "[]")
-
-            try:
-                canonicals = json.loads(str(canonical_raw))
-                if not isinstance(canonicals, list):
-                    continue
-            except (json.JSONDecodeError, TypeError):
+            canonicals = parse_canonical(row.get("answer_canonical"))
+            if not canonicals:
                 continue
 
             for c in canonicals:

@@ -99,11 +99,16 @@ class PatientRecord:
 # ---------------------------------------------------------------------------
 
 
-def _parse_canonical(value: Any) -> list[str]:
+def parse_canonical(value: Any) -> list[str]:
     """Decode a single `answer_canonical` entry to a list of canonical labels.
 
     Accepts None, NaN, JSON-encoded string, or already-parsed list. Returns
     an empty list on anything that does not parse as a list of strings.
+
+    Shared between the Repository (pre-parses the whole column at load) and
+    downstream consumers like `export_fhir.py` that may receive rows where
+    the column has already been parsed. Having one helper avoids
+    double-parse bugs (parsing a list as a JSON string fails silently).
     """
     if value is None:
         return []
@@ -118,6 +123,11 @@ def _parse_canonical(value: Any) -> list[str]:
     if isinstance(parsed, list):
         return [str(x) for x in parsed]
     return []
+
+
+# Backward-compatibility alias for any internal caller that still used the
+# underscore-prefixed name.
+_parse_canonical = parse_canonical
 
 
 _DATE_COLUMNS_PER_TABLE: dict[str, list[str]] = {
@@ -156,8 +166,13 @@ class UnifiedDataRepository:
 
     @classmethod
     def from_output_dir(cls, output_dir: Path | None = None) -> UnifiedDataRepository:
-        """Build a repository from a pipeline output directory."""
-        return cls(load_artifacts_from_disk(output_dir))
+        """Build a repository from a pipeline output directory.
+
+        Raw CSV is not loaded — the repository operates on the unified
+        artifacts only, so skipping the 80 MB raw re-parse saves noticeable
+        startup time.
+        """
+        return cls(load_artifacts_from_disk(output_dir, include_raw=False))
 
     # ---- Initialisation helpers -------------------------------------------
 
