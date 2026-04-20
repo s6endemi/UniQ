@@ -1,11 +1,38 @@
+# Environment
 .env
+.env.local
 .venv/
+venv/
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# IDE / OS
+.DS_Store
+.vscode/
+.idea/
+
+# Claude
 .claude/
 
-# Raw data files
+# Node
+node_modules/
+dist/
+.next/
+
+# Remotion
+uniq-video/out/
+
+# Wellster Pipeline — raw patient data (never commit)
 wellster-pipeline/data/raw/
 
-# Large output files
-wellster-pipeline/output/survey_unified.csv
+# Wellster Pipeline — generated outputs (regenerate with `python pipeline.py`)
+wellster-pipeline/output/*
+!wellster-pipeline/output/.gitkeep
+
+# OS
+Thumbs.db
