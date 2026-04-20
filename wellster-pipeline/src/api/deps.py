@@ -12,7 +12,9 @@ honestly.
 from __future__ import annotations
 
 import json
+import os
 import sys
+import tempfile
 from pathlib import Path
 from threading import Lock
 from typing import Any
@@ -72,19 +74,70 @@ class AppState:
         self.repo = None
         self.ready = False
 
-    # --- Mapping file helpers (atomic read/write under the lock) -----------
+    # --- Mapping file helpers ---------------------------------------------
+    #
+    # Writes go through `tempfile + os.replace` which is atomic on both
+    # POSIX and Windows (documented since Python 3.3). Readers therefore
+    # never see a half-written file — they observe either the previous
+    # version or the new version in its entirety. This makes the
+    # readers lock-free without risking partial-JSON 500s during PATCH.
+    #
+    # `read_mapping` additionally tolerates a malformed file (e.g. a
+    # manual edit went wrong) by returning {} and logging. Callers must
+    # treat an empty mapping as "degraded" rather than "no entries" when
+    # they care about the distinction — `/health` does, `get_mapping_state`
+    # enforces it.
 
     def read_mapping(self) -> dict[str, Any]:
         if not SEMANTIC_MAPPING_PATH.exists():
             return {}
-        return json.loads(SEMANTIC_MAPPING_PATH.read_text(encoding="utf-8"))
+        try:
+            return json.loads(SEMANTIC_MAPPING_PATH.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            print(
+                f"[API] semantic_mapping.json is malformed "
+                f"({type(exc).__name__}: {exc.msg} at line {exc.lineno}) — "
+                f"serving as degraded until fixed"
+            )
+            return {}
+        except OSError as exc:
+            print(f"[API] Could not read semantic_mapping.json: {exc}")
+            return {}
 
     def write_mapping(self, mapping: dict[str, Any]) -> None:
         SEMANTIC_MAPPING_PATH.parent.mkdir(parents=True, exist_ok=True)
-        SEMANTIC_MAPPING_PATH.write_text(
-            json.dumps(mapping, indent=2, ensure_ascii=False),
-            encoding="utf-8",
+        payload = json.dumps(mapping, indent=2, ensure_ascii=False)
+
+        # Write to a sibling temp file first so a concurrent reader that
+        # beats us to os.replace still sees the previous valid content.
+        # NamedTemporaryFile gives us a unique name; we manage cleanup on
+        # failure because delete=False is needed for the rename dance.
+        fd, tmp_path_str = tempfile.mkstemp(
+            prefix=".semantic_mapping.", suffix=".json.tmp",
+            dir=str(SEMANTIC_MAPPING_PATH.parent),
         )
+        tmp_path = Path(tmp_path_str)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as fh:
+                fh.write(payload)
+            os.replace(tmp_path, SEMANTIC_MAPPING_PATH)
+        except Exception:
+            # Don't leak the tmp file if something failed before replace.
+            try:
+                tmp_path.unlink()
+            except OSError:
+                pass
+            raise
+
+    def mapping_file_is_healthy(self) -> bool:
+        """True if semantic_mapping.json exists and parses as JSON."""
+        if not SEMANTIC_MAPPING_PATH.exists():
+            return False
+        try:
+            json.loads(SEMANTIC_MAPPING_PATH.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            return False
+        return True
 
     def mapping_lock(self) -> Lock:
         return self._mapping_lock
@@ -122,12 +175,14 @@ def get_query() -> DuckDBQueryService:
 
 
 def get_mapping_state() -> AppState:
-    """Require both the unified artifacts AND semantic_mapping.json.
+    """Require artifacts loaded AND semantic_mapping.json present and parseable.
 
-    Mapping endpoints depend on the AI-generated mapping existing — not just
-    the pipeline CSVs. If someone ran the pipeline before the semantic
-    mapping stage existed, this route family must degrade to 503 rather
-    than silently returning an empty list.
+    Three ways to degrade:
+        1. Pipeline never ran → 503 with "run pipeline.py" message.
+        2. semantic_mapping.json missing → 503 with "re-run pipeline" message.
+        3. semantic_mapping.json malformed (JSON parse error) → 503 with
+           "file corrupt" message, not a 500 surface. The Phase-5 review UI
+           can have bugs that write broken JSON; we want to survive.
     """
     from fastapi import HTTPException
     if state.repo is None:
@@ -141,6 +196,14 @@ def get_mapping_state() -> AppState:
             detail=(
                 "semantic_mapping.json missing — re-run pipeline.py so the "
                 "AI mapping stage generates it."
+            ),
+        )
+    if not state.mapping_file_is_healthy():
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "semantic_mapping.json exists but is malformed. "
+                "Restore from backup or re-run the pipeline."
             ),
         )
     return state

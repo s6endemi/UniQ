@@ -68,24 +68,43 @@ class PatientRecord:
 
     @classmethod
     def from_row(cls, row: pd.Series) -> PatientRecord:
-        def _opt(v: Any) -> Any:
+        def _is_missing(v: Any) -> bool:
+            """Safe missing-ness check that covers None, NaN, NaT, pd.NA.
+
+            `pd.isna` raises on list/dict, and `bool(pd.NA)` raises on
+            "ambiguous truth value" — so naive `value or default` patterns
+            blow up on Int64/Boolean arrays. We wrap both.
+            """
             if v is None:
-                return None
-            if isinstance(v, float) and pd.isna(v):
-                return None
-            if isinstance(v, pd.Timestamp) and pd.isna(v):
-                return None
-            return v
+                return True
+            try:
+                return bool(pd.isna(v))
+            except (TypeError, ValueError):
+                return False
+
+        def _opt(v: Any) -> Any:
+            return None if _is_missing(v) else v
+
+        def _opt_str(v: Any, default: str = "") -> str:
+            return default if _is_missing(v) else str(v)
+
+        def _opt_int(v: Any, default: int | None = 0) -> int | None:
+            if _is_missing(v):
+                return default
+            try:
+                return int(v)
+            except (TypeError, ValueError):
+                return default
 
         return cls(
             user_id=int(row["user_id"]),
-            gender=str(row.get("gender") or ""),
-            current_age=int(row["current_age"]) if pd.notna(row.get("current_age")) else 0,
-            total_treatments=int(row.get("total_treatments") or 0),
-            active_treatments=int(row.get("active_treatments") or 0),
+            gender=_opt_str(row.get("gender")),
+            current_age=_opt_int(row.get("current_age"), default=0) or 0,
+            total_treatments=_opt_int(row.get("total_treatments"), default=0) or 0,
+            active_treatments=_opt_int(row.get("active_treatments"), default=0) or 0,
             current_medication=_opt(row.get("current_medication")),
             current_dosage=_opt(row.get("current_dosage")),
-            tenure_days=int(row["tenure_days"]) if pd.notna(row.get("tenure_days")) else None,
+            tenure_days=_opt_int(row.get("tenure_days"), default=None),
             latest_bmi=_opt(row.get("latest_bmi")),
             earliest_bmi=_opt(row.get("earliest_bmi")),
             bmi_change=_opt(row.get("bmi_change")),

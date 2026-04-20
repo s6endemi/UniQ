@@ -12,8 +12,14 @@ Phase 3B scope:
     - Parameterized queries to avoid naive string interpolation.
 
 Guardrails (demo-grade, not prod):
-    - First-word allow-list: query must start with SELECT / WITH / PRAGMA /
-      SHOW / DESCRIBE. Anything else rejected before DuckDB even sees it.
+    - First-word allow-list: query must start with SELECT / WITH / SHOW /
+      DESCRIBE. Anything else rejected before DuckDB even sees it.
+    - Token denylist after string-literal stripping: file/network readers
+      (read_csv, read_parquet, glob, ...), DDL/DML verbs (insert, update,
+      delete, drop, alter, create, ...), database-level ops (attach,
+      install, load, copy, export, ...), and connection-state mutators
+      (set, reset, pragma) all trigger a guardrail violation even inside
+      subqueries.
     - Semicolons forbidden — no stacked statements, no "SELECT 1; DROP ..."
       trickery.
     - Row cap via LIMIT wrap (primary runaway-query safeguard).

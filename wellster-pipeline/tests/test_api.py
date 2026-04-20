@@ -383,6 +383,157 @@ def main() -> int:
     finally:
         renamed.rename(SEMANTIC_MAPPING_PATH)
 
+    # 16. Malformed semantic_mapping.json must explicitly degrade (not 200 ok).
+    # /health must report status="degraded" AND mapping_entries=0; the
+    # status assertion was missing before — Codex caught the gap.
+    SEMANTIC_MAPPING_PATH.write_text("{ this is not json", encoding="utf-8")
+    try:
+        with TestClient(app) as client:
+            r_health = client.get("/health")
+            r_mapping = client.get("/mapping")
+        if r_health.status_code != 200:
+            _fail("/health responds when mapping file malformed",
+                  f"returned {r_health.status_code}")
+        else:
+            h = r_health.json()
+            if h["status"] == "degraded" and h["mapping_entries"] == 0:
+                _ok("/health explicitly reports degraded on malformed mapping",
+                    f"status={h['status']}, mapping={h['mapping_entries']}")
+            else:
+                _fail("/health explicitly reports degraded on malformed mapping",
+                      f"got status={h['status']}, mapping={h['mapping_entries']}")
+        if r_mapping.status_code == 503:
+            _ok("/mapping returns 503 on malformed mapping file")
+        else:
+            _fail("/mapping returns 503 on malformed mapping file",
+                  f"got {r_mapping.status_code}")
+    finally:
+        # Restore from the backup snapshot we took at top of main()
+        SEMANTIC_MAPPING_PATH.write_text(mapping_backup, encoding="utf-8")
+
+    # 17. Atomic-write behaviour: after a write_mapping call, no sibling
+    # .tmp leftover should remain. Proves the rename step happened.
+    tmp_leftovers = list(SEMANTIC_MAPPING_PATH.parent.glob(".semantic_mapping.*.tmp"))
+    if not tmp_leftovers:
+        _ok("write_mapping leaves no .tmp leftover",
+            "temp-file + os.replace pattern intact")
+    else:
+        _fail("write_mapping leaves no .tmp leftover",
+              f"found: {[p.name for p in tmp_leftovers]}")
+
+    # 18. Concurrent writers+readers: every raw read must resolve to EITHER
+    # the previous complete document OR the new complete document — never
+    # anything else. We bypass `read_mapping()` here on purpose because it
+    # silently returns {} on JSONDecodeError, which would hide a partial
+    # read from the previous version of this test. Instead we read the
+    # file directly with json.loads and tag each written version with a
+    # unique marker; every observed read must carry one of the known
+    # markers.
+    import threading
+
+    versions = [
+        {"__stress_marker__": "VERSION_A", "payload": "A" * 100},
+        {"__stress_marker__": "VERSION_B", "payload": "B" * 100},
+    ]
+    known_markers = {v["__stress_marker__"] for v in versions}
+
+    # Seed with VERSION_A so readers have a valid baseline.
+    state.write_mapping(versions[0])
+
+    partial_or_unknown: list[str] = []
+    total_reads = 0
+    stop_flag = {"stop": False}
+
+    def writer_worker() -> None:
+        for i in range(100):
+            if stop_flag["stop"]:
+                break
+            with state.mapping_lock():
+                state.write_mapping(versions[i % 2])
+
+    def strict_reader_worker() -> None:
+        nonlocal total_reads
+        for _ in range(500):
+            if stop_flag["stop"]:
+                break
+            total_reads += 1
+            try:
+                raw = SEMANTIC_MAPPING_PATH.read_text(encoding="utf-8")
+            except FileNotFoundError:
+                # Legal transient state only if os.replace atomicity is
+                # violated. Should not happen on POSIX/Windows.
+                partial_or_unknown.append("file missing during read")
+                continue
+            try:
+                parsed = json.loads(raw)
+            except json.JSONDecodeError as e:
+                partial_or_unknown.append(
+                    f"partial JSON seen: len={len(raw)}, err={e.msg}"
+                )
+                continue
+            marker = parsed.get("__stress_marker__")
+            if marker not in known_markers:
+                partial_or_unknown.append(
+                    f"unknown marker {marker!r} (parse ok, content wrong)"
+                )
+
+    t_w = threading.Thread(target=writer_worker)
+    t_r1 = threading.Thread(target=strict_reader_worker)
+    t_r2 = threading.Thread(target=strict_reader_worker)
+    t_w.start(); t_r1.start(); t_r2.start()
+    t_w.join(); t_r1.join(); t_r2.join()
+    stop_flag["stop"] = True
+
+    if not partial_or_unknown:
+        _ok(
+            "concurrent readers only see complete versions (strict)",
+            f"100 writes × {total_reads} reads; every read matched a known marker",
+        )
+    else:
+        _fail(
+            "concurrent readers only see complete versions (strict)",
+            f"{len(partial_or_unknown)} anomalies; first: {partial_or_unknown[0]}",
+        )
+
+    # Restore backup one more time after the stress loop
+    SEMANTIC_MAPPING_PATH.write_text(mapping_backup, encoding="utf-8")
+
+    # 19. PatientRecord survives pd.NA demographic fields (Codex low finding)
+    import pandas as pd
+    from src.datastore import PatientRecord
+
+    na_row = pd.Series({
+        "user_id": 999999,
+        "gender": pd.NA,
+        "current_age": pd.NA,
+        "total_treatments": pd.NA,
+        "active_treatments": pd.NA,
+        "current_medication": pd.NA,
+        "current_dosage": pd.NA,
+        "tenure_days": pd.NA,
+        "latest_bmi": pd.NA,
+        "earliest_bmi": pd.NA,
+        "bmi_change": pd.NA,
+        "first_order_date": pd.NaT,
+        "latest_activity_date": pd.NaT,
+    })
+    try:
+        rec = PatientRecord.from_row(na_row)
+        if (rec.user_id == 999999
+                and rec.gender == ""
+                and rec.current_age == 0
+                and rec.tenure_days is None
+                and rec.latest_bmi is None):
+            _ok("PatientRecord.from_row tolerates pd.NA",
+                "all missing fields cleanly coerced")
+        else:
+            _fail("PatientRecord.from_row tolerates pd.NA",
+                  f"got gender={rec.gender!r}, age={rec.current_age}, "
+                  f"tenure={rec.tenure_days}, bmi={rec.latest_bmi}")
+    except Exception as e:
+        _fail("PatientRecord.from_row tolerates pd.NA",
+              f"raised {type(e).__name__}: {e}")
+
     return _report_and_exit()
 
 
