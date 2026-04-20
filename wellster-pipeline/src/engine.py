@@ -1,0 +1,172 @@
+"""UniQ Engine — single entry point for the pipeline.
+
+One function, `run_pipeline()`, executes the full flow:
+    load -> classify -> normalize -> answer_normalize -> unify -> quality
+
+It returns a typed `PipelineArtifacts` bundle with every produced table and
+metadata artifact. Both the CLI (`pipeline.py`) and the Streamlit demo
+(`src/demo.py`) call this function — there is no second orchestrator.
+
+Incremental-mode guarantee (preserved from the original pipeline):
+    If `taxonomy.json` and `mapping_table.csv` already exist in
+    `config.OUTPUT_DIR`, the validated taxonomy is NOT overwritten. Only
+    previously-unseen question texts go to the classifier.
+
+Path handling (Phase 1 scope):
+    `raw_path` is pluggable (needed for the Streamlit upload flow).
+    `output_dir` still honours `config.OUTPUT_DIR`; downstream modules
+    reference derived path constants bound at import time. Making output_dir
+    fully pluggable is part of Phase 3 (Repository).
+"""
+
+from __future__ import annotations
+
+import json
+import sys
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Callable
+
+import pandas as pd
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+import config
+from src.classify_ai import run_classification
+from src.load import load_raw_data
+from src.normalize import normalize_answers
+from src.normalize_answers_ai import normalize_answers_ai
+from src.quality import run_quality
+from src.unify import run_unify
+
+
+ProgressCallback = Callable[[str], None]
+
+
+@dataclass
+class PipelineArtifacts:
+    """Every dataframe and artifact produced by a single pipeline run."""
+
+    raw: pd.DataFrame
+    mapping: pd.DataFrame
+    survey: pd.DataFrame
+    patients: pd.DataFrame
+    episodes: pd.DataFrame
+    bmi_timeline: pd.DataFrame
+    medication_history: pd.DataFrame
+    quality_report: pd.DataFrame
+    taxonomy: dict = field(default_factory=dict)
+    answer_normalization: dict = field(default_factory=dict)
+    output_dir: Path = field(default_factory=lambda: config.OUTPUT_DIR)
+
+    def category_names(self) -> set[str]:
+        """Convenience: unique clinical_category values in the mapping."""
+        return set(self.mapping["clinical_category"].dropna().unique())
+
+
+def _noop(_: str) -> None:
+    pass
+
+
+def run_pipeline(
+    raw_path: Path | None = None,
+    *,
+    on_progress: ProgressCallback | None = None,
+) -> PipelineArtifacts:
+    """Run the full UniQ pipeline end-to-end.
+
+    Args:
+        raw_path: Path to raw CSV/TSV. Defaults to `config.RAW_DATA_FILE`.
+        on_progress: Optional callback invoked with a short status string
+            before each step. Used by the Streamlit demo for live progress.
+
+    Returns:
+        `PipelineArtifacts` bundling all produced tables plus `taxonomy.json`
+        and `answer_normalization.json` as parsed dicts.
+    """
+    progress = on_progress or _noop
+    raw_path = raw_path or config.RAW_DATA_FILE
+    config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    progress("Loading data")
+    raw = load_raw_data(raw_path)
+    if raw is None:
+        raise FileNotFoundError(f"Raw data file not found: {raw_path}")
+
+    progress("Classifying questions (AI)")
+    mapping = run_classification(raw)
+
+    progress("Normalizing answer formats")
+    survey = normalize_answers(raw, mapping)
+
+    progress("Normalizing answer values (AI)")
+    survey, answer_norm = normalize_answers_ai(survey)
+    # The AI normalizer mutates `survey` in place but does not persist it;
+    # we re-save so downstream file-based consumers see the canonical column.
+    survey.to_csv(config.SURVEY_UNIFIED_TABLE, index=False, encoding="utf-8")
+
+    progress("Building unified tables")
+    patients, episodes, bmi_df, med_hist = run_unify(survey)
+
+    progress("Running quality checks")
+    quality = run_quality(patients, bmi_df, episodes, med_hist)
+
+    taxonomy = _load_json_if_exists(config.OUTPUT_DIR / "taxonomy.json")
+
+    return PipelineArtifacts(
+        raw=raw,
+        mapping=mapping,
+        survey=survey,
+        patients=patients,
+        episodes=episodes,
+        bmi_timeline=bmi_df,
+        medication_history=med_hist,
+        quality_report=quality,
+        taxonomy=taxonomy,
+        answer_normalization=answer_norm,
+        output_dir=config.OUTPUT_DIR,
+    )
+
+
+def _load_json_if_exists(path: Path) -> dict:
+    if path.exists():
+        return json.loads(path.read_text(encoding="utf-8"))
+    return {}
+
+
+ARTIFACT_FILENAMES = {
+    "mapping": "mapping_table.csv",
+    "survey": "survey_unified.csv",
+    "patients": "patients.csv",
+    "episodes": "treatment_episodes.csv",
+    "bmi_timeline": "bmi_timeline.csv",
+    "medication_history": "medication_history.csv",
+    "quality_report": "quality_report.csv",
+    "taxonomy": "taxonomy.json",
+    "answer_normalization": "answer_normalization.json",
+}
+
+
+def load_artifacts_from_disk(output_dir: Path | None = None) -> PipelineArtifacts:
+    """Reconstruct a `PipelineArtifacts` bundle from a previous run.
+
+    Used by the Streamlit demo's "View Existing Results" path and by tests
+    that want to compare fresh runs against golden fixtures. When a caller
+    passes a non-default `output_dir` (e.g., `tests/fixtures/golden/`), every
+    artifact is read from that directory.
+    """
+    output_dir = output_dir or config.OUTPUT_DIR
+    # raw is not persisted by the pipeline, so re-load from source if asked.
+    raw = load_raw_data(config.RAW_DATA_FILE) if config.RAW_DATA_FILE.exists() else pd.DataFrame()
+    return PipelineArtifacts(
+        raw=raw,
+        mapping=pd.read_csv(output_dir / ARTIFACT_FILENAMES["mapping"]),
+        survey=pd.read_csv(output_dir / ARTIFACT_FILENAMES["survey"], low_memory=False),
+        patients=pd.read_csv(output_dir / ARTIFACT_FILENAMES["patients"]),
+        episodes=pd.read_csv(output_dir / ARTIFACT_FILENAMES["episodes"]),
+        bmi_timeline=pd.read_csv(output_dir / ARTIFACT_FILENAMES["bmi_timeline"]),
+        medication_history=pd.read_csv(output_dir / ARTIFACT_FILENAMES["medication_history"]),
+        quality_report=pd.read_csv(output_dir / ARTIFACT_FILENAMES["quality_report"]),
+        taxonomy=_load_json_if_exists(output_dir / ARTIFACT_FILENAMES["taxonomy"]),
+        answer_normalization=_load_json_if_exists(output_dir / ARTIFACT_FILENAMES["answer_normalization"]),
+        output_dir=output_dir,
+    )

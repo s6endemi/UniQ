@@ -1,0 +1,294 @@
+"""UniQ Datastore — UnifiedDataRepository.
+
+Single place that answers questions about unified patient data. Loads the
+pipeline artifacts once, coerces dtypes once, parses the JSON-encoded
+`answer_canonical` strings once. After that every access is O(1) or a
+vectorised Pandas filter.
+
+Consumers (Streamlit UI pages, future FastAPI routers, chatbot tool-use)
+all talk to this class. No one reads CSVs directly or decodes
+`answer_canonical` by hand anymore.
+
+Phase 2 scope (intentionally narrow):
+    - Bulk DataFrame properties (mapping, patients, episodes, bmi_timeline,
+      medication_history, quality_report, survey).
+    - Typed patient-keyed reads (patient, bmi_for_patient, ...).
+    - Metadata helpers (categories, counts).
+
+What's deliberately NOT here:
+    - No generic `search(filters)` DSL — callers do their own Pandas filters
+      against the exposed DataFrames until real call sites tell us which
+      filters deserve promotion.
+    - No Concept-based lookup (`rows_for_concept(Concept.BMI)`) — that is
+      Phase 4 and will sit on top of this layer.
+"""
+
+from __future__ import annotations
+
+import json
+import sys
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+import pandas as pd
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+import config
+from src.engine import PipelineArtifacts, load_artifacts_from_disk
+
+
+# ---------------------------------------------------------------------------
+# Typed patient record
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class PatientRecord:
+    """Typed summary of one row in `patients.csv`.
+
+    Optional fields are `None` when the underlying column is NaN. The raw
+    row is always available via `UnifiedDataRepository.patients` if a
+    consumer needs columns that are not promoted here.
+    """
+
+    user_id: int
+    gender: str
+    current_age: int
+    total_treatments: int
+    active_treatments: int
+    current_medication: str | None
+    current_dosage: str | None
+    tenure_days: int | None
+    latest_bmi: float | None
+    earliest_bmi: float | None
+    bmi_change: float | None
+    first_order_date: pd.Timestamp | None
+    latest_activity_date: pd.Timestamp | None
+
+    @classmethod
+    def from_row(cls, row: pd.Series) -> PatientRecord:
+        def _opt(v: Any) -> Any:
+            if v is None:
+                return None
+            if isinstance(v, float) and pd.isna(v):
+                return None
+            if isinstance(v, pd.Timestamp) and pd.isna(v):
+                return None
+            return v
+
+        return cls(
+            user_id=int(row["user_id"]),
+            gender=str(row.get("gender") or ""),
+            current_age=int(row["current_age"]) if pd.notna(row.get("current_age")) else 0,
+            total_treatments=int(row.get("total_treatments") or 0),
+            active_treatments=int(row.get("active_treatments") or 0),
+            current_medication=_opt(row.get("current_medication")),
+            current_dosage=_opt(row.get("current_dosage")),
+            tenure_days=int(row["tenure_days"]) if pd.notna(row.get("tenure_days")) else None,
+            latest_bmi=_opt(row.get("latest_bmi")),
+            earliest_bmi=_opt(row.get("earliest_bmi")),
+            bmi_change=_opt(row.get("bmi_change")),
+            first_order_date=_opt(row.get("first_order_date")),
+            latest_activity_date=_opt(row.get("latest_activity_date")),
+        )
+
+
+# ---------------------------------------------------------------------------
+# Private helpers
+# ---------------------------------------------------------------------------
+
+
+def _parse_canonical(value: Any) -> list[str]:
+    """Decode a single `answer_canonical` entry to a list of canonical labels.
+
+    Accepts None, NaN, JSON-encoded string, or already-parsed list. Returns
+    an empty list on anything that does not parse as a list of strings.
+    """
+    if value is None:
+        return []
+    if isinstance(value, float) and pd.isna(value):
+        return []
+    if isinstance(value, list):
+        return [str(x) for x in value]
+    try:
+        parsed = json.loads(str(value))
+    except (json.JSONDecodeError, TypeError):
+        return []
+    if isinstance(parsed, list):
+        return [str(x) for x in parsed]
+    return []
+
+
+_DATE_COLUMNS_PER_TABLE: dict[str, list[str]] = {
+    "patients": ["first_order_date", "latest_activity_date"],
+    "episodes": ["start_date", "latest_date"],
+    "bmi_timeline": ["date"],
+    "medication_history": ["started", "ended"],
+    "survey": ["created_at", "updated_at", "first_order_at"],
+}
+
+
+# ---------------------------------------------------------------------------
+# Repository
+# ---------------------------------------------------------------------------
+
+
+class UnifiedDataRepository:
+    """Typed, cached access to the unified pipeline artifacts."""
+
+    def __init__(self, artifacts: PipelineArtifacts) -> None:
+        self._artifacts = artifacts
+
+        # Copy so coercion does not mutate the original artifacts. Slightly
+        # more memory, but keeps the engine-side dataframes pristine.
+        self._mapping = artifacts.mapping.copy()
+        self._patients = artifacts.patients.copy()
+        self._episodes = artifacts.episodes.copy()
+        self._bmi_timeline = artifacts.bmi_timeline.copy()
+        self._medication_history = artifacts.medication_history.copy()
+        self._quality_report = artifacts.quality_report.copy()
+        self._survey = artifacts.survey.copy()
+
+        self._coerce_dtypes()
+        self._preparse_canonical()
+        self._patient_index = self._build_patient_index()
+
+    @classmethod
+    def from_output_dir(cls, output_dir: Path | None = None) -> UnifiedDataRepository:
+        """Build a repository from a pipeline output directory."""
+        return cls(load_artifacts_from_disk(output_dir))
+
+    # ---- Initialisation helpers -------------------------------------------
+
+    def _coerce_dtypes(self) -> None:
+        """Re-apply dtypes lost through CSV round-trip (int ids, datetime cols)."""
+        id_tables = {
+            "patients": self._patients,
+            "episodes": self._episodes,
+            "bmi_timeline": self._bmi_timeline,
+            "medication_history": self._medication_history,
+            "survey": self._survey,
+            "quality_report": self._quality_report,
+        }
+        for df in id_tables.values():
+            for col in ("user_id", "treatment_id"):
+                if col in df.columns:
+                    df[col] = pd.to_numeric(df[col], errors="coerce").astype("Int64")
+
+        date_tables = {
+            "patients": self._patients,
+            "episodes": self._episodes,
+            "bmi_timeline": self._bmi_timeline,
+            "medication_history": self._medication_history,
+            "survey": self._survey,
+        }
+        for name, df in date_tables.items():
+            for col in _DATE_COLUMNS_PER_TABLE.get(name, []):
+                if col in df.columns:
+                    df[col] = pd.to_datetime(df[col], errors="coerce", utc=True)
+
+    def _preparse_canonical(self) -> None:
+        if "answer_canonical" in self._survey.columns:
+            self._survey["answer_canonical"] = self._survey["answer_canonical"].apply(_parse_canonical)
+
+    def _build_patient_index(self) -> dict[int, int]:
+        """Map user_id -> positional row index for O(1) lookups."""
+        index: dict[int, int] = {}
+        for pos, uid in enumerate(self._patients["user_id"].tolist()):
+            if pd.notna(uid):
+                index[int(uid)] = pos
+        return index
+
+    # ---- Bulk DataFrame access --------------------------------------------
+
+    @property
+    def mapping(self) -> pd.DataFrame:
+        return self._mapping
+
+    @property
+    def patients(self) -> pd.DataFrame:
+        return self._patients
+
+    @property
+    def episodes(self) -> pd.DataFrame:
+        return self._episodes
+
+    @property
+    def bmi_timeline(self) -> pd.DataFrame:
+        return self._bmi_timeline
+
+    @property
+    def medication_history(self) -> pd.DataFrame:
+        return self._medication_history
+
+    @property
+    def quality_report(self) -> pd.DataFrame:
+        return self._quality_report
+
+    @property
+    def survey(self) -> pd.DataFrame:
+        return self._survey
+
+    @property
+    def taxonomy(self) -> dict:
+        return self._artifacts.taxonomy
+
+    @property
+    def answer_normalization(self) -> dict:
+        return self._artifacts.answer_normalization
+
+    # ---- Typed patient-keyed reads ----------------------------------------
+
+    def patient(self, user_id: int) -> PatientRecord | None:
+        idx = self._patient_index.get(int(user_id))
+        if idx is None:
+            return None
+        return PatientRecord.from_row(self._patients.iloc[idx])
+
+    def bmi_for_patient(self, user_id: int) -> pd.DataFrame:
+        """BMI measurements for one patient, sorted chronologically."""
+        df = self._bmi_timeline
+        return (
+            df[df["user_id"] == int(user_id)]
+            .sort_values("date")
+            .reset_index(drop=True)
+        )
+
+    def medications_for_patient(self, user_id: int) -> pd.DataFrame:
+        """Medication history for one patient, sorted by start date."""
+        df = self._medication_history
+        return (
+            df[df["user_id"] == int(user_id)]
+            .sort_values("started")
+            .reset_index(drop=True)
+        )
+
+    def survey_for_patient(
+        self,
+        user_id: int,
+        *,
+        category: str | None = None,
+    ) -> pd.DataFrame:
+        """Survey rows for one patient, optionally filtered by clinical_category."""
+        df = self._survey[self._survey["user_id"] == int(user_id)]
+        if category is not None:
+            df = df[df["clinical_category"] == category]
+        return df.reset_index(drop=True)
+
+    def quality_for_patient(self, user_id: int) -> pd.DataFrame:
+        """Quality alerts for one patient."""
+        df = self._quality_report
+        return df[df["user_id"] == int(user_id)].reset_index(drop=True)
+
+    # ---- Metadata ---------------------------------------------------------
+
+    def categories(self) -> set[str]:
+        """All clinical_category values observed in the mapping table."""
+        return set(self._mapping["clinical_category"].dropna().unique())
+
+    def count_patients(self) -> int:
+        return len(self._patients)
+
+    def count_active_patients(self) -> int:
+        return int((self._patients["active_treatments"] > 0).sum())

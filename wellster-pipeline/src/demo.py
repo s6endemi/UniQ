@@ -83,65 +83,62 @@ def _load_from_files():
 # ═══════════════════════════════════════════════════════════════════════
 
 def run_real_pipeline(uploaded_path: Path, status) -> dict:
-    results = {}
+    """Run the full pipeline for an uploaded file and return the UI results dict.
 
-    status.markdown(f"⏳ **Loading data...**")
-    from src.load import load_raw_data
-    config.RAW_DATA_FILE = uploaded_path
-    df = load_raw_data(uploaded_path)
-    results["raw_rows"] = len(df)
-    results["raw_qids"] = df["question_id"].nunique()
-    results["raw_patients"] = df["user_id"].nunique()
-    results["raw_products"] = df["product"].nunique() if "product" in df.columns else 0
-    worst = df.groupby("question_en")["question_id"].nunique().sort_values(ascending=False)
-    results["worst_text"] = worst.index[0][:70] if len(worst) > 0 else ""
-    results["worst_count"] = int(worst.iloc[0]) if len(worst) > 0 else 0
-    status.markdown(f"✅ Loaded **{len(df):,}** rows — {results['raw_qids']:,} question IDs")
+    Delegates to `src.engine.run_pipeline` — no separate orchestration. UI-only
+    concerns (progress display, FHIR export, summary metrics) stay here.
+    """
+    from src.engine import run_pipeline
 
-    status.markdown(f"⏳ **AI classifying questions...**")
-    from src.classify_ai import run_classification
-    mapping = run_classification(df)
-    results["n_categories"] = mapping["clinical_category"].nunique()
-    results["n_texts"] = mapping["question_en"].nunique()
-    status.markdown(f"✅ **{results['n_texts']}** texts → **{results['n_categories']}** categories")
+    status.markdown("⏳ **Running pipeline...**")
+    artifacts = run_pipeline(
+        raw_path=uploaded_path,
+        on_progress=lambda msg: status.markdown(f"⏳ {msg}..."),
+    )
+    status.markdown("✅ Pipeline complete")
 
-    status.markdown(f"⏳ **Normalizing answers...**")
-    from src.normalize import normalize_answers
-    survey = normalize_answers(df, mapping)
-    det = len(survey) - survey["parse_method"].value_counts().get("free_text", 0)
-    results["det_pct"] = round(det / len(survey) * 100, 1)
-    status.markdown(f"✅ **{results['det_pct']}%** deterministic")
-
-    status.markdown(f"⏳ **AI normalizing answer values...**")
-    from src.normalize_answers_ai import normalize_answers_ai
-    survey, norm = normalize_answers_ai(survey)
-    survey.to_csv(config.SURVEY_UNIFIED_TABLE, index=False, encoding="utf-8")
-    results["answer_variants"] = sum(len(v) for v in norm.values()) if norm else 0
-    results["answer_canonical"] = len(set(c for v in norm.values() for c in v.values())) if norm else 0
-    status.markdown(f"✅ **{results['answer_variants']}** variants → **{results['answer_canonical']}** canonical")
-
-    status.markdown(f"⏳ **Building unified tables...**")
-    from src.unify import run_unify
-    patients, episodes, bmi_df, med_hist = run_unify(survey)
-    status.markdown(f"✅ **{len(patients):,}** patients, **{len(episodes):,}** treatments")
-
-    status.markdown(f"⏳ **Quality checks...**")
-    from src.quality import run_quality
-    quality = run_quality(patients, bmi_df, episodes, med_hist)
-    status.markdown(f"✅ **{len(quality):,}** alerts found")
-
-    status.markdown(f"⏳ **FHIR R4 export...**")
+    # FHIR export (UI-specific side effect — not part of the core engine yet)
     from src.export_fhir import export_fhir_bundle
-    bundle = export_fhir_bundle(patients, bmi_df, med_hist, survey)
+    bundle = export_fhir_bundle(
+        artifacts.patients, artifacts.bmi_timeline,
+        artifacts.medication_history, artifacts.survey,
+    )
     fhir_path = config.OUTPUT_DIR / "fhir_bundle.json"
     fhir_path.write_text(json.dumps(bundle, indent=2, ensure_ascii=False), encoding="utf-8")
-    results["fhir_resources"] = bundle["total"]
-    status.markdown(f"✅ **{bundle['total']:,}** FHIR resources")
 
-    results.update(dict(mapping=mapping, survey=survey, patients=patients,
-                        episodes=episodes, bmi=bmi_df, med_hist=med_hist,
-                        quality=quality, norm=norm))
-    return results
+    # Compute UI summary metrics from artifacts
+    raw = artifacts.raw
+    survey = artifacts.survey
+    mapping = artifacts.mapping
+    norm = artifacts.answer_normalization
+
+    worst = raw.groupby("question_en")["question_id"].nunique().sort_values(ascending=False)
+    det = len(survey) - survey["parse_method"].value_counts().get("free_text", 0)
+
+    return {
+        # summary metrics
+        "raw_rows": len(raw),
+        "raw_qids": raw["question_id"].nunique(),
+        "raw_patients": raw["user_id"].nunique(),
+        "raw_products": raw["product"].nunique() if "product" in raw.columns else 0,
+        "worst_text": worst.index[0][:70] if len(worst) > 0 else "",
+        "worst_count": int(worst.iloc[0]) if len(worst) > 0 else 0,
+        "n_categories": mapping["clinical_category"].nunique(),
+        "n_texts": mapping["question_en"].nunique(),
+        "det_pct": round(det / len(survey) * 100, 1) if len(survey) else 0.0,
+        "answer_variants": sum(len(v) for v in norm.values()) if norm else 0,
+        "answer_canonical": len({c for v in norm.values() for c in v.values()}) if norm else 0,
+        "fhir_resources": bundle["total"],
+        # dataframes (keys kept stable for existing UI pages)
+        "mapping": mapping,
+        "survey": survey,
+        "patients": artifacts.patients,
+        "episodes": artifacts.episodes,
+        "bmi": artifacts.bmi_timeline,
+        "med_hist": artifacts.medication_history,
+        "quality": artifacts.quality_report,
+        "norm": norm,
+    }
 
 
 # ═══════════════════════════════════════════════════════════════════════

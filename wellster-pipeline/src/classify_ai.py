@@ -543,37 +543,42 @@ def run_classification(df: pd.DataFrame | None = None) -> pd.DataFrame:
         existing_mapping = pd.read_csv(config.MAPPING_TABLE)
 
     if existing_taxonomy and existing_mapping is not None:
-        # Incremental mode — preserve validated taxonomy
-        known_texts = set(existing_mapping["question_en"].unique())
-        data_texts = set(df["question_en"].unique())
-        new_texts = data_texts - known_texts
+        # Incremental mode — preserve validated taxonomy.
+        #
+        # The classifier is keyed by question_id, not by question_en. The same
+        # id can legitimately carry multiple text variants across survey
+        # versions (e.g. a reworded German→English translation on the same
+        # conceptual question). Those text variants do NOT change the
+        # classification, so we compare IDs, not texts, to detect what's new.
+        # Then for genuinely new IDs, `classify_new_questions` internally
+        # filters out texts we already know, so the API only sees unknowns.
+        known_ids = set(existing_mapping["question_id"].unique())
+        data_ids = set(df["question_id"].dropna().astype(int).unique())
+        new_ids = data_ids - known_ids
 
-        if new_texts:
-            print(f"[AI] Validated taxonomy found with {len(existing_taxonomy)} categories")
-            print(f"[AI] Found {len(new_texts)} new question texts — running incremental classification")
-            ai_result = classify_new_questions(df, existing_mapping)
-            mapping = build_mapping(df, ai_result, existing_mapping)
-        else:
-            # All questions mapped — but rebuild mapping to include any new IDs for known texts
-            known_ids = set(existing_mapping["question_id"].unique())
-            data_ids = set(df["question_id"].dropna().astype(int).unique())
-            new_ids = data_ids - known_ids
+        if not new_ids:
+            print(f"[AI] All {len(data_ids):,} question IDs already mapped — skipping classification")
+            return existing_mapping
 
-            if new_ids:
-                print(f"[AI] All texts known. {len(new_ids)} new IDs for existing texts — expanding mapping")
-                # Re-use existing text→category mapping, just expand to new IDs
-                ai_result = {"taxonomy": existing_taxonomy, "text_to_category": {}, "mode": "incremental"}
-                mapping = build_mapping(df, ai_result, existing_mapping)
-            else:
-                print(f"[AI] All questions and IDs already mapped — skipping classification")
-                return existing_mapping
+        print(f"[AI] Validated taxonomy found with {len(existing_taxonomy)} categories")
+        print(f"[AI] Found {len(new_ids)} new question IDs — running incremental classification")
+        ai_result = classify_new_questions(df, existing_mapping)
+        mapping = build_mapping(df, ai_result, existing_mapping)
     elif existing_taxonomy:
-        # Taxonomy exists but no mapping (e.g., mapping was deleted)
-        # Classify all questions against the validated taxonomy
-        print(f"[AI] Validated taxonomy found — classifying all questions against it")
-        # Create a dummy mapping from taxonomy to trigger incremental mode
-        dummy = pd.DataFrame({"question_en": [], "clinical_category": []})
-        ai_result = classify_new_questions(df, dummy)
+        # Taxonomy exists but mapping_table.csv is missing (deleted / first
+        # run after a manual taxonomy review). Classify all questions against
+        # the validated taxonomy — but crucially, carry the taxonomy into the
+        # prompt. classify_new_questions() reads `taxonomy_str` from
+        # existing_mapping["clinical_category"], so we build a seed dataframe
+        # with one row per validated category so the AI is constrained to
+        # those categories instead of inventing new ones.
+        print(f"[AI] Validated taxonomy found ({len(existing_taxonomy)} categories) "
+              f"— classifying all questions against it")
+        taxonomy_seed = pd.DataFrame({
+            "question_en": [""] * len(existing_taxonomy),
+            "clinical_category": [c["category"] for c in existing_taxonomy],
+        })
+        ai_result = classify_new_questions(df, taxonomy_seed)
         mapping = build_mapping(df, ai_result, None)
     else:
         # No taxonomy at all — full discovery

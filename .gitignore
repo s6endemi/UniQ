@@ -34,5 +34,13 @@ wellster-pipeline/data/raw/
 wellster-pipeline/output/*
 !wellster-pipeline/output/.gitkeep
 
+# Wellster Pipeline — golden master fixtures (regenerate; manifest is tracked)
+wellster-pipeline/tests/fixtures/golden/*
+!wellster-pipeline/tests/fixtures/golden/GOLDEN_MASTER.md
+!wellster-pipeline/tests/fixtures/golden/.gitkeep
+
+# Pipeline run log
+wellster-pipeline/pipeline_run.log
+
 # OS
 Thumbs.db

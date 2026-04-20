@@ -38,7 +38,7 @@ INSPECTION_REPORT = OUTPUT_DIR / "data_inspection.txt"
 
 # --- API Settings ---
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-LLM_MODEL = "claude-sonnet-4-20250514"
+LLM_MODEL = "claude-sonnet-4-6"
 LLM_BATCH_SIZE = 30
 LLM_MAX_RETRIES = 3
 LLM_RETRY_BASE_DELAY = 2  # seconds, exponential backoff
