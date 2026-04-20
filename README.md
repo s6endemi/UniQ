@@ -35,21 +35,29 @@ UniQ/
 ```bash
 cd wellster-pipeline
 
-# Setup
+# 1. Create virtual environment + install dependencies
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-# Configure API key
-echo "ANTHROPIC_API_KEY=sk-ant-..." > .env
+# 2. Configure API key
+cp .env.example .env
+# Edit .env and add your ANTHROPIC_API_KEY
 
-# Add your data to data/raw/ and point config.py to it
-# Then run:
+# 3. Add your questionnaire data
+# Place a CSV/TSV in `data/raw/` and point RAW_DATA_FILE in config.py to it.
+# Expected columns: user_id, question_id, question_en, answer_value, product, etc.
+# See STATUS.md for the full schema.
+
+# 4. Run the pipeline
 python pipeline.py
 
-# Launch the demo
+# 5. Launch the Streamlit demo
 streamlit run src/demo.py
 ```
+
+**Note on data:** Raw patient data is excluded from this repo for privacy reasons.
+Output files (`wellster-pipeline/output/`) regenerate automatically when you run the pipeline.
 
 ## Quick Start — Video
 
