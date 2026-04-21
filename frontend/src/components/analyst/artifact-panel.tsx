@@ -1,33 +1,29 @@
 "use client";
 
 import { useState } from "react";
-import type { ArtifactDescriptor } from "@/lib/demo/recipes";
-import { DEMO_DASHBOARD, DEMO_FHIR_BUNDLE } from "@/lib/demo/recipes";
+import type { ChatArtifact } from "@/lib/api";
+import { ArtifactAlertsTable } from "./artifact-alerts-table";
 import { ArtifactDashboard } from "./artifact-dashboard";
 import { ArtifactFhir } from "./artifact-fhir";
+import { ArtifactPlainTable } from "./artifact-plain-table";
 
 /**
  * Canvas panel on the right of the Analyst when an artifact is open.
  *
- * Head (title + sub + tabs + actions) + body that switches by
- * artifact.kind and by the View/JSON tab. Closing is handled by the
- * parent; we only fire onClose.
+ * One dispatch on `artifact.kind` per discriminated-union variant; each
+ * variant has its own renderer. The View/JSON toggle falls through to
+ * the FHIR-style JSON view for non-FHIR kinds by serialising the
+ * payload — handy for debugging and honest-proof of the data behind
+ * the rendered artifact.
  */
 export function ArtifactPanel({
   artifact,
   onClose,
 }: {
-  artifact: ArtifactDescriptor;
+  artifact: ChatArtifact;
   onClose: () => void;
 }) {
   const [tab, setTab] = useState<"view" | "json">("view");
-
-  const body =
-    tab === "json"
-      ? <ArtifactFhir bundle={DEMO_FHIR_BUNDLE} />
-      : artifact.kind === "dashboard"
-        ? <ArtifactDashboard payload={DEMO_DASHBOARD} />
-        : <ArtifactFhir bundle={DEMO_FHIR_BUNDLE} />;
 
   return (
     <aside className="artifact" key={artifact.id}>
@@ -60,8 +56,38 @@ export function ArtifactPanel({
         </div>
       </div>
       <div className="artifact__body" key={`${artifact.id}-${tab}`}>
-        {body}
+        {tab === "json" ? <JsonView artifact={artifact} /> : <ViewBody artifact={artifact} />}
       </div>
     </aside>
+  );
+}
+
+function ViewBody({ artifact }: { artifact: ChatArtifact }) {
+  switch (artifact.kind) {
+    case "cohort_trend":
+      return <ArtifactDashboard payload={artifact.payload} />;
+    case "alerts_table":
+      return <ArtifactAlertsTable payload={artifact.payload} />;
+    case "table":
+      return <ArtifactPlainTable payload={artifact.payload} />;
+    case "fhir_bundle":
+      return <ArtifactFhir bundle={artifact.payload} />;
+  }
+}
+
+function JsonView({ artifact }: { artifact: ChatArtifact }) {
+  return (
+    <pre
+      style={{
+        fontFamily: "var(--f-mono)",
+        fontSize: 12,
+        lineHeight: 1.55,
+        color: "var(--ink-2)",
+        margin: 0,
+        whiteSpace: "pre-wrap",
+      }}
+    >
+      {JSON.stringify(artifact.payload, null, 2)}
+    </pre>
   );
 }

@@ -249,13 +249,90 @@ def main() -> int:
                     f"uid={test_uid}, api={api_total}, raw={raw_total}",
                 )
 
-            # 14. /chat stub
-            r = client.post("/chat", json={"message": "hello"})
-            if r.status_code == 200 and "reply" in r.json():
-                _ok("/chat stub returns reply shape",
-                    f"sql={r.json()['sql']}, truncated={r.json()['truncated']}")
+            # 14. /chat — Phase 6 hybrid agent.
+            #
+            # Only the deterministic recipe paths are exercised here
+            # because the generic agent fallback needs a live Sonnet
+            # call, which cannot run in CI / review sandboxes. Recipe
+            # coverage is what Codex asked for: concrete evidence that
+            # the three golden-path intents produce the right artifact
+            # kind and the response shape matches the new contract.
+
+            # 14a. Contract shape on a minimal request.
+            r = client.post("/chat", json={"message": "Show BMI trends for Mounjaro patients"})
+            if r.status_code != 200:
+                _fail("/chat responds 200 on cohort prompt",
+                      f"{r.status_code} {r.text[:200]}")
+                return _report_and_exit()
+            body = r.json()
+            required_keys = {"steps", "reply", "artifact", "trace"}
+            missing = required_keys - set(body.keys())
+            if missing:
+                _fail("/chat response has new contract keys",
+                      f"missing: {missing}")
+                return _report_and_exit()
+            _ok("/chat response has new contract keys (steps/reply/artifact/trace)")
+
+            # 14b. Cohort-trajectory recipe: dashboard artifact + recipe trace.
+            art = body["artifact"]
+            trace = body["trace"]
+            if (art and art["kind"] == "cohort_trend"
+                    and trace["recipe"] == "cohort_trajectory"
+                    and trace["artifact_kind"] == "cohort_trend"):
+                _ok("/chat cohort_trajectory recipe fires",
+                    f"series={len(art['payload']['chart']['series'])}, "
+                    f"kpis={len(art['payload']['kpis'])}, "
+                    f"table_rows={len(art['payload']['table']['rows'])}")
             else:
-                _fail("/chat stub returns reply shape", str(r.status_code))
+                _fail("/chat cohort_trajectory recipe fires",
+                      f"kind={art and art.get('kind')!r}, "
+                      f"trace.recipe={trace.get('recipe')!r}")
+
+            # 14c. Ops-alerts recipe on quality-issue wording.
+            r = client.post("/chat", json={"message": "Which patients have data quality issues?"})
+            if r.status_code != 200:
+                _fail("/chat responds 200 on alerts prompt", str(r.status_code))
+            else:
+                body = r.json()
+                art = body["artifact"]
+                if (art and art["kind"] == "alerts_table"
+                        and body["trace"]["recipe"] == "ops_alerts"):
+                    _ok("/chat ops_alerts recipe fires",
+                        f"kpis={len(art['payload']['kpis'])}, "
+                        f"table_rows={len(art['payload']['table']['rows'])}")
+                else:
+                    _fail("/chat ops_alerts recipe fires",
+                          f"kind={art and art.get('kind')!r}, "
+                          f"trace.recipe={body['trace'].get('recipe')!r}")
+
+            # 14d. Patient-FHIR recipe: use a real uid so the recipe
+            # takes the success path (bundle built, kind=fhir_bundle).
+            r = client.post(
+                "/chat",
+                json={"message": f"Generate a FHIR bundle for patient {uid}"},
+            )
+            if r.status_code != 200:
+                _fail("/chat responds 200 on FHIR prompt", str(r.status_code))
+            else:
+                body = r.json()
+                art = body["artifact"]
+                if (art and art["kind"] == "fhir_bundle"
+                        and body["trace"]["recipe"] == "patient_fhir_bundle"):
+                    entries = art["payload"].get("entry", [])
+                    _ok("/chat patient_fhir_bundle recipe fires",
+                        f"entries={len(entries)}")
+                else:
+                    _fail("/chat patient_fhir_bundle recipe fires",
+                          f"kind={art and art.get('kind')!r}, "
+                          f"trace.recipe={body['trace'].get('recipe')!r}")
+
+            # 14e. Empty message is a 400 (validation), not 500.
+            r = client.post("/chat", json={"message": "   "})
+            if r.status_code == 400:
+                _ok("/chat rejects empty message with 400")
+            else:
+                _fail("/chat rejects empty message with 400",
+                      f"got {r.status_code}")
 
             # 13d. FHIR bundle *content*: must contain exactly one Patient
             # resource whose identifier matches the requested uid, plus
@@ -421,15 +498,28 @@ def main() -> int:
         _fail("write_mapping leaves no .tmp leftover",
               f"found: {[p.name for p in tmp_leftovers]}")
 
-    # 18. Concurrent writers+readers: every raw read must resolve to EITHER
-    # the previous complete document OR the new complete document — never
-    # anything else. We bypass `read_mapping()` here on purpose because it
-    # silently returns {} on JSONDecodeError, which would hide a partial
-    # read from the previous version of this test. Instead we read the
-    # file directly with json.loads and tag each written version with a
-    # unique marker; every observed read must carry one of the known
-    # markers.
+    # 18. Concurrent writers+readers: every read must resolve to EITHER
+    # the previous complete document OR the new complete document —
+    # never anything else.
+    #
+    # Readers go through `atomic_read_json` — the same retrying path
+    # `deps.read_mapping` uses in production. This tests two things at
+    # once: (a) the retry logic actually suppresses the Windows
+    # PermissionError race during concurrent writes, and (b) that fix
+    # is on the production code path, not just the test.
+    #
+    # `threading.excepthook` is the second belt: if ANY unhandled
+    # exception escapes a worker thread (because a future regression
+    # bypasses atomic_read_json, or a new thread is added without
+    # defensive catching), it is captured into `thread_escapes` and
+    # fails the assertion below. Previously such escapes printed a
+    # traceback to stderr but did not fail the test — this is exactly
+    # the false-green pattern Codex flagged on the writer side first
+    # (Windows PermissionError leaked past the bare except) and now
+    # on the reader side (same race, opposite direction).
     import threading
+
+    from src.io_utils import AtomicReadError, atomic_read_json
 
     versions = [
         {"__stress_marker__": "VERSION_A", "payload": "A" * 100},
@@ -442,8 +532,19 @@ def main() -> int:
 
     partial_or_unknown: list[str] = []
     writer_errors: list[str] = []
+    thread_escapes: list[str] = []
     total_reads = 0
     stop_flag = {"stop": False}
+
+    previous_excepthook = threading.excepthook
+
+    def capture_thread_exception(args) -> None:  # threading.ExceptHookArgs
+        thread_escapes.append(
+            f"thread {args.thread.name}: "
+            f"{args.exc_type.__name__}: {args.exc_value}"
+        )
+
+    threading.excepthook = capture_thread_exception
 
     def writer_worker() -> None:
         # Previous version of this test silently swallowed writer
@@ -467,17 +568,18 @@ def main() -> int:
                 break
             total_reads += 1
             try:
-                raw = SEMANTIC_MAPPING_PATH.read_text(encoding="utf-8")
+                parsed = atomic_read_json(SEMANTIC_MAPPING_PATH)
             except FileNotFoundError:
-                # Legal transient state only if os.replace atomicity is
-                # violated. Should not happen on POSIX/Windows.
                 partial_or_unknown.append("file missing during read")
                 continue
-            try:
-                parsed = json.loads(raw)
             except json.JSONDecodeError as e:
                 partial_or_unknown.append(
-                    f"partial JSON seen: len={len(raw)}, err={e.msg}"
+                    f"partial JSON seen: err={e.msg}"
+                )
+                continue
+            except AtomicReadError as e:
+                partial_or_unknown.append(
+                    f"permission lock did not clear after retries: {e}"
                 )
                 continue
             marker = parsed.get("__stress_marker__")
@@ -486,12 +588,15 @@ def main() -> int:
                     f"unknown marker {marker!r} (parse ok, content wrong)"
                 )
 
-    t_w = threading.Thread(target=writer_worker)
-    t_r1 = threading.Thread(target=strict_reader_worker)
-    t_r2 = threading.Thread(target=strict_reader_worker)
-    t_w.start(); t_r1.start(); t_r2.start()
-    t_w.join(); t_r1.join(); t_r2.join()
-    stop_flag["stop"] = True
+    try:
+        t_w = threading.Thread(target=writer_worker, name="writer")
+        t_r1 = threading.Thread(target=strict_reader_worker, name="reader-1")
+        t_r2 = threading.Thread(target=strict_reader_worker, name="reader-2")
+        t_w.start(); t_r1.start(); t_r2.start()
+        t_w.join(); t_r1.join(); t_r2.join()
+        stop_flag["stop"] = True
+    finally:
+        threading.excepthook = previous_excepthook
 
     if not partial_or_unknown:
         _ok(
@@ -514,6 +619,18 @@ def main() -> int:
         _fail(
             "writer survives 100 iters against active readers",
             f"{len(writer_errors)} writer errors; first: {writer_errors[0]}",
+        )
+
+    # Belt-and-suspenders: catch any OTHER unhandled exception that
+    # escaped a worker thread. Before this guard, a PermissionError on
+    # the reader side would print a traceback from the thread and exit
+    # cleanly — green test, live race. Now the test fails honestly.
+    if not thread_escapes:
+        _ok("no unhandled exceptions escaped any stress-test thread")
+    else:
+        _fail(
+            "no unhandled exceptions escaped any stress-test thread",
+            f"{len(thread_escapes)} escapes; first: {thread_escapes[0]}",
         )
 
     # Restore backup one more time after the stress loop

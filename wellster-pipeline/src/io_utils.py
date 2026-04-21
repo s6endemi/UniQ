@@ -1,18 +1,24 @@
 """Shared IO helpers.
 
-`atomic_write_json` is the only public function right now. It writes a
-JSON document to disk through a sibling temp-file + `os.replace`, which
-is atomic on both POSIX and Windows. Concurrent readers of the target
-file therefore observe either the previous complete version or the new
-complete version — never a half-written state.
+Two public functions here, mirroring each other:
 
-Windows-specific retry: on Windows, `os.replace` raises PermissionError
-if another process holds the target file open for reading at the moment
-of the rename. The OS typically releases the handle within a few
-milliseconds, so a short exponential-backoff retry is all that is
-needed. Without this, a writer thread can crash mid-rename while busy
-API readers are polling the same file — which was the false-green
-Codex flagged on the mapping PATCH path.
+    atomic_write_json  — write through tempfile + os.replace
+    atomic_read_json   — read with retry-on-PermissionError
+
+Both need retry loops on Windows. The write path races because
+`os.replace` can fail with `PermissionError` if *any* concurrent reader
+has a share-incompatible handle on the target. The read path races
+symmetrically: `open()` can fail with `PermissionError` in the brief
+window between a writer's `mkstemp` and its `os.replace` when the OS
+has not yet fully transitioned the handle. Both resolve within a few
+ms, so short exponential-backoff handles them invisibly.
+
+Why readers retry too (second Codex round-trip): if callers swallow
+`OSError` on read — as `deps.read_mapping` does to degrade gracefully
+on a truly broken file — then a transient `PermissionError` from
+concurrent writes would be indistinguishable from genuine corruption.
+Retrying below the caller distinguishes the two without forcing every
+consumer to reimplement backoff.
 """
 
 from __future__ import annotations
@@ -27,6 +33,16 @@ from typing import Any
 
 class AtomicWriteError(Exception):
     """Raised when an atomic JSON write fails even after retries."""
+
+
+class AtomicReadError(Exception):
+    """Raised when an atomic JSON read fails even after retries.
+
+    Only thrown for persistent permission / locking failures. Missing
+    files and malformed JSON are re-raised as their original exceptions
+    so callers can distinguish them — "file gone" and "file corrupt"
+    are both legitimate, distinct error modes.
+    """
 
 
 def atomic_write_json(
@@ -83,3 +99,46 @@ def atomic_write_json(
         except OSError:
             pass
         raise
+
+
+def atomic_read_json(
+    path: Path,
+    *,
+    max_retries: int = 10,
+    retry_base_delay: float = 0.02,  # 20 ms; scales 1.5x per retry
+) -> Any:
+    """Read a JSON file with retry on Windows `PermissionError`.
+
+    Behaviour:
+        - Returns the parsed JSON on success.
+        - Raises `FileNotFoundError` if the file does not exist (no
+          retry — callers typically want to treat "missing" as a real
+          signal, not mask it).
+        - Raises `json.JSONDecodeError` if the file content is
+          malformed (no retry — the content does not change by waiting).
+        - Retries on `PermissionError` with the same exponential
+          backoff as `atomic_write_json`. After `max_retries` attempts
+          raises `AtomicReadError`.
+
+    Note that the read is performed inside the retry loop too: each
+    attempt opens the file fresh, so a transient lock that clears mid-
+    attempt still succeeds on the next try.
+    """
+    if not path.exists():
+        # Consistent with read_text's error surface; callers that want
+        # to treat missing-as-empty should check existence first.
+        raise FileNotFoundError(path)
+
+    last_error: PermissionError | None = None
+    for attempt in range(max_retries):
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except PermissionError as exc:
+            last_error = exc
+            if attempt == max_retries - 1:
+                break
+            time.sleep(retry_base_delay * (1.5 ** attempt))
+    assert last_error is not None  # only reachable through the except branch
+    raise AtomicReadError(
+        f"read_text({path}) failed after {max_retries} attempts: {last_error}"
+    ) from last_error

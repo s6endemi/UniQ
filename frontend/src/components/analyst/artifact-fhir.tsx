@@ -1,6 +1,6 @@
 "use client";
 
-import type { FhirBundlePayload } from "@/lib/demo/recipes";
+import type { FhirBundlePayload } from "@/lib/api";
 
 /**
  * FHIR bundle renderer.

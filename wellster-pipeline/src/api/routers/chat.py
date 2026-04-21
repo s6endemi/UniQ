@@ -1,30 +1,36 @@
-"""Chat endpoint — stub for Phase 6.
+"""Chat endpoint — hybrid analyst agent (Phase 6).
 
-The chatbot will introspect the schema, generate read-only SQL against the
-unified data, execute through `query_service`, and return a text reply +
-chart spec. For now this router only advertises the endpoint shape so the
-UI scaffolding (Phase 5) can wire up against it.
+Delegates to `src.chat_agent.run_chat_agent`. Deterministic recipes
+short-circuit the pitch golden paths (cohort trajectory, patient FHIR
+bundle, quality alerts); everything else goes through a Claude tool-use
+loop that produces a table artifact.
+
+Errors from the agent surface as honest 503/500s — we do not paper over
+a missing API key or an unreachable Anthropic API with a fake "reply"
+string, because the frontend shows a dedicated error surface that is
+friendlier than pretending everything worked.
 """
 
 from __future__ import annotations
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException
 
+from src.api.deps import get_query, get_repo
 from src.api.models import ChatRequest, ChatResponse
+from src.chat_agent import run_chat_agent
+from src.datastore import UnifiedDataRepository
+from src.query_service import DuckDBQueryService
 
 router = APIRouter(tags=["chat"])
 
 
 @router.post("/chat", response_model=ChatResponse)
-def chat(request: ChatRequest) -> ChatResponse:
-    return ChatResponse(
-        reply=(
-            "Chat not wired up yet — this endpoint is stubbed. "
-            "Phase 6 will implement the SQL-agent backend "
-            f"(message received: {request.message!r})."
-        ),
-        sql=None,
-        rows=None,
-        chart_spec=None,
-        truncated=False,
-    )
+def chat(
+    request: ChatRequest,
+    query: DuckDBQueryService = Depends(get_query),
+    repo: UnifiedDataRepository = Depends(get_repo),
+) -> ChatResponse:
+    message = request.message.strip()
+    if not message:
+        raise HTTPException(status_code=400, detail="`message` must not be empty.")
+    return run_chat_agent(message, query=query, repo=repo)

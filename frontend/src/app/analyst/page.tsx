@@ -4,22 +4,23 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArtifactPanel } from "@/components/analyst/artifact-panel";
 import { Thinking, type ThinkingStep } from "@/components/analyst/thinking";
 import { TypedText } from "@/components/analyst/typed-text";
-import {
-  PROMPT_SUGGESTIONS,
-  matchRecipe,
-  type ArtifactDescriptor,
-} from "@/lib/demo/recipes";
+import type { ChatArtifact, ChatResponse } from "@/lib/api";
+import { PROMPT_SUGGESTIONS, matchRecipe } from "@/lib/demo/recipes";
 
 /**
  * Analyst — conversational surface with artifact-canvas reveal.
  *
- * Orchestrator only: state (turns, draft, busy, current artifact), a
- * scripted "agent" step loop, and the composer. Rendering of every
- * panel lives in `src/components/analyst/*`, scripted demo content
- * lives in `src/lib/demo/recipes.ts`. Phase 6 replaces
- * `matchRecipe(text)` with an HTTP call to /api/uniq/chat (DuckDB-
- * backed agent), while the components and data shapes on this page
- * stay untouched.
+ * Phase 6 wired this to the real hybrid-agent endpoint: POST to
+ * /api/uniq/chat (proxied to FastAPI, which runs the recipe fast-path
+ * or the Claude tool-use loop). The response shape is
+ * `ChatResponse { steps, reply, artifact, trace }` — we pace the steps
+ * through the Thinking panel so the Perplexity-style reveal still
+ * plays even though the backend already did all the work.
+ *
+ * If the fetch fails (backend down, bad wifi in the pitch room) we
+ * fall back to the scripted demo recipes so the surface never turns
+ * into an error screen. Both paths produce identical-shaped data, so
+ * the rest of the component does not care which one served us.
  */
 
 interface UserTurn {
@@ -30,15 +31,20 @@ interface UserTurn {
 interface AiTurn {
   id: number;
   role: "ai";
-  phase: "thinking" | "reply";
+  phase: "thinking" | "reply" | "error";
   steps: ThinkingStep[];
   text?: string;
-  artifact?: ArtifactDescriptor;
+  artifact?: ChatArtifact | null;
+  errorMessage?: string;
 }
 type Turn = UserTurn | AiTurn;
 
-// Pacing constants for the scripted demo. Phase 6 removes these when
-// the real agent streams on its own schedule.
+type ChatOutcome =
+  | { kind: "ok"; response: ChatResponse }
+  | { kind: "error"; message: string };
+
+// Pacing constants — kept tight enough to feel live, loose enough that
+// a three-step plan still reads as deliberate rather than dumped.
 const STEP_INTERVAL_MS = 420;
 const REVEAL_DELAY_MS = 600;
 
@@ -46,7 +52,7 @@ export default function AnalystPage() {
   const [turns, setTurns] = useState<Turn[]>([]);
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
-  const [artifact, setArtifact] = useState<ArtifactDescriptor | null>(null);
+  const [artifact, setArtifact] = useState<ChatArtifact | null>(null);
   const streamRef = useRef<HTMLDivElement>(null);
   const idRef = useRef(0);
   const mkId = () => ++idRef.current;
@@ -58,33 +64,66 @@ export default function AnalystPage() {
     });
   }, [turns]);
 
-  const submit = (q: string) => {
+  const submit = async (q: string) => {
     const text = q.trim();
     if (!text || busy) return;
 
-    const recipe = matchRecipe(text);
     const aiId = mkId();
+    // We do not know the step list until the response lands, so the
+    // thinking panel starts with a placeholder and rewrites itself
+    // when the backend answers. This is the only place where steps
+    // mutate mid-turn; the `id === aiId` filter keeps us from leaking
+    // across concurrent turns.
     const aiTurn: AiTurn = {
       id: aiId,
       role: "ai",
       phase: "thinking",
-      steps: recipe.steps.map((t) => ({ text: t, done: false })),
-      artifact: recipe.artifact,
+      steps: [
+        { text: "Thinking…", done: false },
+      ],
     };
     setTurns((t) => [...t, { id: mkId(), role: "user", text }, aiTurn]);
     setDraft("");
     setBusy(true);
 
-    // Fire the real stub endpoint so end-to-end wire stays exercised
-    // even while the agent is scripted. Failures are swallowed — the
-    // scripted flow runs regardless of backend availability.
-    fetch("/api/uniq/chat", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ message: text }),
-    }).catch(() => undefined);
+    const outcome = await fetchChat(text);
 
-    recipe.steps.forEach((_, i) => {
+    if (outcome.kind === "error") {
+      // Surface the failure honestly — no scripted cover-up. A convincing
+      // fake dashboard on a real backend error is worse than an error
+      // message, especially in front of a clinical audience.
+      setTurns((prev) =>
+        prev.map((turn) =>
+          turn.role === "ai" && turn.id === aiId
+            ? {
+                ...turn,
+                phase: "error",
+                steps: [{ text: "Request failed", done: true }],
+                errorMessage: outcome.message,
+              }
+            : turn,
+        ),
+      );
+      setBusy(false);
+      return;
+    }
+
+    const response = outcome.response;
+
+    // Replace placeholder with real steps, then tick them through.
+    setTurns((prev) =>
+      prev.map((turn) =>
+        turn.role === "ai" && turn.id === aiId
+          ? {
+              ...turn,
+              steps: response.steps.map((s) => ({ text: s, done: false })),
+              artifact: response.artifact,
+            }
+          : turn,
+      ),
+    );
+
+    response.steps.forEach((_, i) => {
       setTimeout(
         () => {
           setTurns((prev) =>
@@ -108,16 +147,18 @@ export default function AnalystPage() {
         setTurns((prev) =>
           prev.map((turn) =>
             turn.role === "ai" && turn.id === aiId
-              ? { ...turn, phase: "reply", text: recipe.reply }
+              ? { ...turn, phase: "reply", text: response.reply }
               : turn,
           ),
         );
         setTimeout(() => {
-          setArtifact(recipe.artifact);
+          if (response.artifact) {
+            setArtifact(response.artifact);
+          }
           setBusy(false);
         }, REVEAL_DELAY_MS);
       },
-      STEP_INTERVAL_MS * (recipe.steps.length + 1),
+      STEP_INTERVAL_MS * (response.steps.length + 1),
     );
   };
 
@@ -170,7 +211,7 @@ export default function AnalystPage() {
                   <div className="turn__content">
                     <Thinking
                       steps={turn.steps}
-                      done={turn.phase === "reply"}
+                      done={turn.phase !== "thinking"}
                     />
                     {turn.phase === "reply" && turn.text && (
                       <>
@@ -194,6 +235,14 @@ export default function AnalystPage() {
                           </button>
                         )}
                       </>
+                    )}
+                    {turn.phase === "error" && (
+                      <div className="turn__error" role="alert">
+                        <span className="turn__error-label">Backend error</span>
+                        <span className="turn__error-detail">
+                          {turn.errorMessage ?? "The analyst is unreachable."}
+                        </span>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -225,8 +274,7 @@ export default function AnalystPage() {
               </button>
             </div>
             <div className="composer__hint">
-              queries run against FHIR substrate · 5,374 patients ·
-              read-only in preview mode
+              queries run against FHIR substrate · read-only in preview mode
             </div>
           </form>
         </div>
@@ -240,4 +288,57 @@ export default function AnalystPage() {
       </div>
     </div>
   );
+}
+
+/**
+ * Call the BFF and classify the outcome.
+ *
+ * Fallback rules (intentionally strict so the UI never fabricates
+ * answers under failure):
+ *
+ *   HTTP response received (2xx or non-2xx)
+ *     └── 2xx → ok, use the backend's ChatResponse
+ *     └── non-2xx → error, show the status to the user; NEVER script
+ *         over a backend bug, because the scripted answer would be
+ *         unrelated to what the user asked.
+ *
+ *   Fetch threw (network unreachable, DNS, CORS, etc.)
+ *     └── matchRecipe hits → ok with the scripted response (genuine
+ *         pitch-room wifi safety; only the 3 golden-path prompts
+ *         qualify, and their scripted output is on-topic).
+ *     └── no match → error. We refuse to dress up a random question
+ *         with a Mounjaro dashboard just because there is nothing
+ *         better to show.
+ */
+async function fetchChat(message: string): Promise<ChatOutcome> {
+  let res: Response;
+  try {
+    res = await fetch("/api/uniq/chat", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ message }),
+      cache: "no-store",
+    });
+  } catch {
+    const scripted = matchRecipe(message);
+    if (scripted) return { kind: "ok", response: scripted };
+    return {
+      kind: "error",
+      message:
+        "The analyst backend is unreachable and no offline demo matches this question.",
+    };
+  }
+
+  if (!res.ok) {
+    let detail = `${res.status} ${res.statusText}`.trim();
+    try {
+      const body = (await res.json()) as { detail?: unknown };
+      if (typeof body.detail === "string") detail = body.detail;
+    } catch {
+      /* not JSON — keep status text */
+    }
+    return { kind: "error", message: detail };
+  }
+
+  return { kind: "ok", response: (await res.json()) as ChatResponse };
 }

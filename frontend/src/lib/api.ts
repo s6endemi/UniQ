@@ -77,12 +77,96 @@ export interface CategoriesResponse {
   count: number;
 }
 
+// --- Chat (Phase 6 — hybrid SQL agent with template artifacts) ------------
+//
+// Mirror of `wellster-pipeline/src/api/models.py::ChatResponse`. Four
+// template families (see backend for rationale); extra kinds added later
+// are pure additions to the discriminated union — existing consumers keep
+// working unchanged.
+
+export type DeltaDirection = "up" | "down" | "neutral";
+
+export interface Kpi {
+  label: string;
+  value: string;
+  delta?: string | null;
+  delta_direction?: DeltaDirection | null;
+}
+
+export interface ChartSeries {
+  name: string;
+  points: number[];
+}
+
+export interface Chart {
+  title: string;
+  subtitle?: string | null;
+  x_labels: string[];
+  y_label?: string | null;
+  series: ChartSeries[];
+}
+
+export interface TableColumn {
+  key: string;
+  label: string;
+  align?: "left" | "right" | null;
+  emphasis?: boolean;
+}
+
+export interface TableData {
+  columns: TableColumn[];
+  rows: Array<Record<string, string | number | null>>;
+}
+
+export interface CohortTrendPayload {
+  kpis: Kpi[];
+  chart: Chart;
+  table: TableData;
+}
+
+export interface AlertsTablePayload {
+  kpis: Kpi[];
+  table: TableData;
+}
+
+export interface TablePayload {
+  kpis?: Kpi[] | null;
+  table: TableData;
+}
+
+export interface FhirBundlePayload {
+  resourceType: "Bundle";
+  id: string;
+  type: string;
+  timestamp: string;
+  entry: Array<{ resource: Record<string, unknown> }>;
+}
+
+export type ArtifactKind =
+  | "cohort_trend"
+  | "alerts_table"
+  | "table"
+  | "fhir_bundle";
+
+export type ChatArtifact =
+  | { kind: "cohort_trend"; id: string; title: string; subtitle: string; payload: CohortTrendPayload }
+  | { kind: "alerts_table"; id: string; title: string; subtitle: string; payload: AlertsTablePayload }
+  | { kind: "table"; id: string; title: string; subtitle: string; payload: TablePayload }
+  | { kind: "fhir_bundle"; id: string; title: string; subtitle: string; payload: FhirBundlePayload };
+
+export interface ChatTrace {
+  intent: string;
+  recipe: string | null;
+  sql: string[];
+  row_counts: number[];
+  artifact_kind: ArtifactKind | null;
+}
+
 export interface ChatResponse {
+  steps: string[];
   reply: string;
-  sql: string | null;
-  rows: Array<Record<string, unknown>> | null;
-  chart_spec: Record<string, unknown> | null;
-  truncated: boolean;
+  artifact: ChatArtifact | null;
+  trace: ChatTrace;
 }
 
 class ApiError extends Error {

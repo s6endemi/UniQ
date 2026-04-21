@@ -20,7 +20,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 import config
 from src.datastore import UnifiedDataRepository
-from src.io_utils import atomic_write_json
+from src.io_utils import AtomicReadError, atomic_read_json, atomic_write_json
 from src.query_service import DuckDBQueryService
 
 
@@ -88,10 +88,18 @@ class AppState:
     # enforces it.
 
     def read_mapping(self) -> dict[str, Any]:
+        """Read semantic_mapping.json, retrying on Windows permission races.
+
+        Returns `{}` only for genuine failures (missing file, malformed
+        JSON, or an exhausted-retry permission error). A transient
+        `PermissionError` caused by a concurrent `atomic_write_json`
+        would previously flip this to `{}` and spuriously flag the
+        system as degraded — we now retry through it before giving up.
+        """
         if not SEMANTIC_MAPPING_PATH.exists():
             return {}
         try:
-            return json.loads(SEMANTIC_MAPPING_PATH.read_text(encoding="utf-8"))
+            return atomic_read_json(SEMANTIC_MAPPING_PATH)
         except json.JSONDecodeError as exc:
             print(
                 f"[API] semantic_mapping.json is malformed "
@@ -99,7 +107,13 @@ class AppState:
                 f"serving as degraded until fixed"
             )
             return {}
+        except AtomicReadError as exc:
+            # All retries exhausted — the file is genuinely locked or
+            # permissions are broken, not just racing with a PATCH.
+            print(f"[API] Could not read semantic_mapping.json: {exc}")
+            return {}
         except OSError as exc:
+            # Anything else (ENOENT raced after exists(), I/O errors).
             print(f"[API] Could not read semantic_mapping.json: {exc}")
             return {}
 
@@ -110,12 +124,17 @@ class AppState:
         atomic_write_json(SEMANTIC_MAPPING_PATH, mapping)
 
     def mapping_file_is_healthy(self) -> bool:
-        """True if semantic_mapping.json exists and parses as JSON."""
+        """True if semantic_mapping.json exists and parses as JSON.
+
+        Uses the same retrying read as `read_mapping` so a health
+        probe that races against a PATCH does not spuriously report
+        the mapping as malformed.
+        """
         if not SEMANTIC_MAPPING_PATH.exists():
             return False
         try:
-            json.loads(SEMANTIC_MAPPING_PATH.read_text(encoding="utf-8"))
-        except (json.JSONDecodeError, OSError):
+            atomic_read_json(SEMANTIC_MAPPING_PATH)
+        except (json.JSONDecodeError, AtomicReadError, OSError):
             return False
         return True
 

@@ -91,7 +91,21 @@ class PatientRecordResponse(BaseModel):
     bmi_change: float | None = None
 
 
-# --- Chat (Phase 6 — stubbed for now) --------------------------------------
+# --- Chat (Phase 6 — hybrid SQL agent with template artifacts) ------------
+#
+# The agent returns a small, validated artifact shape rather than letting
+# Claude improvise UI. Four template families cover every analytical
+# question we ship; anything that does not fit degrades to `table`:
+#
+#   cohort_trend   — KPIs + chart (1..n series) + supporting table
+#   alerts_table   — KPIs + a problem table (undocumented switches, gaps)
+#   table          — KPIs optional + a raw table (generic fallback)
+#   fhir_bundle    — FHIR R4 Bundle JSON (patient export)
+#
+# `trace` is mandatory and populated on every response. Today the frontend
+# only surfaces it in dev tools; Phase 7 Workbench will lift it into the
+# first-class provenance surface. Adding it from day one avoids a
+# contract migration later.
 
 
 class ChatRequest(BaseModel):
@@ -99,12 +113,164 @@ class ChatRequest(BaseModel):
     session_id: str | None = None
 
 
+# ---- Shared artifact primitives ------------------------------------------
+
+
+DeltaDirection = Literal["up", "down", "neutral"]
+
+
+class Kpi(BaseModel):
+    label: str
+    value: str
+    delta: str | None = None
+    delta_direction: DeltaDirection | None = None
+
+
+class ChartSeries(BaseModel):
+    name: str
+    points: list[float]
+
+
+class Chart(BaseModel):
+    title: str
+    subtitle: str | None = None
+    x_labels: list[str] = Field(
+        ...,
+        description="Human-readable X-axis tick labels; length matches each series.",
+    )
+    y_label: str | None = None
+    series: list[ChartSeries]
+
+
+class TableColumn(BaseModel):
+    key: str = Field(..., description="Row key for this column's value.")
+    label: str
+    align: Literal["left", "right"] | None = None
+    emphasis: bool = False
+
+
+class TableData(BaseModel):
+    columns: list[TableColumn]
+    rows: list[dict[str, Any]]
+
+
+# ---- Payloads per artifact kind ------------------------------------------
+
+
+class CohortTrendPayload(BaseModel):
+    """KPI strip + one or more trend lines + a supporting table.
+
+    Works for single-cohort trajectories and 2-3 series comparisons. The
+    number of series dictates single vs compare visually; payload shape is
+    identical.
+    """
+
+    kpis: list[Kpi]
+    chart: Chart
+    table: TableData
+
+
+class AlertsTablePayload(BaseModel):
+    kpis: list[Kpi]
+    table: TableData
+
+
+class TablePayload(BaseModel):
+    """Generic fallback. KPIs optional so truly shapeless results still render."""
+
+    kpis: list[Kpi] | None = None
+    table: TableData
+
+
+class FhirBundlePayload(BaseModel):
+    """Subset of the FHIR R4 Bundle resource. Extra keys are passed through."""
+
+    resource_type: Literal["Bundle"] = Field("Bundle", alias="resourceType")
+    id: str
+    type: str
+    timestamp: str
+    entry: list[dict[str, Any]]
+
+    model_config = {"populate_by_name": True}
+
+
+# ---- Artifact discriminated union -----------------------------------------
+
+
+class CohortTrendArtifact(BaseModel):
+    kind: Literal["cohort_trend"] = "cohort_trend"
+    id: str
+    title: str
+    subtitle: str
+    payload: CohortTrendPayload
+
+
+class AlertsTableArtifact(BaseModel):
+    kind: Literal["alerts_table"] = "alerts_table"
+    id: str
+    title: str
+    subtitle: str
+    payload: AlertsTablePayload
+
+
+class TableArtifact(BaseModel):
+    kind: Literal["table"] = "table"
+    id: str
+    title: str
+    subtitle: str
+    payload: TablePayload
+
+
+class FhirBundleArtifact(BaseModel):
+    kind: Literal["fhir_bundle"] = "fhir_bundle"
+    id: str
+    title: str
+    subtitle: str
+    payload: FhirBundlePayload
+
+
+ChatArtifact = (
+    CohortTrendArtifact
+    | AlertsTableArtifact
+    | TableArtifact
+    | FhirBundleArtifact
+)
+
+ArtifactKind = Literal["cohort_trend", "alerts_table", "table", "fhir_bundle"]
+
+
+# ---- Trace & response -----------------------------------------------------
+
+
+class ChatTrace(BaseModel):
+    """Provenance of one chat answer — what the agent did, honestly reported.
+
+    Workbench (Phase 7) will mine this for recipe extraction; we ship it
+    early so no legacy traces exist without it.
+    """
+
+    intent: str = Field(..., description="Classified intent key, or 'unclassified'.")
+    recipe: str | None = Field(
+        None,
+        description="Name of the deterministic recipe that handled this, if any.",
+    )
+    sql: list[str] = Field(default_factory=list)
+    row_counts: list[int] = Field(default_factory=list)
+    artifact_kind: ArtifactKind | None = None
+
+
 class ChatResponse(BaseModel):
+    """Single-shot chat response. Phase 6: request → thinking → artifact, done.
+
+    `steps` are synthetic — derived from which tools/queries the agent ran,
+    not streamed tokens. The frontend paces them through its Thinking panel
+    for Perplexity-style reveal.
+    """
+
+    steps: list[str]
     reply: str
-    sql: str | None = None  # populated when the agent ran a query
-    rows: list[dict[str, Any]] | None = None
-    chart_spec: dict[str, Any] | None = None
-    truncated: bool = False
+    artifact: ChatArtifact | None = None
+    trace: ChatTrace
 
 
 # --- Meta ------------------------------------------------------------------
