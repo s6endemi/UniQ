@@ -42,5 +42,9 @@ wellster-pipeline/tests/fixtures/golden/*
 # Pipeline run log
 wellster-pipeline/pipeline_run.log
 
+# Generated chat-eval reports (regenerate via tests/run_chat_eval.py)
+wellster-pipeline/tests/eval_*.json
+!wellster-pipeline/tests/chat_eval_cases.json
+
 # OS
 Thumbs.db
