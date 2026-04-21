@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+/*
+ * UniQ Design System — "Clinical Futurist"
+ * Inspired by Linear / Vercel polish but with healthcare gravitas.
+ * Every token is exposed as a Tailwind utility via @theme inline.
+ */
+
+:root {
+  /* Surfaces — deep ink with subtle layered depth */
+  --color-ink-950: #07090d;
+  --color-ink-900: #0e131a;
+  --color-ink-850: #121823;
+  --color-ink-800: #161d28;
+  --color-ink-700: #1f2733;
+  --color-ink-600: #3a4554;
+  --color-ink-500: #525e6e;
+
+  /* Text — graduated greys, never pure white */
+  --color-text-0: #f2f5f8;
+  --color-text-1: #c8d0db;
+  --color-text-2: #8a94a3;
+  --color-text-3: #4e5766;
+
+  /* Accents — mineral palette, glow used sparingly */
+  --color-glacial: #3db8c9;     /* primary action / focus */
+  --color-glacial-soft: #6ed1de; /* hover */
+  --color-mineral: #4abd8a;     /* approved / success */
+  --color-amber: #d9a84e;       /* pending / caution */
+  --color-coral: #cd5e6a;       /* rejected / error */
+
+  /* Soft glows for accent halos — used at low alpha */
+  --glow-glacial: 0 0 80px -20px rgba(61, 184, 201, 0.45);
+  --glow-mineral: 0 0 80px -20px rgba(74, 189, 138, 0.4);
+
+  /* Typography stacks (loaded via next/font in layout) */
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+}
+
+@theme inline {
+  /* Map our tokens into Tailwind utilities (text-text-0, bg-ink-900, etc.) */
+  --color-ink-950: var(--color-ink-950);
+  --color-ink-900: var(--color-ink-900);
+  --color-ink-850: var(--color-ink-850);
+  --color-ink-800: var(--color-ink-800);
+  --color-ink-700: var(--color-ink-700);
+  --color-ink-600: var(--color-ink-600);
+  --color-ink-500: var(--color-ink-500);
+
+  --color-text-0: var(--color-text-0);
+  --color-text-1: var(--color-text-1);
+  --color-text-2: var(--color-text-2);
+  --color-text-3: var(--color-text-3);
+
+  --color-glacial: var(--color-glacial);
+  --color-glacial-soft: var(--color-glacial-soft);
+  --color-mineral: var(--color-mineral);
+  --color-amber: var(--color-amber);
+  --color-coral: var(--color-coral);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  border-color: var(--color-ink-700);
+}
+
+html,
+body {
+  background-color: var(--color-ink-950);
+  color: var(--color-text-0);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Subtle radial gradient on body — gives the dark surface depth */
+body {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(61, 184, 201, 0.08), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 80% 110%, rgba(74, 189, 138, 0.05), transparent 60%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(61, 184, 201, 0.35);
+  color: var(--color-text-0);
+}
+
+/* Focus visible — accessible accent ring */
+:focus-visible {
+  outline: 2px solid var(--color-glacial);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Reduced motion respect */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
