@@ -254,9 +254,17 @@ class ChatTrace(BaseModel):
         None,
         description="Name of the deterministic recipe that handled this, if any.",
     )
+    agent_mode: Literal["v1", "v2"] | None = Field(
+        None,
+        description="Which `/chat` runtime handled the request.",
+    )
     sql: list[str] = Field(default_factory=list)
     row_counts: list[int] = Field(default_factory=list)
     artifact_kind: ArtifactKind | None = None
+    tool_log: list[dict[str, Any]] = Field(
+        default_factory=list,
+        description="Per-tool execution trace, for future Workbench provenance.",
+    )
 
 
 class ChatResponse(BaseModel):

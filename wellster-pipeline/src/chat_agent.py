@@ -85,6 +85,7 @@ def run_chat_agent(
             trace=ChatTrace(
                 intent=recipe_hit.recipe,
                 recipe=recipe_hit.recipe,
+                agent_mode="v1",
                 sql=recipe_hit.sql,
                 row_counts=recipe_hit.row_counts,
                 artifact_kind=recipe_hit.artifact.kind,
@@ -207,6 +208,7 @@ def _run_generic_agent(
         trace=ChatTrace(
             intent="generic_sql",
             recipe=None,
+            agent_mode="v1",
             sql=state.executed_sql,
             row_counts=state.row_counts,
             artifact_kind=artifact.kind if artifact else None,
@@ -336,6 +338,7 @@ def _degraded_no_key_response(
         trace=ChatTrace(
             intent="degraded_no_key",
             recipe=None,
+            agent_mode="v1",
             sql=[],
             row_counts=[len(categories)],
             artifact_kind="table",
@@ -360,6 +363,7 @@ def _degraded_api_error_response(
         trace=ChatTrace(
             intent="degraded_api_error",
             recipe=None,
+            agent_mode="v1",
             sql=[],
             row_counts=[],
             artifact_kind=None,

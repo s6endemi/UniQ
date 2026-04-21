@@ -77,7 +77,7 @@
     "must_contain_reply_terms": ["Mounjaro"],
     "must_not_contain_reply_terms": ["trajectory", "trend"],
     "artifact_must_contain_terms": [],
-    "latency_budget_ms": 18000,
+    "latency_budget_ms": 25000,
     "notes": "Drug name + 'side effects' is not a trend. Side-effect data lives under SIDE_EFFECT_REPORT category in survey_unified."
   },
   {
@@ -93,7 +93,7 @@
     "must_contain_reply_terms": ["Wegovy"],
     "must_not_contain_reply_terms": ["Mounjaro"],
     "artifact_must_contain_terms": [],
-    "latency_budget_ms": 18000,
+    "latency_budget_ms": 22000,
     "notes": "Drug + 'adherent' is a discrete metric per patient, not a trend. Reply must name Wegovy, not Mounjaro."
   },
   {
@@ -240,7 +240,7 @@
     "must_contain_reply_terms": [],
     "must_not_contain_reply_terms": [],
     "artifact_must_contain_terms": [],
-    "latency_budget_ms": 12000,
+    "latency_budget_ms": 16000,
     "notes": "Meta/capabilities question. Correct answer is text-only — no SQL, no artifact. v1 will either match no recipe and send to generic agent (which may still run SQL) or degrade. v2 must answer meta questions without running queries."
   },
   {

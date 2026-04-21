@@ -274,6 +274,9 @@ def main() -> int:
                     help="Write full JSON report to this path.")
     ap.add_argument("--filter", type=str, default=None,
                     help="Substring match against case id or category.")
+    ap.add_argument("--agent-mode", type=str, default=None,
+                    choices=["v1", "v2"],
+                    help="Temporarily force UNIQ_AGENT_MODE for this run.")
     args = ap.parse_args()
 
     # Gate early on missing artifacts so we do not blame the agent for
@@ -293,6 +296,10 @@ def main() -> int:
 
     print(f"Running {len(cases)} case{'s' if len(cases) != 1 else ''} against /chat…")
     print(f"  (cases file: {args.cases})")
+    if args.agent_mode:
+        import os
+        os.environ["UNIQ_AGENT_MODE"] = args.agent_mode
+        print(f"  (agent mode: {args.agent_mode})")
     print()
 
     results: list[dict[str, Any]] = []

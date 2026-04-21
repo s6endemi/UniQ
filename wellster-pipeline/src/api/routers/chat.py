@@ -15,9 +15,11 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException
 
+import config
 from src.api.deps import get_query, get_repo
 from src.api.models import ChatRequest, ChatResponse
 from src.chat_agent import run_chat_agent
+from src.chat_agent_v2 import run_chat_agent_v2
 from src.datastore import UnifiedDataRepository
 from src.query_service import DuckDBQueryService
 
@@ -33,4 +35,6 @@ def chat(
     message = request.message.strip()
     if not message:
         raise HTTPException(status_code=400, detail="`message` must not be empty.")
+    if config.get_agent_mode() == "v2":
+        return run_chat_agent_v2(message, query=query, repo=repo)
     return run_chat_agent(message, query=query, repo=repo)

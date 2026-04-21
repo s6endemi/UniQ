@@ -43,6 +43,16 @@ LLM_BATCH_SIZE = 30
 LLM_MAX_RETRIES = 3
 LLM_RETRY_BASE_DELAY = 2  # seconds, exponential backoff
 
+
+def get_agent_mode() -> str:
+    """Runtime agent selector for `/chat`.
+
+    Read from the live environment rather than freezing a module-level
+    constant so local eval harnesses can flip between v1 and v2 inside the
+    same Python process.
+    """
+    return os.environ.get("UNIQ_AGENT_MODE", "v1").strip().lower() or "v1"
+
 # --- Clinical Taxonomy ---
 # Populated after Step 3 discovery + team review.
 # Each key = category name, value = definition for the LLM classifier.
