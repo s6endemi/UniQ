@@ -1,52 +1,77 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-const NAV_ITEMS = [
-  { href: "/", label: "Story" },
-  { href: "/review", label: "Review" },
-  { href: "/analyst", label: "Analyst" },
-];
+const ROOMS = [
+  { id: "story", href: "/", label: "Story", hotkey: "1" },
+  { id: "review", href: "/review", label: "Review", hotkey: "2" },
+  { id: "analyst", href: "/analyst", label: "Analyst", hotkey: "3" },
+] as const;
 
 export function Nav() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const current = (() => {
+    if (pathname === "/") return "story";
+    if (pathname.startsWith("/review")) return "review";
+    if (pathname.startsWith("/analyst")) return "analyst";
+    return null;
+  })();
+
+  // Apply the room-specific paper tone on html element — drives the tonal
+  // shift between surfaces documented in DESIGN.md.
+  useEffect(() => {
+    const tone =
+      current === "review"
+        ? "var(--review-tone)"
+        : current === "analyst"
+          ? "var(--analyst-tone)"
+          : "var(--story-tone)";
+    document.documentElement.style.setProperty("--paper", tone);
+  }, [current]);
+
+  // 1 / 2 / 3 keyboard shortcuts (ignoring when user is typing)
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && target.matches("input, textarea")) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const hit = ROOMS.find((r) => r.hotkey === e.key);
+      if (hit) router.push(hit.href);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [router]);
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-ink-700/60 bg-ink-950/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
-        <Link href="/" className="flex items-center gap-2 font-display text-lg font-semibold tracking-tight">
-          <span className="relative inline-block h-2 w-2 rounded-full bg-glacial">
-            <span className="absolute inset-0 animate-ping rounded-full bg-glacial opacity-60" />
-          </span>
-          <span>Uni</span>
-          <span className="text-glacial">Q</span>
-        </Link>
+    <nav className="nav">
+      <Link href="/" className="nav__brand" aria-label="UniQ home">
+        <span className="brand-mark" aria-hidden="true" />
+        <span>
+          Uni<em>Q</em>
+        </span>
+      </Link>
 
-        <div className="flex items-center gap-1">
-          {NAV_ITEMS.map((item) => {
-            const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-                  active
-                    ? "bg-ink-800 text-text-0"
-                    : "text-text-2 hover:bg-ink-800/60 hover:text-text-1"
-                )}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </div>
+      <div className="nav__rooms" role="tablist">
+        {ROOMS.map((room) => (
+          <Link
+            key={room.id}
+            href={room.href}
+            className="nav__room"
+            aria-current={current === room.id}
+          >
+            {room.label}
+          </Link>
+        ))}
+      </div>
 
-        <div className="flex items-center gap-3 text-xs text-text-3 font-mono">
-          <span className="hidden sm:inline">v0.1</span>
-        </div>
+      <div className="nav__meta">
+        <span className="nav__status">
+          <span className="nav__status-dot" aria-hidden="true" /> PIPELINE · LIVE
+        </span>
       </div>
     </nav>
   );

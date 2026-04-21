@@ -1,24 +1,26 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Newsreader, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { Nav } from "@/components/nav";
+import { PageTransition } from "@/components/page-transition";
 import { Providers } from "@/components/providers";
 import "./globals.css";
 
-const display = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
-const sans = IBM_Plex_Sans({
+const plexSans = IBM_Plex_Sans({
   variable: "--font-plex-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
-const mono = IBM_Plex_Mono({
+const plexMono = IBM_Plex_Mono({
   variable: "--font-plex-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
@@ -26,9 +28,9 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "UniQ — AI-powered healthcare data unification",
+  title: "UniQ — infrastructure for clinical data",
   description:
-    "UniQ unifies fragmented healthcare data into FHIR-compliant clinical records. AI proposes, clinicians validate, the engine adapts.",
+    "UniQ is the data layer beneath your telehealth stack. We ingest fragmented clinical data, discover its structure with AI, let clinicians approve every decision, and expose the result as a FHIR-compliant substrate.",
 };
 
 export default function RootLayout({
@@ -39,12 +41,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${sans.variable} ${mono.variable} h-full antialiased`}
+      className={`${newsreader.variable} ${plexSans.variable} ${plexMono.variable}`}
     >
-      <body className="min-h-full flex flex-col">
+      <body>
         <Providers>
-          <Nav />
-          <main className="flex-1">{children}</main>
+          <div className="shell">
+            <Nav />
+            <PageTransition>{children}</PageTransition>
+          </div>
         </Providers>
       </body>
     </html>
