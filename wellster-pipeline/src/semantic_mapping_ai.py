@@ -33,6 +33,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).parent.parent))
 import config
 from src.classify_ai import _call_api
+from src.io_utils import atomic_write_json
 
 
 SEMANTIC_MAPPING_FILE = config.OUTPUT_DIR / "semantic_mapping.json"
@@ -327,11 +328,10 @@ def generate_semantic_mapping(
     merged = _merge_with_cache(ai_entries, {k: v for k, v in cached.items() if not k.startswith("__")})
     merged["__taxonomy_fingerprint__"] = fingerprint
 
-    SEMANTIC_MAPPING_FILE.parent.mkdir(parents=True, exist_ok=True)
-    SEMANTIC_MAPPING_FILE.write_text(
-        json.dumps(merged, indent=2, ensure_ascii=False),
-        encoding="utf-8",
-    )
+    # Use the atomic writer so a running FastAPI cannot observe a
+    # half-written mapping file during pipeline regeneration. Same
+    # semantics as the /mapping PATCH path.
+    atomic_write_json(SEMANTIC_MAPPING_FILE, merged)
     print(f"[SEM] Saved mapping to {SEMANTIC_MAPPING_FILE}")
 
     # Summary

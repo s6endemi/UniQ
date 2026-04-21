@@ -441,15 +441,24 @@ def main() -> int:
     state.write_mapping(versions[0])
 
     partial_or_unknown: list[str] = []
+    writer_errors: list[str] = []
     total_reads = 0
     stop_flag = {"stop": False}
 
     def writer_worker() -> None:
+        # Previous version of this test silently swallowed writer
+        # exceptions, which let Windows PermissionError on os.replace
+        # crash the thread while the test still reported green. Now
+        # surface every exception through writer_errors so the test
+        # actually fails if the atomic write regresses.
         for i in range(100):
             if stop_flag["stop"]:
                 break
-            with state.mapping_lock():
-                state.write_mapping(versions[i % 2])
+            try:
+                with state.mapping_lock():
+                    state.write_mapping(versions[i % 2])
+            except Exception as exc:
+                writer_errors.append(f"iter {i}: {type(exc).__name__}: {exc}")
 
     def strict_reader_worker() -> None:
         nonlocal total_reads
@@ -493,6 +502,18 @@ def main() -> int:
         _fail(
             "concurrent readers only see complete versions (strict)",
             f"{len(partial_or_unknown)} anomalies; first: {partial_or_unknown[0]}",
+        )
+
+    # The writer must survive 100 iterations against active readers.
+    # Windows PermissionError on os.replace is caught and retried by
+    # `atomic_write_json` in src/io_utils.py; any remaining exception
+    # surfaces here.
+    if not writer_errors:
+        _ok("writer survives 100 iters against active readers")
+    else:
+        _fail(
+            "writer survives 100 iters against active readers",
+            f"{len(writer_errors)} writer errors; first: {writer_errors[0]}",
         )
 
     # Restore backup one more time after the stress loop

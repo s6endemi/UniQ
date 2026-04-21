@@ -12,9 +12,7 @@ honestly.
 from __future__ import annotations
 
 import json
-import os
 import sys
-import tempfile
 from pathlib import Path
 from threading import Lock
 from typing import Any
@@ -22,6 +20,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 import config
 from src.datastore import UnifiedDataRepository
+from src.io_utils import atomic_write_json
 from src.query_service import DuckDBQueryService
 
 
@@ -105,29 +104,10 @@ class AppState:
             return {}
 
     def write_mapping(self, mapping: dict[str, Any]) -> None:
-        SEMANTIC_MAPPING_PATH.parent.mkdir(parents=True, exist_ok=True)
-        payload = json.dumps(mapping, indent=2, ensure_ascii=False)
-
-        # Write to a sibling temp file first so a concurrent reader that
-        # beats us to os.replace still sees the previous valid content.
-        # NamedTemporaryFile gives us a unique name; we manage cleanup on
-        # failure because delete=False is needed for the rename dance.
-        fd, tmp_path_str = tempfile.mkstemp(
-            prefix=".semantic_mapping.", suffix=".json.tmp",
-            dir=str(SEMANTIC_MAPPING_PATH.parent),
-        )
-        tmp_path = Path(tmp_path_str)
-        try:
-            with os.fdopen(fd, "w", encoding="utf-8") as fh:
-                fh.write(payload)
-            os.replace(tmp_path, SEMANTIC_MAPPING_PATH)
-        except Exception:
-            # Don't leak the tmp file if something failed before replace.
-            try:
-                tmp_path.unlink()
-            except OSError:
-                pass
-            raise
+        # Atomicity + Windows PermissionError retry live in the shared
+        # util so pipeline-side writers (semantic_mapping_ai) share the
+        # exact same write semantics as the API PATCH path.
+        atomic_write_json(SEMANTIC_MAPPING_PATH, mapping)
 
     def mapping_file_is_healthy(self) -> bool:
         """True if semantic_mapping.json exists and parses as JSON."""
