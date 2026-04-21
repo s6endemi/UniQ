@@ -66,13 +66,16 @@ _DRUG_PATTERNS: dict[str, list[str]] = {
     "Saxenda": ["saxenda", "liraglutide"],
 }
 
+# Trend/verlauf cues. `"bmi"` is deliberately NOT here — it was in the
+# original list but caused `cohort_trajectory` to hijack questions like
+# "What is the average BMI of all patients?" into a Mounjaro dashboard.
+# A clinical term alone is not an intent signal.
 _TREND_WORDS = (
     "trend",
     "trajectory",
     "over time",
     "weeks",
     "cohort",
-    "bmi",
     "weight loss",
 )
 
@@ -208,10 +211,14 @@ def try_cohort_trajectory(
 ) -> RecipeResult | None:
     text = message.lower()
     drug = _detect_drug(text)
-    # Allow the trend recipe to fire when the user clearly wants a cohort
-    # trend even without a drug keyword — we default to Mounjaro since
-    # that is the pitch's canonical example.
-    if not _any(_TREND_WORDS, text) and drug is None:
+    # STRICT AND-gate (Codex review follow-up): both a drug name AND a
+    # trend cue must be present. The previous OR-gate hijacked
+    # unrelated questions — "what is the average BMI?" matched on the
+    # single word "bmi" and then defaulted the drug to Mounjaro,
+    # producing a convincing-but-wrong cohort dashboard. The safer
+    # default when either signal is missing is to let the generic
+    # agent handle the question.
+    if drug is None or not _any(_TREND_WORDS, text):
         return None
     # Do not hijack clearly patient-scoped questions.
     if _PATIENT_ID_RE.search(message) and "cohort" not in text:
@@ -222,7 +229,6 @@ def try_cohort_trajectory(
     if _count_drugs_mentioned(text) >= 2:
         return None
 
-    drug = drug or "Mounjaro"
     like = f"%{drug.lower()}%"
 
     trend_result = query.execute_sql(_COHORT_SQL, [like])
@@ -289,7 +295,7 @@ def try_cohort_trajectory(
     )
 
     steps = [
-        f"Classified intent · cohort trajectory ({drug})",
+        f"Matched recipe · cohort trajectory ({drug})",
         f"Resolved cohort · {n_patients} patients on {drug}",
         f"Aggregated BMI across {len(trend_df)} visits",
         "Selected artifact · cohort_trend",
@@ -335,7 +341,7 @@ def try_patient_fhir_bundle(
         return RecipeResult(
             recipe="patient_fhir_bundle",
             steps=[
-                "Classified intent · patient FHIR export",
+                "Matched recipe · patient FHIR export",
                 f"Resolved patient identifier · {user_id}",
                 "Patient not found",
             ],
@@ -356,7 +362,7 @@ def try_patient_fhir_bundle(
     )
 
     steps = [
-        "Classified intent · patient FHIR export",
+        "Matched recipe · patient FHIR export",
         f"Resolved patient identifier · {user_id}",
         "Queried FHIR substrate · Patient, Observation, MedicationStatement, Condition",
         f"Assembled Bundle · {total} resources ({counts_str})",
@@ -428,7 +434,7 @@ def try_ops_alerts(
         return RecipeResult(
             recipe="ops_alerts",
             steps=[
-                "Classified intent · data-quality alerts",
+                "Matched recipe · data-quality alerts",
                 "Queried quality_report",
                 "No issues found",
             ],
@@ -484,7 +490,7 @@ def try_ops_alerts(
     )
 
     steps = [
-        "Classified intent · data-quality alerts",
+        "Matched recipe · data-quality alerts",
         f"Queried quality_report · {alerts_result.row_count} rows",
         f"Aggregated severity · {errors} errors / {warnings} warnings",
         "Selected artifact · alerts_table",

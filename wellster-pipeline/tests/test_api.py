@@ -334,6 +334,53 @@ def main() -> int:
                 _fail("/chat rejects empty message with 400",
                       f"got {r.status_code}")
 
+            # 14f. Recipe-matcher regression (Codex review follow-up).
+            # The v1 OR-gate over-matched: "bmi" alone routed into
+            # cohort_trajectory and defaulted the drug to Mounjaro, so
+            # honest-but-unrelated questions ("what is the average
+            # BMI?") landed on a fake Mounjaro dashboard. The matcher
+            # now requires BOTH a trend cue AND an explicit drug.
+            # Pure-function assertions — no Sonnet involved, so this
+            # runs offline and deterministically.
+            from src.chat_recipes import try_match_recipe
+
+            negative_prompts = [
+                "What is the average BMI of all patients?",
+                "What are Mounjaro side effects?",
+                "How adherent are Wegovy patients?",
+            ]
+            negative_hits = [
+                p for p in negative_prompts
+                if try_match_recipe(p, state.query, state.repo) is not None
+            ]
+            if not negative_hits:
+                _ok(
+                    "recipe matcher does not hijack unrelated prompts",
+                    f"{len(negative_prompts)} unrelated prompts, none matched",
+                )
+            else:
+                _fail(
+                    "recipe matcher does not hijack unrelated prompts",
+                    f"unexpectedly matched: {negative_hits}",
+                )
+
+            # Positive control: the canonical golden-path prompt must
+            # still match, otherwise the tightening went too far.
+            hit = try_match_recipe(
+                "Show BMI trends for Mounjaro patients over 24 weeks",
+                state.query, state.repo,
+            )
+            if hit is not None and hit.recipe == "cohort_trajectory":
+                _ok(
+                    "recipe matcher still fires on genuine cohort prompt",
+                    f"recipe={hit.recipe}",
+                )
+            else:
+                _fail(
+                    "recipe matcher still fires on genuine cohort prompt",
+                    f"got {hit.recipe if hit else None!r}",
+                )
+
             # 13d. FHIR bundle *content*: must contain exactly one Patient
             # resource whose identifier matches the requested uid, plus
             # every entry has a resourceType from the allow-list.
