@@ -26,22 +26,32 @@ export interface PromptSuggestion {
   text: string;
 }
 
+// Four live-verified prompts, each exercising a different artifact
+// family so the jury sees the product's breadth in a single sitting:
+//   1. cohort_trend  — Mounjaro BMI dashboard (the money shot)
+//   2. alerts_table  — data-quality ops view
+//   3. fhir_bundle   — B2B interop output
+//   4. table         — side-effects summary, shows survey-derived data
+//
+// Verified against the Wellster substrate on 2026-04-22. Each produces
+// a clean, pitch-appropriate result; latency sits between 3 s (FHIR)
+// and 12 s (cohort trend).
 export const PROMPT_SUGGESTIONS: PromptSuggestion[] = [
   {
     meta: "Cohort · trend",
-    text: "Show BMI trends for Mounjaro patients over the past 24 weeks",
+    text: "Show BMI trends for the Mounjaro cohort",
   },
   {
-    meta: "Adherence",
-    text: "Which patients have missed more than two weekly doses?",
+    meta: "Data quality",
+    text: "Which patients have data quality issues?",
   },
   {
     meta: "FHIR export",
-    text: "Generate a FHIR bundle for patient PT-44192",
+    text: "Generate a FHIR bundle for patient 381119",
   },
   {
-    meta: "Cross-cohort",
-    text: "Compare HbA1c change between Ozempic and Mounjaro",
+    meta: "Survey",
+    text: "What are the most common side effects reported?",
   },
 ];
 

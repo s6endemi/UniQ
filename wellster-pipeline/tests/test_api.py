@@ -21,10 +21,19 @@ from __future__ import annotations
 
 import copy
 import json
+import os
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
+
+# The /chat recipe assertions in section 14 test v1's deterministic
+# recipe matcher specifically (trace.recipe names, recipe-shaped
+# artifacts). Since `config.get_agent_mode()` defaults to v2 in
+# production, pin the test run to v1 here so those assertions keep
+# testing what they claim. v2-specific tests live in
+# tests/test_chat_agent_v2.py.
+os.environ["UNIQ_AGENT_MODE"] = "v1"
 
 import config
 from fastapi.testclient import TestClient

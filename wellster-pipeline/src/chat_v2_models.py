@@ -57,6 +57,14 @@ class PresentAlertsTableInput(BaseModel):
     subtitle: str = Field(..., min_length=1)
     severity_column: str = Field("severity", min_length=1)
     reply_text: str = Field(..., min_length=1)
+    total_count: int | None = Field(
+        None,
+        description=(
+            "True total issue count when the underlying table_handle was "
+            "LIMITed. Without this the Total Issues KPI defaults to the "
+            "rendered row count which under-reports the substrate."
+        ),
+    )
 
 
 class PresentFhirBundleInput(BaseModel):

@@ -50,8 +50,12 @@ def get_agent_mode() -> str:
     Read from the live environment rather than freezing a module-level
     constant so local eval harnesses can flip between v1 and v2 inside the
     same Python process.
+
+    Default is `v2` — the unified Sonnet tool-loop where the model picks
+    the artifact family. `v1` (regex recipes) remains available for
+    latency-sensitive demos via `UNIQ_AGENT_MODE=v1`.
     """
-    return os.environ.get("UNIQ_AGENT_MODE", "v1").strip().lower() or "v1"
+    return os.environ.get("UNIQ_AGENT_MODE", "v2").strip().lower() or "v2"
 
 # --- Clinical Taxonomy ---
 # Populated after Step 3 discovery + team review.

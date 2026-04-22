@@ -435,7 +435,7 @@ def _present_alerts_table(
 ) -> ChatArtifact:
     handle = _require_handle(state, parsed.table_handle)
     df = handle.df.copy()
-    kpis = _derive_alert_kpis(df, parsed.severity_column)
+    kpis = _derive_alert_kpis(df, parsed.severity_column, parsed.total_count)
     table = df_to_table(
         df,
         emphasis={parsed.severity_column} if parsed.severity_column in df.columns else None,
@@ -508,18 +508,38 @@ def _derive_cohort_kpis(trend_df: pd.DataFrame, series: list[ChartSeries]) -> li
     return kpis[:3]
 
 
-def _derive_alert_kpis(df: pd.DataFrame, severity_column: str) -> list[Kpi]:
-    total = len(df)
+def _derive_alert_kpis(
+    df: pd.DataFrame,
+    severity_column: str,
+    total_override: int | None = None,
+) -> list[Kpi]:
+    # `total_override` wins when provided so a `LIMIT 50` query no longer
+    # under-reports the substrate — Claude feeds in the real `COUNT(*)`
+    # via the `total_count` tool argument.
+    rendered = len(df)
+    total = int(total_override) if total_override is not None else rendered
     if severity_column not in df.columns:
         return [Kpi(label="Issues", value=f"{total:,}")]
 
     normalized = df[severity_column].astype(str).str.lower()
     errors = int((normalized == "error").sum())
     warnings = int((normalized == "warning").sum())
+    # When we limited the rendered rows, the severity counts on this page
+    # no longer equal the global counts. Suffix them with the visible
+    # sample so the UI stays honest.
+    suffix = f" of {rendered:,} shown" if total_override and total_override > rendered else ""
     return [
         Kpi(label="Total issues", value=f"{total:,}"),
-        Kpi(label="Errors", value=f"{errors:,}", delta_direction="up" if errors else "down"),
-        Kpi(label="Warnings", value=f"{warnings:,}", delta_direction="neutral"),
+        Kpi(
+            label="Errors",
+            value=f"{errors:,}{suffix}",
+            delta_direction="up" if errors else "down",
+        ),
+        Kpi(
+            label="Warnings",
+            value=f"{warnings:,}{suffix}",
+            delta_direction="neutral",
+        ),
     ]
 
 

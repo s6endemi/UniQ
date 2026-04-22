@@ -150,14 +150,14 @@ export default function StoryPage() {
             </p>
 
             <div className="story-hero__cta-row">
-              <Link href="/analyst" className="btn btn--primary">
-                Ask the analyst <span className="arrow">→</span>
+              <Link href="/start" className="btn btn--primary">
+                Start demo <span className="arrow">→</span>
               </Link>
-              <Link href="/review" className="btn btn--ghost">
-                Review 20 mappings <span className="arrow">→</span>
+              <Link href="/analyst" className="btn btn--ghost">
+                Skip to analyst <span className="arrow">→</span>
               </Link>
               <span className="t-meta" style={{ marginLeft: 8 }}>
-                or press <span className="kbd">2</span> ·{" "}
+                or press <span className="kbd">s</span> ·{" "}
                 <span className="kbd">3</span>
               </span>
             </div>
