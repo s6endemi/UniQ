@@ -9,12 +9,31 @@ approved/overridden entries verbatim — the human decisions win.
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 
 from src.api.deps import AppState, get_mapping_state
 from src.api.models import MappingEntry, MappingUpdate
 from src.semantic_mapping_ai import _validate_entry  # reuse the contract check
 
 router = APIRouter(prefix="/mapping", tags=["mapping"])
+
+
+# Categories that should NOT be part of the audit-ready clinical substrate
+# — they are operational uploads / documents, not clinical data. Everything
+# else is flipped to approved on reset.
+_RESET_REJECT_CATEGORIES: frozenset[str] = frozenset({
+    "ID_DOCUMENT_UPLOAD",
+    "PATIENT_PHOTO_UPLOAD",
+    "PHOTO_UPLOAD_DECISION",
+})
+
+
+class ResetResponse(BaseModel):
+    approved: int
+    rejected: int
+    pending: int
+    overridden: int
+    changed: int
 
 
 def _to_model(category: str, raw: dict) -> MappingEntry:
@@ -111,3 +130,54 @@ def update_mapping(
         state.write_mapping(mapping)
 
     return _to_model(category, merged)
+
+
+@router.post("/reset", response_model=ResetResponse)
+def reset_mapping(
+    state: AppState = Depends(get_mapping_state),
+) -> ResetResponse:
+    """Reset every mapping to its pitch-ready review_status.
+
+    Policy:
+        - Non-clinical categories (uploads, photos, workflow decisions)
+          → rejected (they are intentionally not in the substrate).
+        - Everything else → approved.
+
+    This is a developer/demo convenience: the /review UI has no reset
+    control, and accumulated click-through state from testing can make
+    the substrate read inconsistently across the Analyst, patient_record
+    artifacts, and lineage ribbons. After calling this, the
+    semantic_mapping cache in `src.artifact_builders` is cleared so the
+    next artifact build picks up the new state without a server restart.
+    """
+    with state.mapping_lock():
+        mapping = state.read_mapping()
+        changed = 0
+        counts = {"approved": 0, "rejected": 0, "pending": 0, "overridden": 0}
+
+        for category, entry in mapping.items():
+            if category.startswith("__") or not isinstance(entry, dict):
+                continue
+            new_status = (
+                "rejected"
+                if category in _RESET_REJECT_CATEGORIES
+                else "approved"
+            )
+            old_status = entry.get("review_status", "pending")
+            if old_status != new_status:
+                entry["review_status"] = new_status
+                changed += 1
+            counts[new_status] = counts.get(new_status, 0) + 1
+
+        state.write_mapping(mapping)
+
+    # Clear the semantic_mapping cache so the next patient_record build
+    # reflects the new review_status values immediately. Without this,
+    # artifacts would still show stale pending/rejected markers until
+    # the server restarts.
+    from src import artifact_builders
+
+    if hasattr(artifact_builders._load_semantic_mapping, "_cache"):
+        delattr(artifact_builders._load_semantic_mapping, "_cache")
+
+    return ResetResponse(**counts, changed=changed)

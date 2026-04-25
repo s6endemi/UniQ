@@ -26,6 +26,7 @@ from src.artifact_builders import (
     build_degraded_table_from_df,
     build_empty_table,
     build_fhir_bundle,
+    build_patient_record,
     build_table,
     df_to_table,
     humanise,
@@ -44,6 +45,7 @@ from src.chat_v2_models import (
     PresentAlertsTableInput,
     PresentCohortTrendInput,
     PresentFhirBundleInput,
+    PresentPatientRecordInput,
     PresentTableInput,
     SampleRowsInput,
 )
@@ -55,6 +57,7 @@ TERMINAL_TOOLS: set[str] = {
     "present_cohort_trend",
     "present_alerts_table",
     "present_fhir_bundle",
+    "present_patient_record",
     "present_table",
 }
 
@@ -331,6 +334,9 @@ def _execute_terminal_tool(
         elif tool_name == "present_fhir_bundle":
             parsed = PresentFhirBundleInput.model_validate(args)
             artifact = _present_fhir_bundle(repo, parsed)
+        elif tool_name == "present_patient_record":
+            parsed = PresentPatientRecordInput.model_validate(args)
+            artifact = _present_patient_record(repo, parsed)
         elif tool_name == "present_table":
             parsed = PresentTableInput.model_validate(args)
             artifact = _present_table(state, parsed)
@@ -348,6 +354,15 @@ def _execute_terminal_tool(
             reply = (
                 "I could not assemble a FHIR bundle for that request. "
                 "Please re-check the patient identifier and try again."
+            )
+        elif tool_name == "present_patient_record":
+            artifact = build_empty_table(
+                title=fallback_title,
+                subtitle="Patient record unavailable",
+            )
+            reply = (
+                "I could not open that patient record. Please re-check the "
+                "patient identifier and try again."
             )
         else:
             artifact = _degrade_terminal_failure(
@@ -461,6 +476,18 @@ def _present_fhir_bundle(
         title=parsed.title,
         subtitle=parsed.subtitle,
         bundle=payload["bundle"],
+    )
+
+
+def _present_patient_record(
+    repo: UnifiedDataRepository,
+    parsed: PresentPatientRecordInput,
+) -> ChatArtifact:
+    return build_patient_record(
+        repo=repo,
+        user_id=parsed.user_id,
+        title=parsed.title,
+        subtitle=parsed.subtitle,
     )
 
 

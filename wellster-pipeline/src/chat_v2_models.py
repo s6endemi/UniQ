@@ -81,9 +81,17 @@ class PresentTableInput(BaseModel):
     reply_text: str = Field(..., min_length=1)
 
 
+class PresentPatientRecordInput(BaseModel):
+    user_id: int = Field(..., description="Wellster numeric user_id, e.g. 381119.")
+    title: str = Field(..., min_length=1)
+    subtitle: str = Field(..., min_length=1)
+    reply_text: str = Field(..., min_length=1)
+
+
 TerminalToolName = Literal[
     "present_cohort_trend",
     "present_alerts_table",
     "present_fhir_bundle",
     "present_table",
+    "present_patient_record",
 ]

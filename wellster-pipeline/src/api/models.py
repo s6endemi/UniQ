@@ -194,6 +194,90 @@ class FhirBundlePayload(BaseModel):
     model_config = {"populate_by_name": True}
 
 
+# ---- Patient record artifact ---------------------------------------------
+#
+# Single-patient deep view. Where cohort_trend answers "what does this
+# population do over time?", patient_record answers "what is the full,
+# audited clinical story of one person?". The substrate already has typed
+# per-patient reads on the repository, so this artifact bypasses the SQL
+# handle dance and lets the builder pull directly.
+
+
+class PatientHeader(BaseModel):
+    user_id: int
+    label: str = Field(..., description="Display ID, e.g. 'PT-381119'.")
+    brand: str | None = None
+    gender: str
+    current_age: int
+    current_medication: str | None = None
+    current_dosage: str | None = None
+    tenure_days: int | None = None
+    status: Literal["active", "inactive"]
+
+
+class PatientMedicationSegment(BaseModel):
+    name: str
+    dosage: str | None = None
+    started: str
+    ended: str | None = Field(
+        None,
+        description="ISO date the script ended, or null if the medication is ongoing.",
+    )
+
+
+PatientEventTrack = Literal[
+    "bmi", "medication", "side_effect", "condition", "quality", "survey"
+]
+PatientEventSeverity = Literal["normal", "info", "warn", "alert"]
+
+
+class PatientEvent(BaseModel):
+    """One dot on the timeline.
+
+    Carries enough provenance to render the audit trail card without a
+    second backend round-trip: source field, normalised category, code
+    system, and the HITL review status that gated it into the substrate.
+    """
+
+    id: str
+    track: PatientEventTrack
+    timestamp: str
+    label: str
+    detail: str | None = None
+    severity: PatientEventSeverity | None = None
+    value: float | None = None
+    source_field: str | None = None
+    source_category: str | None = None
+    code_system: str | None = None
+    code: str | None = None
+    review_status: ReviewStatus | None = None
+
+
+class PatientBmiPoint(BaseModel):
+    date: str
+    value: float
+
+
+class PatientRecordPayload(BaseModel):
+    header: PatientHeader
+    kpis: list[Kpi]
+    medications: list[PatientMedicationSegment]
+    events: list[PatientEvent]
+    bmi_series: list[PatientBmiPoint]
+    timeline_start: str
+    timeline_end: str
+    quality_summary: dict[str, int] = Field(
+        default_factory=dict,
+        description="Severity → count of quality alerts for this patient.",
+    )
+    fhir_resource_count: int = 0
+    source_field_count: int = Field(
+        0,
+        description="Distinct raw source fields collapsed into this record — "
+        "the 'chaos → order' headline metric for the audit panel.",
+    )
+
+
 # ---- Artifact discriminated union -----------------------------------------
 
 
@@ -229,14 +313,25 @@ class FhirBundleArtifact(BaseModel):
     payload: FhirBundlePayload
 
 
+class PatientRecordArtifact(BaseModel):
+    kind: Literal["patient_record"] = "patient_record"
+    id: str
+    title: str
+    subtitle: str
+    payload: PatientRecordPayload
+
+
 ChatArtifact = (
     CohortTrendArtifact
     | AlertsTableArtifact
     | TableArtifact
     | FhirBundleArtifact
+    | PatientRecordArtifact
 )
 
-ArtifactKind = Literal["cohort_trend", "alerts_table", "table", "fhir_bundle"]
+ArtifactKind = Literal[
+    "cohort_trend", "alerts_table", "table", "fhir_bundle", "patient_record"
+]
 
 
 # ---- Trace & response -----------------------------------------------------

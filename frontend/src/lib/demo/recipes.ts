@@ -42,16 +42,16 @@ export const PROMPT_SUGGESTIONS: PromptSuggestion[] = [
     text: "Show BMI trends for the Mounjaro cohort",
   },
   {
+    meta: "Patient · timeline",
+    text: "Open patient 383871",
+  },
+  {
     meta: "Data quality",
     text: "Which patients have data quality issues?",
   },
   {
     meta: "FHIR export",
     text: "Generate a FHIR bundle for patient 381119",
-  },
-  {
-    meta: "Survey",
-    text: "What are the most common side effects reported?",
   },
 ];
 

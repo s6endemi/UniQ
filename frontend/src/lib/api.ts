@@ -49,6 +49,14 @@ export interface HealthResponse {
   mapping_entries: number;
 }
 
+export interface MappingResetResponse {
+  approved: number;
+  rejected: number;
+  pending: number;
+  overridden: number;
+  changed: number;
+}
+
 export interface PatientRecord {
   user_id: number;
   gender: string;
@@ -142,17 +150,89 @@ export interface FhirBundlePayload {
   entry: Array<{ resource: Record<string, unknown> }>;
 }
 
+// --- Patient record artifact ---------------------------------------------
+//
+// Single-patient deep view. Mirror of `wellster-pipeline/src/api/models.py`.
+// Where cohort_trend answers "what does this population do over time?",
+// patient_record answers "what is the full, audited clinical story of one
+// person?". Each PatientEvent carries enough provenance to render the
+// audit-trail card without a second backend round-trip.
+
+export type PatientEventTrack =
+  | "bmi"
+  | "medication"
+  | "side_effect"
+  | "condition"
+  | "quality"
+  | "survey";
+
+export type PatientEventSeverity = "normal" | "info" | "warn" | "alert";
+
+export interface PatientHeader {
+  user_id: number;
+  label: string;
+  brand: string | null;
+  gender: string;
+  current_age: number;
+  current_medication: string | null;
+  current_dosage: string | null;
+  tenure_days: number | null;
+  status: "active" | "inactive";
+}
+
+export interface PatientMedicationSegment {
+  name: string;
+  dosage: string | null;
+  started: string;
+  ended: string | null;
+}
+
+export interface PatientEvent {
+  id: string;
+  track: PatientEventTrack;
+  timestamp: string;
+  label: string;
+  detail: string | null;
+  severity: PatientEventSeverity | null;
+  value: number | null;
+  source_field: string | null;
+  source_category: string | null;
+  code_system: string | null;
+  code: string | null;
+  review_status: ReviewStatus | null;
+}
+
+export interface PatientBmiPoint {
+  date: string;
+  value: number;
+}
+
+export interface PatientRecordPayload {
+  header: PatientHeader;
+  kpis: Kpi[];
+  medications: PatientMedicationSegment[];
+  events: PatientEvent[];
+  bmi_series: PatientBmiPoint[];
+  timeline_start: string;
+  timeline_end: string;
+  quality_summary: Record<string, number>;
+  fhir_resource_count: number;
+  source_field_count: number;
+}
+
 export type ArtifactKind =
   | "cohort_trend"
   | "alerts_table"
   | "table"
-  | "fhir_bundle";
+  | "fhir_bundle"
+  | "patient_record";
 
 export type ChatArtifact =
   | { kind: "cohort_trend"; id: string; title: string; subtitle: string; payload: CohortTrendPayload }
   | { kind: "alerts_table"; id: string; title: string; subtitle: string; payload: AlertsTablePayload }
   | { kind: "table"; id: string; title: string; subtitle: string; payload: TablePayload }
-  | { kind: "fhir_bundle"; id: string; title: string; subtitle: string; payload: FhirBundlePayload };
+  | { kind: "fhir_bundle"; id: string; title: string; subtitle: string; payload: FhirBundlePayload }
+  | { kind: "patient_record"; id: string; title: string; subtitle: string; payload: PatientRecordPayload };
 
 export interface ChatTrace {
   intent: string;
@@ -213,6 +293,8 @@ export const uniq = {
       method: "PATCH",
       body: JSON.stringify(update),
     }),
+  resetMapping: () =>
+    request<MappingResetResponse>("/mapping/reset", { method: "POST" }),
 
   getPatient: (id: number) => request<PatientRecord>(`/patients/${id}`),
   fhirExport: (id: number) => request<Record<string, unknown>>(`/export/${id}/fhir`),

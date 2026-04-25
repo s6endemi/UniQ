@@ -258,5 +258,53 @@
     "artifact_must_contain_terms": [],
     "latency_budget_ms": 10000,
     "notes": "Pure greeting. Brief text-only reply, no tool use."
+  },
+  {
+    "id": "pos_patient_record_open",
+    "category": "positive",
+    "failure_mode": "patient_record_miss",
+    "prompt": "Open patient 381119",
+    "expected_artifact_kind": "patient_record",
+    "disallowed_artifact_kinds": ["fhir_bundle", "cohort_trend", "alerts_table"],
+    "min_sql_count": 0,
+    "max_sql_count": 1,
+    "requires_fhir_tool": false,
+    "must_contain_reply_terms": ["381119"],
+    "must_not_contain_reply_terms": [],
+    "artifact_must_contain_terms": ["PT-381119"],
+    "latency_budget_ms": 12000,
+    "notes": "Canonical patient_record prompt. Verb 'open' is unambiguous — must route to present_patient_record, not fhir_bundle or table."
+  },
+  {
+    "id": "pos_patient_record_show",
+    "category": "positive",
+    "failure_mode": "patient_record_show_routed_to_fhir",
+    "prompt": "Show me patient 381119",
+    "expected_artifact_kind": "patient_record",
+    "disallowed_artifact_kinds": ["fhir_bundle", "cohort_trend", "alerts_table"],
+    "min_sql_count": 0,
+    "max_sql_count": 1,
+    "requires_fhir_tool": false,
+    "must_contain_reply_terms": ["381119"],
+    "must_not_contain_reply_terms": [],
+    "artifact_must_contain_terms": ["PT-381119"],
+    "latency_budget_ms": 12000,
+    "notes": "Edge case. Verb 'show' is more ambiguous than 'open' — Sonnet might route to FHIR because patient-scoped FHIR rule fires too. Tool description must steer 'show'/'display'/'view' to present_patient_record when the user did NOT say FHIR/export."
+  },
+  {
+    "id": "pos_patient_record_german",
+    "category": "positive",
+    "failure_mode": "patient_record_german_paraphrase",
+    "prompt": "Zeig mir Patient 381119",
+    "expected_artifact_kind": "patient_record",
+    "disallowed_artifact_kinds": ["fhir_bundle", "cohort_trend", "alerts_table"],
+    "min_sql_count": 0,
+    "max_sql_count": 1,
+    "requires_fhir_tool": false,
+    "must_contain_reply_terms": ["381119"],
+    "must_not_contain_reply_terms": [],
+    "artifact_must_contain_terms": ["PT-381119"],
+    "latency_budget_ms": 12000,
+    "notes": "German paraphrase of 'Show me patient X'. Same routing rule must fire."
   }
 ]

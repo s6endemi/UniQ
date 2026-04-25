@@ -120,6 +120,23 @@ async function patchMapping(
   return res.json();
 }
 
+interface MappingResetResult {
+  approved: number;
+  rejected: number;
+  pending: number;
+  overridden: number;
+  changed: number;
+}
+
+async function resetMappings(): Promise<MappingResetResult> {
+  const res = await fetch("/api/uniq/mapping/reset", { method: "POST" });
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.detail ?? `reset failed: ${res.status}`);
+  }
+  return res.json();
+}
+
 // ---------------------------------------------------------------
 // Primitives
 // ---------------------------------------------------------------
@@ -414,6 +431,18 @@ function ReviewPageInner() {
     pivotIdRef.current = pivotId;
   }, [pivotId]);
 
+  const resetMutation = useMutation({
+    mutationFn: resetMappings,
+    onSuccess: () => {
+      // Refetch the mapping list so every row reflects the new
+      // approved / rejected states immediately. The touched-ids state
+      // gets cleared too so rows that are no longer "dirty" show
+      // their real backend status.
+      setTouchedIds(new Set());
+      qc.invalidateQueries({ queryKey: ["mapping"] });
+    },
+  });
+
   const patchMutation = useMutation({
     mutationFn: ({ id, update }: { id: string; update: MappingUpdate }) =>
       patchMapping(id, update),
@@ -707,6 +736,47 @@ function ReviewPageInner() {
         {data && filtered.length === 0 && (
           <div style={{ padding: "48px 0", textAlign: "center" }}>
             <div className="t-meta">No mappings in this filter.</div>
+          </div>
+        )}
+
+        {/* Subtle reset control — sits at the very bottom so it never
+            competes with the live mapping work. Confirms before firing
+            because resetting clinical sign-offs is destructive even in
+            a demo context. */}
+        {data && data.length > 0 && (
+          <div className="review__reset">
+            <span className="t-meta">
+              accumulated demo state from earlier sessions?
+            </span>
+            <button
+              type="button"
+              className="review__reset-btn"
+              disabled={resetMutation.isPending}
+              onClick={() => {
+                const ok = window.confirm(
+                  "Reset every mapping to the pitch-ready state?\n\n" +
+                    "Clinical categories → approved.\n" +
+                    "Upload / photo workflows → rejected.\n\n" +
+                    "Existing approve / reject / override choices will " +
+                    "be replaced.",
+                );
+                if (ok) resetMutation.mutate();
+              }}
+            >
+              {resetMutation.isPending ? "resetting…" : "reset to pitch-ready"}
+            </button>
+            {resetMutation.isSuccess && resetMutation.data && (
+              <span className="review__reset-result">
+                {resetMutation.data.changed === 0
+                  ? "already in pitch-ready state"
+                  : `${resetMutation.data.changed} categories updated · ${resetMutation.data.approved} approved · ${resetMutation.data.rejected} rejected`}
+              </span>
+            )}
+            {resetMutation.error && (
+              <span className="review__reset-result review__reset-result--err">
+                {(resetMutation.error as Error).message}
+              </span>
+            )}
           </div>
         )}
       </div>
