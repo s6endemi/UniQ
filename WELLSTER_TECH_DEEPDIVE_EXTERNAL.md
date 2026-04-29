@@ -30,6 +30,21 @@ The important technical point: AI is used to discover semantic structure, not to
 continuously reinterpret every row at runtime. Once mappings and normalization
 decisions are signed, materialization is deterministic and auditable.
 
+## If You Only Read 5 Minutes
+
+- UniQ is a clinical truth layer beside Wellster's systems, not a replacement
+  for them.
+- AI proposes structure on unique patterns; Wellster's clinical/data review
+  signs meaning; deterministic code applies it across all rows.
+- Current materialized snapshot: **5,374 patients**, **116,207 validated
+  clinical events**, **527 governed normalization records**, **19/19 chat eval**.
+- The Spring -> GoLighter funnel in section 2 shows the operational payoff:
+  4,557 Spring patients reduce to 59 high-priority screening candidates through
+  a reproducible substrate query.
+- The pilot review path is concrete: 60 minutes, live manifest, 5-10 known
+  patients, normalization queue, FHIR sample, and one disposable retraction
+  check.
+
 ```mermaid
 flowchart LR
     source[Wellster survey export] --> discovery[AI discovery]
@@ -50,19 +65,22 @@ substrate manifest:
 GET /v1/substrate/manifest
 ```
 
-**Backend snapshot**
+**Hero numbers**
+
+- **Patient records:** 5,374
+- **Validated survey events:** 116,207
+- **Normalization registry records:** 527
+- **Open unknown answer variants:** 217
+- **Chat eval:** 19/19 passed
+
+**Manifest detail**
 
 - **Raw input rows:** 133,996
 - **Raw question IDs:** 4,553
 - **Unique English question texts:** 234
 - **Clinical categories:** 20
-- **Patient records:** 5,374
 - **Raw/staging survey events:** 133,996
-- **Validated survey events:** 116,207
-- **Normalization registry records:** 527
-- **Open unknown answer variants:** 217
 - **Quality findings:** 1,041
-- **Chat eval:** 19/19 passed
 
 ```mermaid
 flowchart LR
@@ -176,14 +194,19 @@ dataset. Downstream clinical consumers read from the validated substrate layer.
 
 The central trust boundary is `survey_unified` vs `survey_validated`.
 
-**`survey_unified`: raw/staging layer**
+**Where is the clinical truth?**
+
+The clinical runtime surface is `survey_validated`. The raw/staging surface is
+`survey_unified`.
+
+`survey_unified`: raw/staging layer
 
 - 133,996 rows
 - all categories
 - unknowns and rejected/nonclinical categories retained
 - used for audit, debugging, and review
 
-**`survey_validated`: runtime clinical layer**
+`survey_validated`: runtime clinical layer
 
 - 116,207 rows
 - approved categories only
@@ -201,7 +224,7 @@ flowchart LR
     validated --> cohorts[Cohort artifacts]
 ```
 
-**Answer normalization governance**
+**How are answer values trusted?**
 
 Answer normalization is stored as reviewable records, not as a flat string map:
 
@@ -228,7 +251,7 @@ Current queue state:
 Unknown answer variants are not silently trusted. They remain visible for review
 while the validated layer stays limited to reviewed semantics.
 
-**AI drift and runtime guardrails**
+**How do you bound AI drift and hallucination?**
 
 ```mermaid
 flowchart TD
@@ -250,20 +273,12 @@ There are three AI surfaces:
 - **Answer-normalization AI:** proposes labels; registry review state decides runtime trust.
 - **Analyst LLM:** read-only tools, typed tool schemas, backend-resolved artifacts.
 
-The analyst cannot mutate the substrate. SQL is guarded against DDL/DML, stacked
-statements, file/network table functions, `ATTACH`, `COPY`, and `PRAGMA`.
-Tool inputs are Pydantic-validated, and final artifacts are built by backend
-code.
+The analyst cannot mutate the substrate. SQL is guarded against DDL/DML,
+stacked statements, file/network table functions, `ATTACH`, `COPY`, and
+`PRAGMA`. Tool inputs are Pydantic-validated, and final artifacts are built by
+backend code.
 
-Test backing:
-
-```text
-query guardrail tests: 7/7
-chat agent tests:      5/5
-chat eval:             19/19
-```
-
-**Reproducibility**
+**How can Wellster verify what was exported?**
 
 Every materialization run writes a manifest with input hash, mapping hash,
 normalization hash, output-table hashes, validation coverage, chat-eval status,
@@ -375,6 +390,15 @@ opportunity lists. The cross-brand funnel in section 2 is one example: the
 analyst requests the artifact, but deterministic backend logic computes the
 cohort against `survey_validated`.
 
+**Verification coverage**
+
+Current focused checks:
+
+- **Query guardrail tests:** 7/7
+- **Chat agent tests:** 5/5
+- **Chat eval:** 19/19
+- **Retraction tests:** 7/7
+
 ## 7. Pilot Review Checklist
 
 For a technical review, we suggest validating the system in this order:
@@ -395,6 +419,18 @@ For a technical review, we suggest validating the system in this order:
 This can be done as a 60-minute technical walkthrough. We bring the manifest
 live, validate selected patients with your team, inspect the normalization
 queue, and align pilot scope around the review depth Wellster wants.
+
+**What we want to learn from your team**
+
+- Are `survey_unified` and `survey_validated` the right trust boundary for your
+  workflow?
+- Are 217 open unknown answer variants a reasonable review backlog, or would
+  Wellster prefer stricter ingestion gating?
+- Which FHIR profiles, value-coding expectations, or ePA/EHDS roadmap items
+  matter most for your data team?
+- Where should Wellster sit on the HITL spectrum: review every label, review
+  unknowns only, or use confidence thresholds after onboarding?
+- Which source should join the substrate next if the survey pilot is successful?
 
 ## 8. Expansion Path
 
