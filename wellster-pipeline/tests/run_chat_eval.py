@@ -270,7 +270,7 @@ def print_summary(results: list[dict[str, Any]]) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description="Chat eval runner.")
     ap.add_argument("--cases", type=str, default=str(CASES_PATH))
-    ap.add_argument("--out", type=str, default=None,
+    ap.add_argument("--out", type=str, default=str(config.OUTPUT_DIR / "chat_eval_report.json"),
                     help="Write full JSON report to this path.")
     ap.add_argument("--filter", type=str, default=None,
                     help="Substring match against case id or category.")
@@ -321,16 +321,16 @@ def main() -> int:
 
     print_summary(results)
 
+    report = {
+        "meta": {
+            "generated_at": time.time(),
+            "cases_file": args.cases,
+            "total": len(results),
+            "passed": sum(1 for r in results if r["status"] == "pass"),
+        },
+        "results": results,
+    }
     if args.out:
-        report = {
-            "meta": {
-                "generated_at": time.time(),
-                "cases_file": args.cases,
-                "total": len(results),
-                "passed": sum(1 for r in results if r["status"] == "pass"),
-            },
-            "results": results,
-        }
         out_path = Path(args.out)
         out_path.parent.mkdir(parents=True, exist_ok=True)
         out_path.write_text(
@@ -338,6 +338,16 @@ def main() -> int:
             encoding="utf-8",
         )
         print(f"\nJSON report: {out_path}")
+        try:
+            from src.materialization_manifest import write_manifest
+
+            write_manifest(save=True)
+            print("materialization manifest updated with eval result")
+        except Exception as exc:
+            print(
+                "warning: materialization manifest not updated "
+                f"({type(exc).__name__}: {exc})"
+            )
 
     # Always exit 0 — this harness intentionally does not fail CI.
     # Codex owns the threshold assertions for v1-vs-v2 comparison.

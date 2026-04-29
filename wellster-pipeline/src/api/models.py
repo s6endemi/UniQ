@@ -248,6 +248,11 @@ class MaterializationManifestSummary(BaseModel):
     normalization_total_records: int = 0
     normalization_by_status: dict[str, int] = Field(default_factory=dict)
     normalization_queue_open: int = 0
+    validation_completeness: dict[str, int] = Field(default_factory=dict)
+    retraction_active_tombstones: int = 0
+    chat_eval_passed: int | None = None
+    chat_eval_total: int | None = None
+    chat_eval_stale: bool | None = None
     output_table_hashes: dict[str, str | None] = Field(default_factory=dict)
 
 

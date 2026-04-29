@@ -37,6 +37,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import config
 from src.engine import PipelineArtifacts, load_artifacts_from_disk
 from src.normalization_registry import NormalizationRegistry
+from src.retractions import filter_retracted_dataframe
 
 
 # ---------------------------------------------------------------------------
@@ -238,6 +239,7 @@ class UnifiedDataRepository:
         self._survey = artifacts.survey.copy()
 
         self._coerce_dtypes()
+        self._apply_retractions()
         self._preparse_canonical()
         self._patient_index = self._build_patient_index()
         self._survey_validated_cache: pd.DataFrame | None = None
@@ -285,6 +287,15 @@ class UnifiedDataRepository:
     def _preparse_canonical(self) -> None:
         if "answer_canonical" in self._survey.columns:
             self._survey["answer_canonical"] = self._survey["answer_canonical"].apply(_parse_canonical)
+
+    def _apply_retractions(self) -> None:
+        """Filter active patient-erasure tombstones out of all patient tables."""
+        self._patients = filter_retracted_dataframe(self._patients)
+        self._episodes = filter_retracted_dataframe(self._episodes)
+        self._bmi_timeline = filter_retracted_dataframe(self._bmi_timeline)
+        self._medication_history = filter_retracted_dataframe(self._medication_history)
+        self._quality_report = filter_retracted_dataframe(self._quality_report)
+        self._survey = filter_retracted_dataframe(self._survey)
 
     def _build_patient_index(self) -> dict[int, int]:
         """Map user_id -> positional row index for O(1) lookups."""
@@ -442,7 +453,11 @@ class UnifiedDataRepository:
             return approved_seen
 
         label_mask = df.apply(_label_is_currently_valid, axis=1)
-        return df[cat_mask & label_mask].reset_index(drop=True)
+        validated = df[cat_mask & label_mask].copy()
+        validated["validation_completeness"] = validated["normalization_status"].apply(
+            lambda status: "partial" if str(status) == "partial" else "full"
+        )
+        return validated.reset_index(drop=True)
 
         # Fallback: substrate predates P0.3 — gate on category only.
     # ---- Typed patient-keyed reads ----------------------------------------

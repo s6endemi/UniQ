@@ -3,7 +3,8 @@
 The hybrid-agent design from Phase 6 planning: a small set of known
 intents bypass the Anthropic tool-use loop entirely and run a pinned SQL
 template + validated builder. Everything else falls through to the
-generic agent (chat_agent.py).
+generic agent (`chat_agent_v2.py` by default; `chat_agent.py` only when
+`UNIQ_AGENT_MODE=v1` is set).
 
 Why: pitch robustness. For the canonical demo questions (BMI cohort
 dashboard, FHIR export, quality alerts), we cannot afford prompt
@@ -77,6 +78,10 @@ _TREND_WORDS = (
     "weeks",
     "cohort",
     "weight loss",
+    "verlauf",
+    "entwicklung",
+    "zeitverlauf",
+    "kohorte",
 )
 
 _ALERT_WORDS = (

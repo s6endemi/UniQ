@@ -1,9 +1,8 @@
-"""Chat endpoint — hybrid analyst agent (Phase 6).
+"""Chat endpoint for the analyst agent.
 
-Delegates to `src.chat_agent.run_chat_agent`. Deterministic recipes
-short-circuit the pitch golden paths (cohort trajectory, patient FHIR
-bundle, quality alerts); everything else goes through a Claude tool-use
-loop that produces a table artifact.
+The default runtime is v2 (`src.chat_agent_v2.run_chat_agent_v2`).
+The v1 hybrid agent remains wired only as an explicit fallback through
+`UNIQ_AGENT_MODE=v1`.
 
 Errors from the agent surface as honest 503/500s — we do not paper over
 a missing API key or an unreachable Anthropic API with a fake "reply"

@@ -16,6 +16,7 @@ from src.clinical_annotations import (
 )
 from src.datastore import PatientRecord, UnifiedDataRepository
 from src.export_fhir import export_fhir_bundle, validate_fhir_bundle
+from src.retractions import is_patient_retracted
 
 router = APIRouter(tags=["patients"])
 
@@ -41,6 +42,8 @@ def get_patient(
     user_id: int,
     repo: UnifiedDataRepository = Depends(get_repo),
 ) -> PatientRecordResponse:
+    if is_patient_retracted(user_id):
+        raise HTTPException(status_code=404, detail=f"Unknown user_id {user_id}")
     record = repo.patient(user_id)
     if record is None:
         raise HTTPException(status_code=404, detail=f"Unknown user_id {user_id}")
@@ -59,7 +62,7 @@ def export_fhir(
     that path still works for obesity data. A later phase swaps it for
     `semantic_mapping.json` once enough entries have been reviewed.
     """
-    if repo.patient(user_id) is None:
+    if is_patient_retracted(user_id) or repo.patient(user_id) is None:
         raise HTTPException(status_code=404, detail=f"Unknown user_id {user_id}")
 
     patients_df = repo.patients[repo.patients["user_id"] == user_id]
@@ -96,7 +99,7 @@ def list_patient_annotations(
     user_id: int,
     repo: UnifiedDataRepository = Depends(get_repo),
 ) -> list[ClinicalAnnotation]:
-    if repo.patient(user_id) is None:
+    if is_patient_retracted(user_id) or repo.patient(user_id) is None:
         raise HTTPException(status_code=404, detail=f"Unknown user_id {user_id}")
     raw = annotations_for_patient(user_id)
     return [ClinicalAnnotation.model_validate(a) for a in raw]
@@ -114,7 +117,7 @@ def create_patient_annotation(
     x_uniq_reviewer: str | None = Header(None),
     x_uniq_role: str | None = Header(None),
 ) -> ClinicalAnnotation:
-    if repo.patient(user_id) is None:
+    if is_patient_retracted(user_id) or repo.patient(user_id) is None:
         raise HTTPException(status_code=404, detail=f"Unknown user_id {user_id}")
     # Reviewer headers override the demo author defaults baked into
     # `clinical_annotations.append_annotation`. Empty / missing headers

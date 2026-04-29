@@ -12,7 +12,7 @@ What we cover:
       regeneration (approved entries must not be overwritten by the AI).
     - /patients/{id} returns typed record; unknown id -> 404.
     - /export/{id}/fhir returns a Bundle with entries.
-    - /chat stub returns the agreed response shape.
+    - /chat deterministic recipes return the agreed response shape.
 
 Prereq: `output/` populated (pipeline.py was run). Skips otherwise.
 """

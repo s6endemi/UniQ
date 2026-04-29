@@ -1,4 +1,9 @@
-"""Hybrid chat orchestrator.
+"""Legacy v1 hybrid chat orchestrator.
+
+The production pilot default is `src.chat_agent_v2.run_chat_agent_v2`.
+This module is retained as an explicit fallback for local demos via
+`UNIQ_AGENT_MODE=v1`; new analyst behavior should be implemented in the
+v2 agent and v2 prompt files.
 
 Flow:
 

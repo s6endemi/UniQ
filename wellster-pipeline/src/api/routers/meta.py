@@ -280,7 +280,10 @@ def _materialization_summary() -> MaterializationManifestSummary | None:
         return None
     sm = manifest.get("semantic_mapping") or {}
     nr = manifest.get("normalization") or {}
+    retractions = manifest.get("retractions") or {}
+    chat_eval = (manifest.get("evals") or {}).get("chat_agent") or {}
     output_tables = manifest.get("output_tables") or {}
+    validated_table = output_tables.get("survey_validated") or {}
     return MaterializationManifestSummary(
         run_id=str(manifest.get("run_id") or "unknown"),
         generated_at=str(manifest.get("generated_at") or ""),
@@ -299,6 +302,15 @@ def _materialization_summary() -> MaterializationManifestSummary | None:
         normalization_queue_open=int(
             (nr.get("queue_stats") or {}).get("open", 0)
         ),
+        validation_completeness=dict(
+            validated_table.get("validation_completeness") or {}
+        ),
+        retraction_active_tombstones=int(
+            retractions.get("active_tombstones", 0) or 0
+        ),
+        chat_eval_passed=chat_eval.get("passed"),
+        chat_eval_total=chat_eval.get("total"),
+        chat_eval_stale=chat_eval.get("stale"),
         output_table_hashes={
             name: info.get("file_hash")
             for name, info in output_tables.items()

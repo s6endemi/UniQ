@@ -1,5 +1,9 @@
 """UniQ — Unified Questionnaire Intelligence — Live Demo"""
 
+LEGACY_SURFACE = (
+    "Streamlit demo only. The pilot clinical runtime is FastAPI under src/api/."
+)
+
 import json, sys
 from pathlib import Path
 import pandas as pd

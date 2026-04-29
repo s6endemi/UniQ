@@ -1,4 +1,8 @@
-"""System prompt + tool schemas for the Phase 6 chat agent.
+"""Legacy v1 system prompt + tool schemas.
+
+The production pilot default uses `chat_prompts_v2.py`. This file stays
+in the tree only because `UNIQ_AGENT_MODE=v1` remains available as a
+local fallback path.
 
 Kept separate from the agent loop so the prompt can evolve (better
 examples, refined guardrails) without touching orchestration code, and

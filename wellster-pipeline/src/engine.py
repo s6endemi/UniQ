@@ -117,6 +117,22 @@ def run_pipeline(
     progress("Running quality checks")
     quality = run_quality(patients, bmi_df, episodes, med_hist)
 
+    progress("Applying active retractions")
+    try:
+        from src.retractions import apply_active_retractions_to_outputs
+
+        retraction_result = apply_active_retractions_to_outputs()
+        if retraction_result.get("total_rows_removed"):
+            print(
+                "[INFO] Applied active retractions "
+                f"({retraction_result['total_rows_removed']} rows removed)"
+            )
+    except Exception as exc:
+        print(
+            "[WARN] active retractions could not be applied "
+            f"({type(exc).__name__}: {exc})"
+        )
+
     progress("Writing materialization manifest")
     try:
         from src.materialization_manifest import write_manifest

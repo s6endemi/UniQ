@@ -38,6 +38,7 @@ INSPECTION_REPORT = OUTPUT_DIR / "data_inspection.txt"
 
 # --- API Settings ---
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+RETRACTION_HASH_SECRET = os.environ.get("UNIQ_RETRACTION_HASH_SECRET", "")
 LLM_MODEL = "claude-sonnet-4-6"
 LLM_BATCH_SIZE = 30
 LLM_MAX_RETRIES = 3

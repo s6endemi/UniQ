@@ -172,6 +172,78 @@ def _normalization_stats() -> dict[str, Any]:
     }
 
 
+def _retraction_stats() -> dict[str, Any]:
+    path = Path(config.OUTPUT_DIR) / "retraction_tombstones.json"
+    try:
+        from src.retractions import load_tombstones
+
+        tombstones = load_tombstones(path)
+    except Exception:
+        tombstones = []
+    active = [
+        entry for entry in tombstones
+        if str(entry.get("status", "active")) == "active"
+    ]
+    return {
+        "file_hash": _hash_file(path),
+        "total_tombstones": len(tombstones),
+        "active_tombstones": len(active),
+        "latest_deleted_at": max(
+            (str(entry.get("deleted_at", "")) for entry in active),
+            default=None,
+        ),
+    }
+
+
+def _chat_eval_stats() -> dict[str, Any]:
+    path = Path(config.OUTPUT_DIR) / "chat_eval_report.json"
+    if not path.exists():
+        return {"exists": False, "report_hash": None}
+    try:
+        data = atomic_read_json(path)
+    except Exception:
+        return {"exists": True, "report_hash": _hash_file(path), "error": "unreadable"}
+    meta = data.get("meta") if isinstance(data, dict) else {}
+    results = data.get("results") if isinstance(data, dict) else []
+    total = int(meta.get("total", len(results) if isinstance(results, list) else 0) or 0)
+    passed = int(meta.get("passed", 0) or 0)
+    failed = max(0, total - passed)
+
+    report_mtime = path.stat().st_mtime
+    output_files = [
+        Path(config.OUTPUT_DIR) / name
+        for name in (
+            "patients.csv",
+            "survey_unified.csv",
+            "semantic_mapping.json",
+            "answer_normalization.json",
+        )
+    ]
+    newest_output_mtime = max(
+        (p.stat().st_mtime for p in output_files if p.exists()),
+        default=0.0,
+    )
+    generated_at = meta.get("generated_at")
+    generated_at_iso = None
+    if isinstance(generated_at, (int, float)):
+        generated_at_iso = datetime.fromtimestamp(
+            float(generated_at),
+            tz=timezone.utc,
+        ).isoformat()
+
+    return {
+        "exists": True,
+        "report_hash": _hash_file(path),
+        "generated_at": generated_at_iso,
+        "cases_file": meta.get("cases_file"),
+        "total": total,
+        "passed": passed,
+        "failed": failed,
+        "pass_rate": (passed / total) if total else None,
+        "stale": report_mtime < newest_output_mtime,
+    }
+
+
 def _output_table_stats() -> dict[str, dict[str, Any]]:
     """Per-CSV row count + hash for every output table."""
     output_dir = Path(config.OUTPUT_DIR)
@@ -199,11 +271,20 @@ def _output_table_stats() -> dict[str, dict[str, Any]]:
         out["survey_validated"] = {
             "row_count": len(validated),
             "file_hash": _hash_dataframe(validated),
+            "validation_completeness": {
+                str(k): int(v)
+                for k, v in (
+                    validated["validation_completeness"].value_counts()
+                    if "validation_completeness" in validated.columns
+                    else pd.Series(dtype="int64")
+                ).items()
+            },
         }
     except Exception:
         out["survey_validated"] = {
             "row_count": None,
             "file_hash": None,
+            "validation_completeness": {},
         }
     return out
 
@@ -240,6 +321,8 @@ def build_manifest() -> dict[str, Any]:
         "taxonomy": _taxonomy_stats(),
         "semantic_mapping": _semantic_mapping_stats(),
         "normalization": _normalization_stats(),
+        "retractions": _retraction_stats(),
+        "evals": {"chat_agent": _chat_eval_stats()},
         "output_tables": _output_table_stats(),
     }
 
