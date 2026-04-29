@@ -236,6 +236,11 @@ For context, in case it's useful before our call:
 - New patient-record artifact: identity header + KPIs + BMI hero chart
   with WHO baseline reference + 4-track event timeline + audit trail
   panel + FHIR export
+- New screening-candidates artifact: Spring → GoLighter cohort funnel
+  (BMI ≥ 27, no GoLighter history, active in last 180 days), yielding
+  456 active candidates and 60 high-priority review cases
+- New substrate repository map: patients hub, six linked resources,
+  semantic-mapping governance layer, API hooks, and audit provenance
 - 17/3/0 mapping review state (17 clinical categories approved, 3 upload
   workflows rejected, 0 pending)
 - 3,731+ FHIR R4 resources exportable from current substrate

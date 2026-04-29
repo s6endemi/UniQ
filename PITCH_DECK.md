@@ -101,7 +101,7 @@ Below in red: *"3 question IDs · 3 answer formats · same clinical fact."*
 
 ---
 
-## Slide 3 · Solution + live demo · The Clinical Truth Layer (75 s)
+## Slide 3 · Solution + live demo · The Clinical Truth Layer (90 s)
 
 **Visual** (then transition to live screen):
 ```
@@ -121,21 +121,24 @@ Below in red: *"3 question IDs · 3 answer formats · same clinical fact."*
 
 **Spoken (intro, 15 s)**:
 > *"UniQ is the Clinical Truth Layer. Discovered by AI. Signed by
-> clinicians. Served in FHIR. Watch four capabilities in 60 seconds."*
+> clinicians. Served in FHIR. Watch the substrate become a repository
+> and then power two different consumers."*
 
-**Demo sequence (60 s, live in browser)**:
+**Demo sequence (75 s, live in browser)**:
 
 | Time | Surface | What you click | What you say |
 |---|---|---|---|
 | 0–10 s | `/start` | Click "Run intake" | *"AI discovers the structure — 134K rows, 26 clinical categories, two API calls."* |
 | 10–25 s | `/review` | Click Approve on the BMI pivot | *"A clinician signs off on every semantic decision. This is what makes it deployable in production."* |
-| 25–40 s | `/analyst` | Type "Open patient 383871" | *"This is one patient's full clinical timeline. BMI down four points, dose escalated 2.5 to 5 mg, side effects logged, every event signed by a clinician — see the lineage ribbon at the top."* |
-| 40–55 s | (still patient_record) | Click any BMI dot | *"Click any data point: raw source field, normalised category, LOINC code, clinician sign-off — full audit trail per measurement."* |
-| 55–60 s | (still patient_record) | Click "Export FHIR" | *"One click to a 135-resource FHIR Bundle. ePA-ready, EHDS-compatible, today."* |
+| 25–40 s | `/substrate-ready` | Let repository map materialise | *"Approval does not create a report. It materializes a clinical repository: patients linked to BMI timeline, medications, quality flags, survey events, mappings and FHIR bundles — all keyed, signed and queryable."* |
+| 40–55 s | `/analyst` | Type "Open patient 383871" | *"This is one consumer of that repository: one patient's full clinical timeline. BMI down four points, dose escalated 2.5 to 5 mg, side effects logged, every event signed by a clinician."* |
+| 55–65 s | (still patient_record) | Click any BMI dot, then FHIR export | *"Click any data point: raw source field, normalised category, LOINC code, clinician sign-off. One click exports the FHIR Bundle."* |
+| 65–75 s | `/analyst` | Type "Find GoLighter screening candidates from Spring" | *"Second consumer, same repository: 456 active Spring patients with BMI ≥ 27 and no GoLighter history — an operational cohort Wellster can review this quarter."* |
 
 **Why exists**:
 - This is the SHOW slide — the wow. Everything before sets up, this delivers.
-- patient_record artifact is the strongest visual asset we have
+- The repository map prevents UniQ from reading as a single-use analyst app
+- patient_record and opportunity_list become two consumers of one truth layer
 - Lineage ribbon (169 → 1 → 123/123 → 135) is the moat in 10 seconds
 - Audit-trail click is the moment that differentiates from any dashboard
 - FHIR export answers "is this real?" with a downloaded file
@@ -255,13 +258,15 @@ LAYER ABOVE:        Dandelion Health        $16M Seed (2024)
 | 0 · Title (optional) | 5 s | 0:05 |
 | 1 · Problem · the wall | 35 s | 0:40 |
 | 2 · Problem deep-dive | 30 s | 1:10 |
-| 3 · Solution + demo | 75 s | 2:25 |
-| 4 · References | 30 s | 2:55 |
-| 5 · Why now (4 forces) | 25 s | 3:20 |
-| 6 · Close | 25 s | 3:45 |
+| 3 · Solution + demo | 90 s | 2:40 |
+| 4 · References | 30 s | 3:10 |
+| 5 · Why now (4 forces) | 25 s | 3:35 |
+| 6 · Close | 25 s | 4:00 |
 
-→ **3:45 if everything tight.** 30s contingency on the demo is realistic
-(latency, click-through). Live should land 3:30–4:00.
+→ **4:00 if everything tight.** The repository map earns the extra 15s
+because it prevents the demo from reading as a one-off analyst workflow.
+If the room is strict on time, cut Slide 4 to one sentence and keep the
+repository + patient_record + screening-candidates sequence intact.
 
 ---
 
@@ -270,11 +275,11 @@ LAYER ABOVE:        Dandelion Health        $16M Seed (2024)
 - **Story page Lattice animation** (15 s, too slow, no information density)
 - **Platform Agents-tab interactive configurator** (25 s, too distracted
   from the patient_record moment)
-- **Substrate-Ready transition page** (10 s — instead, transition fades
-  during demo voiceover)
+- **Old first-rows Substrate-Ready preview** — replaced by a repository
+  map with resources, FK labels, API hooks and audit provenance
 
-These cuts free up ~50 s for the patient_record + audit-trail moment in
-Slide 3, which is the single highest-value visual we have.
+These cuts keep the product proof focused: repository first, then two
+consumers of that repository (`patient_record` and `opportunity_list`).
 
 ---
 

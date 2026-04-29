@@ -193,7 +193,7 @@ JSON FHIR Loader       │                                                     �
 PDF Note Loader (NLP)  ├──→  raw rows → AI mapping → HITL → entity model →   │  table
 DICOM Loader           │                                                     │  fhir_bundle
 HL7 Stream Loader      │                                                     │  patient_record
-Annotation API         ┘                                                     └  opportunity_list (planned)
+Annotation API         ┘                                                     └  opportunity_list
 ```
 
 ### What the AI does (instance-level)
@@ -493,11 +493,11 @@ If the jury remembers ONE thing, it is this picture.
 | 1 | ~~Final tagline~~ — locked: § 9 #4 *"Clinical truth — discovered by AI, signed by clinicians, served in FHIR"* | ✓ done | — |
 | 2 | ~~Confirm Clinical Truth Layer frame with Martin~~ | ✓ done | Martin: "good, sharper than before" |
 | 3 | ~~Build BMI-27 / cross-brand opportunity SQL~~ | ✓ done | Insight surfaced (Spring patients with BMI > 27) |
-| 4 | Build BMI-27 opportunity_list artifact (new family) | Eren | This week |
-| 5 | Build clinician-annotation overlay on patient_record | Eren | This week (4–6h) |
+| 4 | ~~Build BMI-27 opportunity_list artifact (new family)~~ | ✓ done | 456 active Spring → GoLighter screening candidates; dedicated artifact |
+| 5 | Build clinician-annotation overlay on patient_record | Eren | Next slice (Living Substrate write-back) |
 | 6 | Wellster sync with Irena Medlin + Maria Chernevich (intro via Martin) | Eren | This week |
 | 7 | Decide whether to demo Platform-tab at all (recommend cut for time) | Eren | Day before pitch |
-| 8 | Practice run with new patient_record + opportunity artifacts in flow | Team | This week |
+| 8 | Practice run with repository map + patient_record + opportunity artifacts in flow | Team | This week |
 | 9 | Optional: 30-min validation call with one other telehealth (Ro / Hims / Heliva / Kry) | Eren | This week |
 
 ---
