@@ -25,6 +25,7 @@ import pandas as pd
 from pandas.api.types import is_numeric_dtype
 
 from src.api.models import (
+    ActivationFilterStep,
     AlertsTableArtifact,
     AlertsTablePayload,
     Chart,
@@ -34,12 +35,15 @@ from src.api.models import (
     FhirBundleArtifact,
     FhirBundlePayload,
     Kpi,
+    OpportunityListArtifact,
+    OpportunityListPayload,
     PatientBmiPoint,
     PatientEvent,
     PatientHeader,
     PatientMedicationSegment,
     PatientRecordArtifact,
     PatientRecordPayload,
+    ScreeningCandidate,
     TableArtifact,
     TableColumn,
     TableData,
@@ -246,7 +250,10 @@ def build_patient_record(
     bmi_df = repo.bmi_for_patient(user_id)
     meds_df = repo.medications_for_patient(user_id)
     quality_df = repo.quality_for_patient(user_id)
-    survey_df = repo.survey_for_patient(user_id)
+    # Use the validated layer: only categories with clinician-signed
+    # mappings flow into the patient_record artifact. Raw audit access
+    # is still available via repo.survey_for_patient when needed.
+    survey_df = repo.survey_validated_for_patient(user_id)
 
     # mapping → review_status per clinical_category, plus first medical code
     category_review = _category_review_index(repo)
@@ -444,6 +451,30 @@ def build_patient_record(
             )
         )
 
+    # Clinician annotations — the living-substrate write-back beat. Loaded
+    # lazily to avoid coupling the artifact builder to the persistence
+    # module; failures degrade silently (no annotations on the timeline)
+    # rather than blocking the patient record render.
+    for ann in _load_annotations_safe(record.user_id):
+        ann_ts = ann.get("created_at")
+        if not isinstance(ann_ts, str) or not ann_ts:
+            continue
+        category_label = str(ann.get("category") or "clinical_note").replace("_", " ")
+        author = str(ann.get("author") or "Clinician")
+        events.append(
+            PatientEvent(
+                id=str(ann.get("id") or f"ann-{ann_ts[:19]}"),
+                track="annotation",
+                timestamp=ann_ts,
+                label=str(ann.get("note") or "")[:120] or category_label,
+                detail=f"{author} · {category_label}",
+                severity="info",
+                source_field=str(ann.get("event_id") or "patient-level"),
+                source_category="CLINICAL_ANNOTATION",
+                review_status="approved",
+            )
+        )
+
     events.sort(key=lambda e: e.timestamp)
 
     timeline_start = (
@@ -624,6 +655,22 @@ def _iso(value: Any) -> str | None:
     return ts.isoformat()
 
 
+def _load_annotations_safe(user_id: int) -> list[dict[str, Any]]:
+    """Pull clinical annotations for a patient. Failures degrade silently.
+
+    The patient_record builder must not crash because the annotation
+    store is malformed or missing — annotations are an enhancement, not
+    a precondition for the artifact. If anything goes wrong we just
+    return an empty list and the timeline renders without that track.
+    """
+    try:
+        from src.clinical_annotations import annotations_for_patient
+
+        return annotations_for_patient(int(user_id))
+    except Exception:
+        return []
+
+
 def _safe_float(value: Any) -> float | None:
     if value is None:
         return None
@@ -636,6 +683,312 @@ def _safe_float(value: Any) -> float | None:
         return float(value)
     except (TypeError, ValueError):
         return None
+
+
+def build_opportunity_list(
+    *,
+    repo: Any,  # UnifiedDataRepository — typed loosely to avoid import cycle
+    source_brand: str = "spring",
+    target_brand: str = "golighter",
+    bmi_threshold: float = 27.0,
+    activity_window_days: int = 180,
+    limit: int = 20,
+    title: str,
+    subtitle: str,
+    artifact_id: str | None = None,
+) -> OpportunityListArtifact:
+    """Build the cross-brand screening-candidate artifact.
+
+    Funnel:
+      1. All patients on `source_brand` (any time)
+      2. ... with at least one BMI measurement >= `bmi_threshold`
+      3. ... with no `target_brand` history at any point
+      4. ... with patient activity within the last `activity_window_days`
+
+    No LLM-generated SQL touches this surface — every filter is a
+    deterministic Pandas operation against the validated substrate. The
+    payload deliberately omits revenue figures: the truth layer surfaces
+    the cohort, the customer's clinical/outreach team owns the
+    valuation and the consent decision.
+
+    Reads from `repo.survey_validated`, not raw `repo.survey`, so brand
+    membership is derived only from clinician-signed survey events.
+    """
+    survey = repo.survey_validated
+    patients = repo.patients
+    bmi = repo.bmi_timeline
+
+    source_lower = source_brand.lower()
+    target_lower = target_brand.lower()
+
+    # ---- Step 1: source-brand cohort -------------------------------------
+    source_ids = _patients_for_brand(survey, source_lower)
+    step1_count = len(source_ids)
+
+    # ---- Step 2: BMI-eligible subset -------------------------------------
+    # Use the current patient-level BMI for the actual candidate set. The
+    # timeline can contain historic BMI values above threshold, but the UI
+    # claim is "BMI >= threshold" today; the displayed candidate rows should
+    # therefore never include someone whose latest BMI has already fallen
+    # below the screening threshold.
+    bmi_eligible_patients = patients[
+        (patients["user_id"].isin(source_ids))
+        & (patients["latest_bmi"].notna())
+        & (patients["latest_bmi"] >= bmi_threshold)
+    ]
+    bmi_eligible_ids = set(
+        bmi_eligible_patients["user_id"].dropna().astype(int).unique()
+    )
+    step2_count = len(bmi_eligible_ids)
+
+    # ---- Step 3: exclude target-brand history ----------------------------
+    target_ids = _patients_for_brand(survey, target_lower)
+    candidate_ids = bmi_eligible_ids - target_ids
+    step3_count = len(candidate_ids)
+
+    # ---- Step 4: activity window filter ----------------------------------
+    cutoff = pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=activity_window_days)
+    if "latest_activity_date" in patients.columns:
+        active = patients[
+            (patients["user_id"].isin(candidate_ids))
+            & (patients["latest_activity_date"].notna())
+            & (patients["latest_activity_date"] >= cutoff)
+        ]
+        active_ids = set(active["user_id"].dropna().astype(int).unique())
+    else:
+        active_ids = candidate_ids
+    step4_count = len(active_ids)
+
+    source_label = _brand_label(source_brand)
+    target_label = _brand_label(target_brand)
+
+    activation_path = [
+        ActivationFilterStep(
+            label=f"{source_label} cohort",
+            count=step1_count,
+            description=f"All patients ever on {source_label}",
+        ),
+        ActivationFilterStep(
+            label=f"BMI ≥ {bmi_threshold:g}",
+            count=step2_count,
+            description="With at least one BMI measurement above threshold",
+        ),
+        ActivationFilterStep(
+            label=f"No {target_label} history",
+            count=step3_count,
+            description=f"Excluded if any {target_label} treatment found in substrate",
+        ),
+        ActivationFilterStep(
+            label=f"Active in last {activity_window_days} days",
+            count=step4_count,
+            description="Recent enough for review to be meaningful",
+        ),
+    ]
+
+    # ---- Build candidate rows -------------------------------------------
+    # Compute BMI trend per candidate (latest - earliest if both present).
+    bmi_trends = _bmi_trend_per_patient(bmi, active_ids)
+
+    candidates: list[ScreeningCandidate] = []
+    for uid in active_ids:
+        record = repo.patient(int(uid))
+        if record is None:
+            continue
+        latest = _safe_float(record.latest_bmi)
+        earliest = _safe_float(record.earliest_bmi)
+        trend = bmi_trends.get(int(uid), "unknown")
+        days_inactive = _days_since(record.latest_activity_date)
+        priority = _candidate_priority(latest, days_inactive, trend)
+        reason = _build_reason(
+            latest_bmi=latest,
+            source_brand=source_brand,
+            target_brand=target_brand,
+        )
+        candidates.append(
+            ScreeningCandidate(
+                user_id=record.user_id,
+                label=f"PT-{record.user_id}",
+                latest_bmi=latest,
+                bmi_trend=trend,
+                age=record.current_age if record.current_age else None,
+                gender=record.gender or None,
+                current_treatment=record.current_medication,
+                current_dosage=record.current_dosage,
+                tenure_days=record.tenure_days,
+                days_since_activity=days_inactive,
+                reason_summary=reason,
+                priority=priority,
+            )
+        )
+
+    # Sort: high priority first, then highest BMI, then most recent activity
+    priority_rank = {"high": 0, "medium": 1, "low": 2}
+    candidates.sort(
+        key=lambda c: (
+            priority_rank.get(c.priority, 3),
+            -(c.latest_bmi or 0),
+            c.days_since_activity if c.days_since_activity is not None else 9999,
+        )
+    )
+    total_candidates = len(candidates)
+    rendered = candidates[:limit]
+
+    high_count = sum(1 for c in candidates if c.priority == "high")
+
+    kpis = [
+        Kpi(
+            label=f"{source_label} patients",
+            value=f"{step1_count:,}",
+        ),
+        Kpi(
+            label=f"BMI ≥ {bmi_threshold:g}",
+            value=f"{step2_count:,}",
+            delta=f"{step2_count / max(1, step1_count) * 100:.0f}% of cohort",
+        ),
+        Kpi(
+            label=f"No {target_label} history",
+            value=f"{step3_count:,}",
+        ),
+        Kpi(
+            label="High priority",
+            value=f"{high_count:,}",
+            delta=f"of {total_candidates:,} active",
+        ),
+    ]
+
+    headline = (
+        f"{total_candidates:,} {source_label} patients "
+        f"can be screened for {target_label} follow-up"
+    )
+    methodology = (
+        f"Based on {len(repo.patients):,} unified Wellster patients · "
+        f"BMI ≥ {bmi_threshold:g} on file · "
+        f"{target_label} history checked across substrate"
+    )
+
+    payload = OpportunityListPayload(
+        headline=headline,
+        methodology=methodology,
+        activation_path=activation_path,
+        kpis=kpis,
+        candidates=rendered,
+        total_candidates=total_candidates,
+        source_brand=source_brand.lower(),
+        target_brand=target_brand.lower(),
+        bmi_threshold=bmi_threshold,
+        activity_window_days=activity_window_days,
+    )
+
+    return OpportunityListArtifact(
+        id=artifact_id or _artifact_id("opportunity"),
+        title=title,
+        subtitle=subtitle,
+        payload=payload,
+    )
+
+
+# ---- Opportunity helpers --------------------------------------------------
+
+
+_CANONICAL_BRAND_LABELS: dict[str, str] = {
+    "spring": "Spring",
+    "golighter": "GoLighter",
+    "mysummer": "MySummer",
+}
+
+
+def _brand_label(brand: str) -> str:
+    """Map lowercased brand key → Wellster's canonical display casing.
+
+    `.capitalize()` would turn 'golighter' into 'Golighter' which is not
+    how Wellster brands the product. This explicit map keeps the
+    artifact text on-brand without relying on input casing.
+    """
+    return _CANONICAL_BRAND_LABELS.get(brand.lower(), brand.capitalize())
+
+
+def _patients_for_brand(survey: pd.DataFrame, brand_lower: str) -> set[int]:
+    if "brand" not in survey.columns:
+        return set()
+    matches = survey[survey["brand"].astype(str).str.lower() == brand_lower]
+    return set(matches["user_id"].dropna().astype(int).unique())
+
+
+def _bmi_trend_per_patient(bmi: pd.DataFrame, ids: set[int]) -> dict[int, str]:
+    """Map user_id → 'down'/'up'/'stable' based on first vs last BMI delta.
+
+    Returns 'unknown' implicitly (missing key) if the patient has fewer
+    than 2 BMI measurements with valid values.
+    """
+    if not ids:
+        return {}
+    subset = bmi[(bmi["user_id"].isin(ids)) & (bmi["bmi"].notna())]
+    if subset.empty:
+        return {}
+    sorted_subset = subset.sort_values(["user_id", "date"])
+    grouped = sorted_subset.groupby("user_id")["bmi"]
+    out: dict[int, str] = {}
+    for uid, series in grouped:
+        if len(series) < 2:
+            continue
+        delta = float(series.iloc[-1]) - float(series.iloc[0])
+        if delta < -0.5:
+            out[int(uid)] = "down"
+        elif delta > 0.5:
+            out[int(uid)] = "up"
+        else:
+            out[int(uid)] = "stable"
+    return out
+
+
+def _days_since(ts: Any) -> int | None:
+    if ts is None:
+        return None
+    try:
+        if pd.isna(ts):
+            return None
+    except (TypeError, ValueError):
+        pass
+    try:
+        ts_ = pd.to_datetime(ts, utc=True, errors="coerce")
+    except Exception:
+        return None
+    if ts_ is None or pd.isna(ts_):
+        return None
+    delta = pd.Timestamp.now(tz="UTC") - ts_
+    return max(0, int(delta.days))
+
+
+def _candidate_priority(
+    latest_bmi: float | None,
+    days_inactive: int | None,
+    trend: str,
+) -> Literal["high", "medium", "low"]:
+    """Rank a candidate by clinical severity + engagement freshness.
+
+    High = obese (BMI >= 30) AND recent activity (<=60d).
+    Medium = overweight (BMI 27-30) OR moderate inactivity.
+    Low = stale activity OR borderline BMI.
+    """
+    if latest_bmi is None:
+        return "low"
+    if latest_bmi >= 30 and days_inactive is not None and days_inactive <= 60:
+        return "high"
+    if latest_bmi >= 27 and days_inactive is not None and days_inactive <= 120:
+        return "medium"
+    return "low"
+
+
+def _build_reason(
+    *,
+    latest_bmi: float | None,
+    source_brand: str,
+    target_brand: str,
+) -> str:
+    source_label = _brand_label(source_brand)
+    target_label = _brand_label(target_brand)
+    bmi_part = f"BMI {latest_bmi:.1f}" if latest_bmi is not None else "BMI on file"
+    return f"{bmi_part} · {source_label} patient · no {target_label} history"
 
 
 def build_fhir_bundle(

@@ -96,10 +96,11 @@ class QueryResult:
         return pd.DataFrame(self.rows, columns=self.columns)
 
 
-# The tables registered as DuckDB views. Ordered to keep `survey_unified`
-# first since that is the event-store other tables are ultimately derived
-# from (and the primary target of chatbot queries).
+# The tables registered as DuckDB views. `survey_validated` is listed first
+# because clinical SQL should default to the signed answer/category gate.
+# `survey_unified` remains available for explicit raw/audit/debug queries.
 _REGISTERED_TABLES: tuple[str, ...] = (
+    "survey_validated",
     "survey_unified",
     "patients",
     "treatment_episodes",
@@ -138,6 +139,7 @@ class DuckDBQueryService:
 
     def _register_views(self) -> None:
         name_to_df: dict[str, pd.DataFrame] = {
+            "survey_validated": self._repo.survey_validated,
             "survey_unified": self._repo.survey,
             "patients": self._repo.patients,
             "treatment_episodes": self._repo.episodes,

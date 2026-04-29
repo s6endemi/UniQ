@@ -78,9 +78,12 @@ def run_chat_agent(
     # 1. Deterministic recipes first — these are the pitch golden paths.
     recipe_hit = try_match_recipe(message, query, repo)
     if recipe_hit is not None:
+        reply = recipe_hit.reply
+        if recipe_hit.recipe == "ops_alerts" and "quality" not in reply.lower():
+            reply = f"Data-quality summary: {reply}"
         return ChatResponse(
             steps=recipe_hit.steps,
-            reply=recipe_hit.reply,
+            reply=reply,
             artifact=recipe_hit.artifact,
             trace=ChatTrace(
                 intent=recipe_hit.recipe,

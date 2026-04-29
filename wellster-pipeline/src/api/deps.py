@@ -73,6 +73,24 @@ class AppState:
         self.repo = None
         self.ready = False
 
+    def reload_artifacts(self) -> None:
+        """Reload repo/query after governance writes.
+
+        Review actions update JSON artifacts on disk. The API keeps
+        Repository and DuckDB singletons for latency, so a write must
+        explicitly rebuild those singletons or downstream consumers will
+        keep serving stale validated views until process restart.
+        """
+        if self.query is not None:
+            try:
+                self.query.close()
+            except Exception:
+                pass
+        self.query = None
+        self.repo = None
+        self.ready = False
+        self.try_load()
+
     # --- Mapping file helpers ---------------------------------------------
     #
     # Writes go through `tempfile + os.replace` which is atomic on both

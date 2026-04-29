@@ -55,7 +55,7 @@ UniQ automates the entire substrate layer:
 | `/` | Story — Clinical Ledger hero, Lattice animation, pillars | live |
 | `/start` | Intake Console — scripted processing trace showing the pipeline | live |
 | `/review` | HITL sign-off — 20 mappings, A/O/R workflow, real backend PATCH | live |
-| `/substrate-ready` | Transition view — materialising metrics, substrate preview, three unlock cards | live |
+| `/substrate-ready` | Clinical repository map — resource cards, FK topology, API hooks, audit provenance | live |
 | `/analyst` | v2 hybrid AI analyst — natural language → validated artifacts | live |
 | `/platform` | API + Agents tabs — live-runnable endpoints, interactive agent configurator | live |
 
@@ -68,8 +68,9 @@ single linear journey with tab-pulse indicators marking each handoff.
 ## The v2 analyst in one paragraph
 
 One unified Claude Sonnet tool-loop. The agent picks the artifact
-family (`cohort_trend`, `alerts_table`, `table`, `fhir_bundle`) via a
-terminal `present_*` tool. SQL results live in a handle registry that
+family (`cohort_trend`, `alerts_table`, `table`, `fhir_bundle`,
+`patient_record`, `opportunity_list`) via a terminal `present_*` tool.
+SQL results live in a handle registry that
 the backend resolves; Claude never emits raw row data. Every args
 payload is Pydantic-validated; anything that fails validation
 degrades to `table`. Four families, bulletproof rendering, model-
@@ -107,6 +108,8 @@ latency-sensitive demos.
 | 6b | Codex follow-up | Tightened `cohort_trajectory` matcher (AND-gate, no Mounjaro default) |
 | C | Chat agent v2 | Unified Sonnet tool-loop, handle-based, `present_*` tools, 14/16 eval |
 | 7 | Guided demo | `/start` · `/substrate-ready` · `/platform` (API + Agents preview) |
+| 8 | Patient record | `patient_record` artifact, audit trail, FHIR export affordance |
+| 9 | Repository + opportunities | `/v1/substrate/manifest`, repository map, `opportunity_list` screening-candidates artifact |
 
 ---
 
@@ -159,16 +162,17 @@ three datasets with zero code changes.
    redirect to Substrate-Ready.
 4. **Substrate-Ready** *(15 s)* — Headline materialises, metrics
    tick up from 0 (5,374 patients, 20 categories, 20/20 mappings,
-   1,031 quality checks), 5-row substrate preview, three unlock
-   cards framing Analyst / FHIR / Platform as **consequences of**
-   the substrate, not alternatives to it.
-5. **Analyst** *(90 s)* — Live v2 with the four canonical prompts:
-   *"Show BMI trends for the Mounjaro cohort"*, *"Which patients
-   have data quality issues?"*, *"Generate a FHIR bundle for
-   patient 381119"*, *"What are the most common side effects
-   reported?"*. Each produces a different artifact family. If the
-   jury asks something unscripted, v2 handles paraphrase + German
-   + generic drug names gracefully.
+   1,031 quality checks), then the repository map shows `patients`
+   as the hub, six linked clinical resources, `semantic_mapping` as
+   governance layer, API hooks per resource, and an audit provenance
+   strip (`BMI_MEASUREMENT` → LOINC 39156-5).
+5. **Analyst** *(90 s)* — Live v2 with the canonical prompts:
+   *"Open patient 383871"*, *"Find GoLighter screening candidates
+   from Spring"*, *"Show BMI trends for the Mounjaro cohort"*,
+   *"Which patients have data quality issues?"*, *"Generate a FHIR
+   bundle for patient 381119"*. Each produces a different artifact
+   family. Golden-path scripted fallback covers backend/network
+   failures for demo reliability.
 6. **Platform** *(30 s)* — `API` tab: auth/versioning strip,
    Resource Map with Available now / Next columns, three live-
    runnable examples. Switch to `Agents` tab: *"Custom clinical

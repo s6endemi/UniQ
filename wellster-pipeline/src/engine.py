@@ -117,6 +117,17 @@ def run_pipeline(
     progress("Running quality checks")
     quality = run_quality(patients, bmi_df, episodes, med_hist)
 
+    progress("Writing materialization manifest")
+    try:
+        from src.materialization_manifest import write_manifest
+
+        write_manifest(save=True)
+    except Exception as exc:
+        print(
+            "[WARN] materialization_manifest.json could not be written "
+            f"({type(exc).__name__}: {exc})"
+        )
+
     return PipelineArtifacts(
         raw=raw,
         mapping=mapping,

@@ -309,6 +309,11 @@ export default function AnalystPage() {
  *     └── no match → error. We refuse to dress up a random question
  *         with a Mounjaro dashboard just because there is nothing
  *         better to show.
+ *
+ *   2xx response but upstream LLM degraded
+ *     └── matchRecipe hits → ok with scripted response. This covers the
+ *         pitch-room failure mode where FastAPI is up, but Anthropic is
+ *         unreachable. Only golden-path prompts qualify.
  */
 async function fetchChat(message: string): Promise<ChatOutcome> {
   let res: Response;
@@ -340,5 +345,14 @@ async function fetchChat(message: string): Promise<ChatOutcome> {
     return { kind: "error", message: detail };
   }
 
-  return { kind: "ok", response: (await res.json()) as ChatResponse };
+  const response = (await res.json()) as ChatResponse;
+  if (
+    !response.artifact &&
+    response.trace?.intent === "degraded_api_error"
+  ) {
+    const scripted = matchRecipe(message);
+    if (scripted) return { kind: "ok", response: scripted };
+  }
+
+  return { kind: "ok", response };
 }

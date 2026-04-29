@@ -102,6 +102,46 @@ def main() -> int:
                 _fail("/categories", str(r.status_code))
                 return _report_and_exit()
 
+            # 3b. Substrate manifest exposes repository-level resources,
+            # relationships, and audit provenance for /substrate-ready.
+            r = client.get("/v1/substrate/manifest")
+            if r.status_code == 200:
+                manifest = r.json()
+                resource_names = {r_["name"] for r_ in manifest["resources"]}
+                has_core = {
+                    "patients",
+                    "bmi_timeline",
+                    "medication_history",
+                    "quality_report",
+                    "semantic_mapping",
+                    "fhir_bundle",
+                }.issubset(resource_names)
+                has_relationship = any(
+                    rel["from_resource"] == "bmi_timeline"
+                    and rel["to_resource"] == "patients"
+                    and rel["key"] == "user_id"
+                    for rel in manifest["relationships"]
+                )
+                if (
+                    has_core
+                    and has_relationship
+                    and manifest["audit_events"]
+                    and manifest["resources"][0]["row_count"] == h["patients"]
+                ):
+                    _ok(
+                        "/v1/substrate/manifest",
+                        f"{len(manifest['resources'])} resources, "
+                        f"{len(manifest['relationships'])} relationships",
+                    )
+                else:
+                    _fail(
+                        "/v1/substrate/manifest",
+                        f"core={has_core}, rel={has_relationship}, "
+                        f"audit={bool(manifest['audit_events'])}",
+                    )
+            else:
+                _fail("/v1/substrate/manifest", f"{r.status_code} {r.text[:200]}")
+
             # 4. Mapping list
             r = client.get("/mapping")
             if r.status_code == 200 and isinstance(r.json(), list):

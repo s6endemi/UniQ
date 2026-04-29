@@ -94,6 +94,7 @@ _FHIR_WORDS = ("fhir", "bundle", "export")
 
 _PATIENT_ID_RE = re.compile(r"\bPT[-\s]?(\d{3,6})\b", re.IGNORECASE)
 _BARE_ID_RE = re.compile(r"\b(\d{3,6})\b")
+_YEAR_RE = re.compile(r"\b(20\d{2})\b")
 
 
 def _any(words: tuple[str, ...], text: str) -> bool:
@@ -131,6 +132,14 @@ def _detect_patient_id(message: str) -> int | None:
         except ValueError:
             return None
     return None
+
+
+def _detect_year(text: str) -> int | None:
+    match = _YEAR_RE.search(text)
+    if not match:
+        return None
+    year = int(match.group(1))
+    return year if 2020 <= year <= 2035 else None
 
 
 # ---- Recipe 1 · cohort_trajectory ----------------------------------------
@@ -204,6 +213,16 @@ LIMIT 7
 """.strip()
 
 
+def _with_year_filter(sql: str, year: int | None) -> str:
+    if year is None:
+        return sql
+    return sql.replace(
+        "WHERE b.bmi IS NOT NULL",
+        "WHERE b.bmi IS NOT NULL AND b.date >= ? AND b.date < ?",
+        1,
+    )
+
+
 def try_cohort_trajectory(
     message: str,
     query: DuckDBQueryService,
@@ -230,15 +249,67 @@ def try_cohort_trajectory(
         return None
 
     like = f"%{drug.lower()}%"
+    year = _detect_year(text)
+    year_params: list[str] = []
+    year_label = ""
+    if year is not None:
+        year_params = [f"{year}-01-01", f"{year + 1}-01-01"]
+        year_label = f" in {year}"
 
-    trend_result = query.execute_sql(_COHORT_SQL, [like])
+    cohort_sql = _with_year_filter(_COHORT_SQL, year)
+    patient_table_sql = _with_year_filter(_PATIENT_TABLE_SQL, year)
+
+    trend_result = query.execute_sql(cohort_sql, [like, *year_params])
+    if trend_result.row_count == 0 and year is not None:
+        empty_table = df_to_table(
+            pd.DataFrame(columns=["patient", "dose", "bmi_baseline", "bmi_latest", "delta"]),
+            columns=["patient", "dose", "bmi_baseline", "bmi_latest", "delta"],
+            labels={
+                "patient": "Patient ID",
+                "dose": "Dose",
+                "bmi_baseline": "BMI first",
+                "bmi_latest": "BMI latest",
+                "delta": "Delta",
+            },
+        )
+        artifact = build_cohort_trend(
+            title=f"{drug} cohort BMI trajectory",
+            subtitle=f"No BMI rows in {year}",
+            kpis=[
+                Kpi(label=f"Cohort {drug}", value="0", delta=str(year)),
+                Kpi(label="Mean BMI baseline", value="n/a"),
+                Kpi(label="Mean BMI latest", value="n/a"),
+            ],
+            chart_title=f"BMI trajectory - {drug} cohort",
+            chart_subtitle=f"No BMI rows in {year}",
+            x_labels=[],
+            y_label="mean BMI",
+            series=[ChartSeries(name=f"{drug} mean BMI", points=[])],
+            table=empty_table,
+        )
+        return RecipeResult(
+            recipe="cohort_trajectory",
+            steps=[
+                f"Matched recipe - cohort trajectory ({drug})",
+                f"Applied year filter - {year}",
+                "No BMI rows matched",
+                "Selected artifact - cohort_trend",
+            ],
+            reply=f"No BMI trend rows were found for the {drug} cohort in {year}.",
+            artifact=artifact,
+            sql=[cohort_sql],
+            row_counts=[0],
+        )
     if trend_result.row_count == 0:
         # No data for this drug — let the generic agent take over; maybe
         # the user meant something different and Claude can clarify.
         return None
     trend_df = pd.DataFrame(trend_result.rows)
 
-    table_result = query.execute_sql(_PATIENT_TABLE_SQL, [like, like])
+    table_result = query.execute_sql(
+        patient_table_sql,
+        [like, *year_params, like],
+    )
     table_df = pd.DataFrame(table_result.rows)
 
     n_patients = int(trend_df["n_patients"].max())
@@ -300,7 +371,9 @@ def try_cohort_trajectory(
         f"Aggregated BMI across {len(trend_df)} visits",
         "Selected artifact · cohort_trend",
     ]
+    year_reply = f"Filter applied: {year}. " if year is not None else ""
     reply = (
+        f"{year_reply}"
         f"Built a BMI trajectory for the {drug} cohort (n = {n_patients}). "
         f"Mean BMI moved from {bmi_first:.1f} at the first visit to "
         f"{bmi_last:.1f} at visit {len(trend_df)} — a {delta:+.1f}-point change. "
@@ -312,7 +385,7 @@ def try_cohort_trajectory(
         steps=steps,
         reply=reply,
         artifact=artifact,
-        sql=[_COHORT_SQL, _PATIENT_TABLE_SQL],
+        sql=[cohort_sql, patient_table_sql],
         row_counts=[trend_result.row_count, table_result.row_count],
     )
 

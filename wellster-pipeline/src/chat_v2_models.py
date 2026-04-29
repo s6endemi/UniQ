@@ -88,10 +88,53 @@ class PresentPatientRecordInput(BaseModel):
     reply_text: str = Field(..., min_length=1)
 
 
+WellsterBrand = Literal["spring", "golighter", "mysummer"]
+
+
+class PresentOpportunityListInput(BaseModel):
+    """Cross-brand screening-candidate list.
+
+    Backend executes a fixed, deterministic Pandas filter — no LLM-
+    generated SQL. The agent only specifies cohort scope and clinical
+    threshold; everything else is parameter-locked at the contract level.
+    """
+
+    title: str = Field(..., min_length=1)
+    subtitle: str = Field(..., min_length=1)
+    reply_text: str = Field(..., min_length=1)
+    source_brand: WellsterBrand = Field(
+        "spring",
+        description="Brand the candidate cohort currently belongs to.",
+    )
+    target_brand: WellsterBrand = Field(
+        "golighter",
+        description="Brand we are screening candidates FOR (excluded if patient already has history with it).",
+    )
+    bmi_threshold: float = Field(
+        27.0,
+        ge=15.0,
+        le=60.0,
+        description="Minimum BMI to qualify as a screening candidate.",
+    )
+    activity_window_days: int = Field(
+        180,
+        ge=30,
+        le=730,
+        description="Maximum days since last patient activity to include.",
+    )
+    limit: int = Field(
+        20,
+        ge=5,
+        le=100,
+        description="Max candidates rendered in the table (full count still surfaced via total_candidates).",
+    )
+
+
 TerminalToolName = Literal[
     "present_cohort_trend",
     "present_alerts_table",
     "present_fhir_bundle",
     "present_table",
     "present_patient_record",
+    "present_opportunity_list",
 ]

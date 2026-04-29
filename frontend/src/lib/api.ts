@@ -85,6 +85,46 @@ export interface CategoriesResponse {
   count: number;
 }
 
+export type ResourceStatus = "signed" | "queryable" | "exportable" | "monitored" | "next";
+
+export interface SubstrateForeignKey {
+  target_resource: string;
+  key: string;
+  label: string;
+}
+
+export interface SubstrateResource {
+  name: string;
+  label: string;
+  row_count: number;
+  primary_key: string;
+  foreign_keys: SubstrateForeignKey[];
+  sample_fields: string[];
+  status: ResourceStatus;
+  api_hooks: string[];
+}
+
+export interface SubstrateRelationship {
+  from_resource: string;
+  to_resource: string;
+  key: string;
+  label: string;
+}
+
+export interface SubstrateAuditEvent {
+  label: string;
+  detail: string;
+  status: ReviewStatus;
+}
+
+export interface SubstrateManifestResponse {
+  version: string;
+  headline: string;
+  resources: SubstrateResource[];
+  relationships: SubstrateRelationship[];
+  audit_events: SubstrateAuditEvent[];
+}
+
 // --- Chat (Phase 6 — hybrid SQL agent with template artifacts) ------------
 //
 // Mirror of `wellster-pipeline/src/api/models.py::ChatResponse`. Four
@@ -164,7 +204,38 @@ export type PatientEventTrack =
   | "side_effect"
   | "condition"
   | "quality"
-  | "survey";
+  | "survey"
+  | "annotation";
+
+// --- Clinical annotations -------------------------------------------------
+//
+// First write-back resource on the substrate. Mirror of
+// `wellster-pipeline/src/api/models.py::ClinicalAnnotation`. Lives next
+// to PatientEvent because annotations are rendered as a 5th timeline
+// track inside the patient_record artifact.
+
+export type AnnotationCategory =
+  | "clinical_note"
+  | "correction"
+  | "follow_up"
+  | "risk_flag";
+
+export interface ClinicalAnnotation {
+  id: string;
+  patient_id: number;
+  event_id: string | null;
+  category: AnnotationCategory;
+  note: string;
+  author: string;
+  role: string;
+  created_at: string;
+}
+
+export interface ClinicalAnnotationCreate {
+  note: string;
+  event_id?: string | null;
+  category?: AnnotationCategory;
+}
 
 export type PatientEventSeverity = "normal" | "info" | "warn" | "alert";
 
@@ -220,19 +291,69 @@ export interface PatientRecordPayload {
   source_field_count: number;
 }
 
+// --- Opportunity / screening-candidates artifact -------------------------
+//
+// Cross-brand candidate list: patients on `source_brand` who could be
+// screened for `target_brand` follow-up. Mirror of
+// `wellster-pipeline/src/api/models.py::OpportunityListPayload`.
+//
+// UI language is "Screening candidates", never "eligible" or "leads" —
+// we surface the cohort, the operational decision belongs to the
+// customer's clinical / outreach team. No revenue figures appear here:
+// the truth layer reports the cohort, the customer values it.
+
+export type CandidatePriority = "high" | "medium" | "low";
+export type TrendDirection = "up" | "down" | "stable" | "unknown";
+
+export interface ActivationFilterStep {
+  label: string;
+  count: number;
+  description: string | null;
+}
+
+export interface ScreeningCandidate {
+  user_id: number;
+  label: string;
+  latest_bmi: number | null;
+  bmi_trend: TrendDirection;
+  age: number | null;
+  gender: string | null;
+  current_treatment: string | null;
+  current_dosage: string | null;
+  tenure_days: number | null;
+  days_since_activity: number | null;
+  reason_summary: string;
+  priority: CandidatePriority;
+}
+
+export interface OpportunityListPayload {
+  headline: string;
+  methodology: string;
+  activation_path: ActivationFilterStep[];
+  kpis: Kpi[];
+  candidates: ScreeningCandidate[];
+  total_candidates: number;
+  source_brand: string;
+  target_brand: string;
+  bmi_threshold: number;
+  activity_window_days: number;
+}
+
 export type ArtifactKind =
   | "cohort_trend"
   | "alerts_table"
   | "table"
   | "fhir_bundle"
-  | "patient_record";
+  | "patient_record"
+  | "opportunity_list";
 
 export type ChatArtifact =
   | { kind: "cohort_trend"; id: string; title: string; subtitle: string; payload: CohortTrendPayload }
   | { kind: "alerts_table"; id: string; title: string; subtitle: string; payload: AlertsTablePayload }
   | { kind: "table"; id: string; title: string; subtitle: string; payload: TablePayload }
   | { kind: "fhir_bundle"; id: string; title: string; subtitle: string; payload: FhirBundlePayload }
-  | { kind: "patient_record"; id: string; title: string; subtitle: string; payload: PatientRecordPayload };
+  | { kind: "patient_record"; id: string; title: string; subtitle: string; payload: PatientRecordPayload }
+  | { kind: "opportunity_list"; id: string; title: string; subtitle: string; payload: OpportunityListPayload };
 
 export interface ChatTrace {
   intent: string;
@@ -284,6 +405,7 @@ export const uniq = {
   health: () => request<HealthResponse>("/health"),
   schema: () => request<SchemaResponse>("/schema"),
   categories: () => request<CategoriesResponse>("/categories"),
+  substrateManifest: () => request<SubstrateManifestResponse>("/v1/substrate/manifest"),
 
   listMapping: () => request<MappingEntry[]>("/mapping"),
   getMapping: (category: string) =>

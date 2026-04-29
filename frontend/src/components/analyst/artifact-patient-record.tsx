@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type {
+  ClinicalAnnotation,
+  ClinicalAnnotationCreate,
   PatientEvent,
   PatientEventTrack,
   PatientMedicationSegment,
@@ -51,7 +53,13 @@ const EVENT_TRACK_ORDER: PatientEventTrack[] = [
   "side_effect",
   "condition",
   "quality",
+  "annotation",
 ];
+
+// Annotations sit at the bottom of the timeline, beneath the audited
+// data tracks. Visually this reads as "the foundation layer where
+// clinicians add their own context back" — the living-substrate beat
+// Martin asked for, rendered as a peer track rather than a side panel.
 
 const TRACK_LABEL: Record<PatientEventTrack, string> = {
   bmi: "BMI",
@@ -60,6 +68,7 @@ const TRACK_LABEL: Record<PatientEventTrack, string> = {
   condition: "Conditions",
   quality: "Quality flags",
   survey: "Survey",
+  annotation: "Clinician notes",
 };
 
 const TRACK_HINT: Record<PatientEventTrack, string> = {
@@ -69,6 +78,7 @@ const TRACK_HINT: Record<PatientEventTrack, string> = {
   condition: "Medical history + cardio profile",
   quality: "Substrate operational checks",
   survey: "Survey-derived event",
+  annotation: "Living substrate · clinician write-back",
 };
 
 const TRACK_EMPTY_COPY: Record<PatientEventTrack, string> = {
@@ -78,10 +88,12 @@ const TRACK_EMPTY_COPY: Record<PatientEventTrack, string> = {
   condition: "no conditions on file",
   quality: "all clear · no flags raised",
   survey: "no survey events",
+  annotation: "no clinician notes yet",
 };
 
-// Track Y centres in the event-timeline SVG (viewBox height = 80).
-// Four tracks, evenly spaced: 12, 32, 52, 72 with lane height 18.
+// Track Y centres in the event-timeline SVG (viewBox height = 104).
+// Five tracks, evenly spaced: 12, 32, 52, 72, 92 with lane height 18.
+// ViewBox grew from 84 → 104 when annotation became the 5th lane.
 const EVENT_TRACK_Y: Record<PatientEventTrack, number> = {
   bmi: 0,
   medication: 12,
@@ -89,7 +101,10 @@ const EVENT_TRACK_Y: Record<PatientEventTrack, number> = {
   condition: 52,
   quality: 72,
   survey: 52,
+  annotation: 92,
 };
+
+const TIMELINE_VIEWBOX_HEIGHT = 104;
 
 const NORMAL_BMI = 25; // WHO normal-range upper bound
 
@@ -112,7 +127,21 @@ export function ArtifactPatientRecord({
   );
   const detailRef = useRef<HTMLElement | null>(null);
 
-  const { header, kpis, events, medications, bmi_series } = payload;
+  const { header, kpis, medications, bmi_series } = payload;
+
+  // Locally-added annotations during this session. Merged into the
+  // backend-shipped events so the timeline picks them up immediately
+  // (no manifest re-fetch required for the inline write to feel real).
+  // Persistence still happens server-side via POST; on a cold reload
+  // the same notes come back through the patient_record builder.
+  const [localAnnotations, setLocalAnnotations] = useState<PatientEvent[]>([]);
+  const events = useMemo(
+    () =>
+      [...payload.events, ...localAnnotations].sort((a, b) =>
+        a.timestamp.localeCompare(b.timestamp),
+      ),
+    [payload.events, localAnnotations],
+  );
 
   // ---- Time projection -------------------------------------------------
   const { tStart, tSpan, monthLabels } = useMemo(() => {
@@ -239,6 +268,7 @@ export function ArtifactPatientRecord({
       condition: 0,
       quality: 0,
       survey: 0,
+      annotation: 0,
     };
     for (const e of events) out[e.track] += 1;
     return out;
@@ -543,7 +573,7 @@ export function ArtifactPatientRecord({
           >
             <svg
               className="patient-record__events-svg"
-              viewBox="0 0 100 84"
+              viewBox={`0 0 100 ${TIMELINE_VIEWBOX_HEIGHT}`}
               preserveAspectRatio="none"
               aria-hidden
             >
@@ -597,20 +627,27 @@ export function ArtifactPatientRecord({
                 .filter((e) => e.track !== "bmi" && e.track !== "medication")
                 .map((e) => {
                   const xPct = projectX(e.timestamp);
-                  const yPct = (EVENT_TRACK_Y[e.track] / 84) * 100;
+                  const yPct = (EVENT_TRACK_Y[e.track] / TIMELINE_VIEWBOX_HEIGHT) * 100;
                   const isSelected = e.id === selectedId;
                   const isHover = hoverState?.eventId === e.id;
-                  const severityClass =
-                    e.severity === "alert"
-                      ? "patient-record__dot--alert"
-                      : e.severity === "warn"
-                        ? "patient-record__dot--warn"
-                        : "patient-record__dot--neutral";
+                  // Annotations get their own visual treatment (the ✎ glyph
+                  // marker) because they are write-back events, not derived
+                  // observations. Severity classes apply to the four
+                  // upstream-data tracks where alert/warn semantics matter.
+                  const trackClass =
+                    e.track === "annotation"
+                      ? "patient-record__dot--annotation"
+                      : e.severity === "alert"
+                        ? "patient-record__dot--alert"
+                        : e.severity === "warn"
+                          ? "patient-record__dot--warn"
+                          : "patient-record__dot--neutral";
+                  const isAnnotation = e.track === "annotation";
                   return (
                     <button
                       key={e.id}
                       type="button"
-                      className={`patient-record__dot ${severityClass} ${
+                      className={`patient-record__dot ${trackClass} ${
                         isSelected ? "is-selected" : ""
                       } ${isHover ? "is-hover" : ""}`}
                       style={{ left: `${xPct}%`, top: `${yPct}%` }}
@@ -624,7 +661,13 @@ export function ArtifactPatientRecord({
                         })
                       }
                       aria-label={`${TRACK_LABEL[e.track]}: ${e.label}`}
-                    />
+                    >
+                      {isAnnotation && (
+                        <span className="patient-record__dot-glyph" aria-hidden>
+                          ✎
+                        </span>
+                      )}
+                    </button>
                   );
                 })}
             </div>
@@ -636,7 +679,7 @@ export function ArtifactPatientRecord({
                 const x2 = span.ended ? projectX(span.ended) : 100;
                 const w = Math.max(0, x2 - x1);
                 if (w < 6) return null;
-                const yPct = (EVENT_TRACK_Y.medication / 84) * 100;
+                const yPct = (EVENT_TRACK_Y.medication / TIMELINE_VIEWBOX_HEIGHT) * 100;
                 return (
                   <span
                     key={`med-label-${i}`}
@@ -656,7 +699,7 @@ export function ArtifactPatientRecord({
             {EVENT_TRACK_ORDER.map((track) => {
               if (eventCounts[track] > 0) return null;
               if (hiddenTracks.has(track)) return null;
-              const yPct = (EVENT_TRACK_Y[track] / 84) * 100;
+              const yPct = (EVENT_TRACK_Y[track] / TIMELINE_VIEWBOX_HEIGHT) * 100;
               return (
                 <span
                   key={`empty-${track}`}
@@ -702,7 +745,16 @@ export function ArtifactPatientRecord({
         }}
       >
         {selected ? (
-          <SelectedEventCard event={selected} onClose={() => setSelectedId(null)} />
+          <SelectedEventCard
+            event={selected}
+            patientId={header.user_id}
+            onClose={() => setSelectedId(null)}
+            onAnnotationCreated={(ann) => {
+              const newEvent = annotationToEvent(ann);
+              setLocalAnnotations((prev) => [...prev, newEvent]);
+              setSelectedId(newEvent.id);
+            }}
+          />
         ) : (
           <EmptyDetailHint
             firstEvent={
@@ -871,11 +923,16 @@ function HoverTooltip({
 
 function SelectedEventCard({
   event,
+  patientId,
   onClose,
+  onAnnotationCreated,
 }: {
   event: PatientEvent;
+  patientId: number;
   onClose: () => void;
+  onAnnotationCreated: (ann: ClinicalAnnotation) => void;
 }) {
+  const isAnnotation = event.track === "annotation";
   const reviewClass =
     event.review_status === "approved"
       ? "patient-record__review--approved"
@@ -884,8 +941,9 @@ function SelectedEventCard({
         : event.review_status === "rejected"
           ? "patient-record__review--rejected"
           : "patient-record__review--pending";
-  const reviewLabel =
-    event.review_status === "approved"
+  const reviewLabel = isAnnotation
+    ? "Clinician contribution"
+    : event.review_status === "approved"
       ? "Approved by clinician"
       : event.review_status === "overridden"
         ? "Overridden by clinician"
@@ -894,7 +952,12 @@ function SelectedEventCard({
           : "Awaiting clinical sign-off";
 
   return (
-    <div className="patient-record__detail-card" key={event.id}>
+    <div
+      className={`patient-record__detail-card ${
+        isAnnotation ? "patient-record__detail-card--annotation" : ""
+      }`}
+      key={event.id}
+    >
       <div className="patient-record__detail-head">
         <div className="patient-record__detail-head-main">
           <div className="t-meta">
@@ -926,29 +989,227 @@ function SelectedEventCard({
           num="01"
           label="Captured as"
           value={event.source_field || "—"}
-          sub="Raw source field at intake"
+          sub={
+            isAnnotation
+              ? "Pinned to event in timeline"
+              : "Raw source field at intake"
+          }
         />
         <div className="patient-record__provenance-arrow" aria-hidden>→</div>
         <ProvenanceStep
           num="02"
           label="Normalised category"
           value={event.source_category || "—"}
-          sub="AI-discovered clinical category"
+          sub={
+            isAnnotation
+              ? "Living-substrate write-back"
+              : "AI-discovered clinical category"
+          }
         />
         <div className="patient-record__provenance-arrow" aria-hidden>→</div>
         <ProvenanceStep
           num="03"
-          label="Standard code"
+          label={isAnnotation ? "Author" : "Standard code"}
           value={
-            event.code_system && event.code
-              ? `${event.code_system} ${event.code}`
-              : "—"
+            isAnnotation
+              ? event.detail || "Clinician"
+              : event.code_system && event.code
+                ? `${event.code_system} ${event.code}`
+                : "—"
           }
-          sub="FHIR-mappable terminology code"
+          sub={
+            isAnnotation
+              ? "Authored on the substrate"
+              : "FHIR-mappable terminology code"
+          }
         />
+      </div>
+
+      {!isAnnotation && (
+        <AnnotationComposer
+          // Re-key on eventId so the composer state (open / draft note /
+          // busy / error) resets when the user clicks a different
+          // event. Avoids cross-event leakage without a state-reset
+          // useEffect — keys are React's idiomatic remount mechanism.
+          key={event.id}
+          patientId={patientId}
+          eventId={event.id}
+          eventLabel={event.label}
+          onCreated={onAnnotationCreated}
+        />
+      )}
+    </div>
+  );
+}
+
+function AnnotationComposer({
+  patientId,
+  eventId,
+  eventLabel,
+  onCreated,
+}: {
+  patientId: number;
+  eventId: string;
+  eventLabel: string;
+  onCreated: (ann: ClinicalAnnotation) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [note, setNote] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    if (open) {
+      // Defer focus until the textarea is in the DOM after the open
+      // toggle. requestAnimationFrame avoids racing with layout.
+      requestAnimationFrame(() => textareaRef.current?.focus());
+    }
+  }, [open]);
+  // Cross-event reset is handled by `key={event.id}` on the parent JSX
+  // — when the selected event changes, React unmounts + remounts this
+  // component, which discards open / note / busy / error state for free.
+
+  const submit = async () => {
+    const trimmed = note.trim();
+    if (!trimmed || busy) return;
+    setBusy(true);
+    setError(null);
+    const payload: ClinicalAnnotationCreate = {
+      note: trimmed,
+      event_id: eventId,
+      category: "clinical_note",
+    };
+    try {
+      const res = await fetch(`/api/uniq/patients/${patientId}/annotations`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        // Parse the FastAPI error envelope (`{detail: "..."}`) so the
+        // user sees a human-readable line instead of raw JSON. Falls
+        // back to status text if the body isn't JSON or has no detail.
+        const raw = await res.text().catch(() => "");
+        let humanMessage = `Save failed (${res.status})`;
+        try {
+          const parsed = JSON.parse(raw) as { detail?: unknown };
+          if (typeof parsed.detail === "string" && parsed.detail.trim()) {
+            humanMessage = parsed.detail;
+          }
+        } catch {
+          if (raw.trim()) humanMessage = raw.trim().slice(0, 200);
+        }
+        if (res.status === 404) {
+          humanMessage =
+            "Backend route not found — restart uvicorn so the annotation endpoints register.";
+        }
+        throw new Error(humanMessage);
+      }
+      const created = (await res.json()) as ClinicalAnnotation;
+      onCreated(created);
+      setOpen(false);
+      setNote("");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  if (!open) {
+    return (
+      <div className="annotation-composer annotation-composer--collapsed">
+        <button
+          type="button"
+          className="annotation-composer__open"
+          onClick={() => setOpen(true)}
+        >
+          ✎ Add clinical note
+        </button>
+        <span className="annotation-composer__hint">
+          Pinned to <code>{eventLabel.slice(0, 40)}</code>
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="annotation-composer annotation-composer--open">
+      <div className="annotation-composer__head">
+        <span className="t-eyebrow">add clinical note</span>
+        <span className="annotation-composer__pin">
+          ↳ pinned to <code>{eventLabel.slice(0, 50)}</code>
+        </span>
+      </div>
+      <textarea
+        ref={textareaRef}
+        className="annotation-composer__input"
+        value={note}
+        onChange={(e) => setNote(e.target.value)}
+        placeholder="Patient context, follow-up reasoning, off-substrate observation…"
+        rows={3}
+        maxLength={2000}
+        disabled={busy}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+            e.preventDefault();
+            void submit();
+          }
+        }}
+      />
+      {error && (
+        <div className="annotation-composer__error" role="alert">
+          {error}
+        </div>
+      )}
+      <div className="annotation-composer__actions">
+        <span className="annotation-composer__author">
+          ✎ Dr. M. Hassan · Clinical Reviewer
+        </span>
+        <div className="annotation-composer__buttons">
+          <button
+            type="button"
+            className="annotation-composer__cancel"
+            onClick={() => {
+              setOpen(false);
+              setNote("");
+              setError(null);
+            }}
+            disabled={busy}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="annotation-composer__save"
+            onClick={() => void submit()}
+            disabled={busy || !note.trim()}
+          >
+            {busy ? "Saving…" : "Save note"}
+          </button>
+        </div>
       </div>
     </div>
   );
+}
+
+function annotationToEvent(ann: ClinicalAnnotation): PatientEvent {
+  const categoryLabel = ann.category.replace(/_/g, " ");
+  return {
+    id: ann.id,
+    track: "annotation",
+    timestamp: ann.created_at,
+    label: ann.note.length > 120 ? `${ann.note.slice(0, 117)}...` : ann.note,
+    detail: `${ann.author} · ${categoryLabel}`,
+    severity: "info",
+    value: null,
+    source_field: ann.event_id || "patient-level",
+    source_category: "CLINICAL_ANNOTATION",
+    code_system: null,
+    code: null,
+    review_status: "approved",
+  };
 }
 
 function ProvenanceStep({

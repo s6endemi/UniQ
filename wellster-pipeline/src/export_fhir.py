@@ -24,6 +24,28 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import config
 
 
+KNOWN_FHIR_RESOURCE_TYPES: frozenset[str] = frozenset({
+    "AdverseEvent",
+    "AllergyIntolerance",
+    "Bundle",
+    "Condition",
+    "Consent",
+    "DocumentReference",
+    "Media",
+    "MedicationRequest",
+    "MedicationStatement",
+    "Observation",
+    "Patient",
+    "QuestionnaireResponse",
+})
+
+CONDITION_CATEGORIES: frozenset[str] = frozenset({
+    "MEDICAL_HISTORY_AND_CONDITIONS",
+    "MEDICAL_CONDITIONS",
+    "COMORBIDITY_SCREENING",
+})
+
+
 def _fhir_patient(row: pd.Series) -> dict:
     """Convert a patient row to a FHIR Patient resource."""
     gender_map = {"female": "female", "male": "male"}
@@ -206,7 +228,7 @@ def export_fhir_bundle(
                 continue
 
             for c in canonicals:
-                if cat in ("MEDICAL_CONDITIONS", "COMORBIDITY_SCREENING"):
+                if cat in CONDITION_CATEGORIES:
                     key = f"{uid}-{c}"
                     if key not in seen_conditions and c not in ("NONE", "NO", "YES"):
                         resource = _fhir_condition(uid, c)
@@ -233,14 +255,70 @@ def export_fhir_bundle(
     return bundle
 
 
+def validate_fhir_bundle(bundle: dict[str, Any]) -> list[str]:
+    """Smoke-validate the subset of FHIR R4 we emit.
+
+    This is intentionally not a full HL7 profile validator. It catches the
+    failures that matter for the pilot: wrong resource shape, mismatched
+    `total`, unknown resourceType typos, missing ids/fullUrls, and broken
+    Patient subject references.
+    """
+    errors: list[str] = []
+    if bundle.get("resourceType") != "Bundle":
+        errors.append("bundle.resourceType must be Bundle")
+    if bundle.get("type") != "collection":
+        errors.append("bundle.type must be collection")
+
+    entries = bundle.get("entry")
+    if not isinstance(entries, list):
+        return errors + ["bundle.entry must be a list"]
+    if bundle.get("total") != len(entries):
+        errors.append("bundle.total must match len(entry)")
+
+    patient_ids: set[str] = set()
+    subject_refs: list[str] = []
+    for idx, entry in enumerate(entries):
+        if not isinstance(entry, dict):
+            errors.append(f"entry[{idx}] must be an object")
+            continue
+        resource = entry.get("resource")
+        if not isinstance(resource, dict):
+            errors.append(f"entry[{idx}].resource must be an object")
+            continue
+        resource_type = resource.get("resourceType")
+        if resource_type not in KNOWN_FHIR_RESOURCE_TYPES:
+            errors.append(f"entry[{idx}] has unknown resourceType {resource_type!r}")
+        resource_id = resource.get("id")
+        if not resource_id:
+            errors.append(f"entry[{idx}] resource is missing id")
+        if not entry.get("fullUrl"):
+            errors.append(f"entry[{idx}] is missing fullUrl")
+        if resource_type == "Patient" and resource_id:
+            patient_ids.add(str(resource_id))
+        subject = resource.get("subject")
+        if isinstance(subject, dict) and subject.get("reference"):
+            subject_refs.append(str(subject["reference"]))
+
+    for ref in subject_refs:
+        if not ref.startswith("Patient/"):
+            errors.append(f"subject reference {ref!r} is not a Patient reference")
+            continue
+        if ref.removeprefix("Patient/") not in patient_ids:
+            errors.append(f"subject reference {ref!r} does not resolve in bundle")
+
+    return errors
+
+
 def export_all_formats() -> dict[str, bytes]:
     """Generate all export formats from the unified data."""
     patients = pd.read_csv(config.PATIENTS_TABLE)
     bmi = pd.read_csv(config.BMI_TIMELINE_TABLE)
     med_hist = pd.read_csv(config.MEDICATION_HISTORY_TABLE)
     episodes = pd.read_csv(config.TREATMENT_EPISODES_TABLE)
-    survey = pd.read_csv(config.SURVEY_UNIFIED_TABLE, low_memory=False)
     mapping = pd.read_csv(config.MAPPING_TABLE)
+    from src.datastore import UnifiedDataRepository
+
+    repo = UnifiedDataRepository.from_output_dir()
 
     exports = {}
 
@@ -267,7 +345,12 @@ def export_all_formats() -> dict[str, bytes]:
     exports["unified_data.json"] = json.dumps(unified_json, indent=2).encode("utf-8")
 
     # FHIR R4 Bundle (with coded conditions + adverse events)
-    fhir_bundle = export_fhir_bundle(patients, bmi, med_hist, survey)
+    fhir_bundle = export_fhir_bundle(
+        repo.patients,
+        repo.bmi_timeline,
+        repo.medication_history,
+        repo.survey_validated,
+    )
     exports["fhir_bundle.json"] = json.dumps(fhir_bundle, indent=2).encode("utf-8")
 
     # Answer normalization map

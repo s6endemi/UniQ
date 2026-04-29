@@ -26,6 +26,7 @@ from src.artifact_builders import (
     build_degraded_table_from_df,
     build_empty_table,
     build_fhir_bundle,
+    build_opportunity_list,
     build_patient_record,
     build_table,
     df_to_table,
@@ -39,12 +40,14 @@ from src.chat_prompts_v2 import (
     V2_TOOLS,
     system_prompt_with_cache_v2,
 )
+from src.chat_recipes import try_match_recipe
 from src.chat_tools import ChatToolError, encode_tool_result, tool_build_fhir_bundle
 from src.chat_v2_models import (
     ExecuteSqlInput,
     PresentAlertsTableInput,
     PresentCohortTrendInput,
     PresentFhirBundleInput,
+    PresentOpportunityListInput,
     PresentPatientRecordInput,
     PresentTableInput,
     SampleRowsInput,
@@ -58,6 +61,7 @@ TERMINAL_TOOLS: set[str] = {
     "present_alerts_table",
     "present_fhir_bundle",
     "present_patient_record",
+    "present_opportunity_list",
     "present_table",
 }
 
@@ -99,6 +103,26 @@ def run_chat_agent_v2(
     client: Any | None = None,
 ) -> ChatResponse:
     """Unified `/chat` runtime selected by `UNIQ_AGENT_MODE=v2`."""
+    recipe_hit = try_match_recipe(message, query, repo)
+    if recipe_hit is not None:
+        reply = recipe_hit.reply
+        if recipe_hit.recipe == "ops_alerts" and "quality" not in reply.lower():
+            reply = f"Data-quality summary: {reply}"
+        return ChatResponse(
+            steps=recipe_hit.steps,
+            reply=reply,
+            artifact=recipe_hit.artifact,
+            trace=ChatTrace(
+                intent=recipe_hit.recipe,
+                recipe=recipe_hit.recipe,
+                agent_mode="v2",
+                sql=recipe_hit.sql,
+                row_counts=recipe_hit.row_counts,
+                artifact_kind=recipe_hit.artifact.kind,
+                tool_log=[],
+            ),
+        )
+
     if client is None and not config.ANTHROPIC_API_KEY:
         return _degraded_no_key_response_v2(query)
 
@@ -337,6 +361,9 @@ def _execute_terminal_tool(
         elif tool_name == "present_patient_record":
             parsed = PresentPatientRecordInput.model_validate(args)
             artifact = _present_patient_record(repo, parsed)
+        elif tool_name == "present_opportunity_list":
+            parsed = PresentOpportunityListInput.model_validate(args)
+            artifact = _present_opportunity_list(repo, parsed)
         elif tool_name == "present_table":
             parsed = PresentTableInput.model_validate(args)
             artifact = _present_table(state, parsed)
@@ -363,6 +390,15 @@ def _execute_terminal_tool(
             reply = (
                 "I could not open that patient record. Please re-check the "
                 "patient identifier and try again."
+            )
+        elif tool_name == "present_opportunity_list":
+            artifact = build_empty_table(
+                title=fallback_title,
+                subtitle="Screening list unavailable",
+            )
+            reply = (
+                "I could not assemble the screening-candidate list. Please "
+                "try again with explicit brand names (e.g. Spring → GoLighter)."
             )
         else:
             artifact = _degrade_terminal_failure(
@@ -486,6 +522,22 @@ def _present_patient_record(
     return build_patient_record(
         repo=repo,
         user_id=parsed.user_id,
+        title=parsed.title,
+        subtitle=parsed.subtitle,
+    )
+
+
+def _present_opportunity_list(
+    repo: UnifiedDataRepository,
+    parsed: PresentOpportunityListInput,
+) -> ChatArtifact:
+    return build_opportunity_list(
+        repo=repo,
+        source_brand=parsed.source_brand,
+        target_brand=parsed.target_brand,
+        bmi_threshold=parsed.bmi_threshold,
+        activity_window_days=parsed.activity_window_days,
+        limit=parsed.limit,
         title=parsed.title,
         subtitle=parsed.subtitle,
     )

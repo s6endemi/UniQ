@@ -36,6 +36,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).parent.parent))
 import config
 from src.engine import PipelineArtifacts, load_artifacts_from_disk
+from src.normalization_registry import NormalizationRegistry
 
 
 # ---------------------------------------------------------------------------
@@ -149,6 +150,43 @@ def parse_canonical(value: Any) -> list[str]:
 _parse_canonical = parse_canonical
 
 
+def _extract_normalized_values(value: Any) -> list[str]:
+    """Decode normalized_value into the original answer values.
+
+    This mirrors `normalize_answers_ai` without importing that module into
+    the repository path. The validated layer uses it to re-check current
+    registry review_status at runtime instead of trusting stale
+    `answer_canonical` labels from a previous materialization.
+    """
+    if value is None:
+        return []
+    try:
+        if bool(pd.isna(value)):
+            return []
+    except (TypeError, ValueError):
+        pass
+
+    try:
+        parsed = value if isinstance(value, dict) else json.loads(str(value))
+    except (json.JSONDecodeError, TypeError, ValueError):
+        return []
+    if not isinstance(parsed, dict):
+        return []
+
+    values = parsed.get("values", [])
+    if not isinstance(values, list):
+        values = [values]
+    if not values and parsed.get("raw"):
+        values = [str(parsed["raw"])[:80]]
+
+    out: list[str] = []
+    for item in values:
+        stripped = str(item).strip()
+        if stripped and stripped.lower() not in {"nan", "none", "null"}:
+            out.append(stripped)
+    return out
+
+
 _DATE_COLUMNS_PER_TABLE: dict[str, list[str]] = {
     "patients": ["first_order_date", "latest_activity_date"],
     "episodes": ["start_date", "latest_date"],
@@ -164,7 +202,27 @@ _DATE_COLUMNS_PER_TABLE: dict[str, list[str]] = {
 
 
 class UnifiedDataRepository:
-    """Typed, cached access to the unified pipeline artifacts."""
+    """Typed, cached access to the unified pipeline artifacts.
+
+    The repository exposes two parallel survey surfaces:
+
+    - `survey` (a.k.a. raw / staging): every survey row, including those
+      whose `clinical_category` is `pending` or `rejected` in the
+      semantic mapping, or whose `normalization_status` is `unknown`.
+      Available for audit, debug, and pre-validation analysis.
+
+    - `survey_validated`: the trust-gated subset that downstream
+      consumers should use by default — only rows whose category is
+      `approved` or `overridden` in the semantic mapping AND whose
+      values normalised to a canonical label (status in
+      `{complete, partial}`).
+
+    The validated view is computed lazily from `survey` plus the
+    on-disk `semantic_mapping.json`, and cached per repository instance.
+    Cache invalidation is at process boundary: a fresh request triggers
+    a fresh repo, which re-reads the mapping. That matches the demo /
+    pilot deployment shape.
+    """
 
     def __init__(self, artifacts: PipelineArtifacts) -> None:
         self._artifacts = artifacts
@@ -182,6 +240,8 @@ class UnifiedDataRepository:
         self._coerce_dtypes()
         self._preparse_canonical()
         self._patient_index = self._build_patient_index()
+        self._survey_validated_cache: pd.DataFrame | None = None
+        self._validated_categories_cache: set[str] | None = None
 
     @classmethod
     def from_output_dir(cls, output_dir: Path | None = None) -> UnifiedDataRepository:
@@ -262,7 +322,24 @@ class UnifiedDataRepository:
 
     @property
     def survey(self) -> pd.DataFrame:
+        """Raw / staging survey rows. Includes pending + rejected categories
+        and unknown-status rows. Use this only when you need full coverage
+        for audit / debug / pre-validation analysis. Default downstream
+        consumers should use `survey_validated`."""
         return self._survey
+
+    @property
+    def survey_validated(self) -> pd.DataFrame:
+        """Trust-gated survey: only rows whose clinical_category has been
+        signed off (`approved` or `overridden`) AND whose values normalised
+        to a canonical label (`complete` or `partial`).
+
+        Cached on first access. Falls back gracefully when the
+        `normalization_status` column is missing (older substrate runs)
+        — in that case the gate is category-only, not label-aware."""
+        if self._survey_validated_cache is None:
+            self._survey_validated_cache = self._build_survey_validated()
+        return self._survey_validated_cache
 
     @property
     def taxonomy(self) -> dict:
@@ -272,6 +349,102 @@ class UnifiedDataRepository:
     def answer_normalization(self) -> dict:
         return self._artifacts.answer_normalization
 
+    # ---- Validated layer construction -------------------------------------
+
+    def _validated_categories(self) -> set[str]:
+        """Categories with `review_status in {approved, overridden}` from the
+        on-disk semantic_mapping.json. Loaded once per repo instance."""
+        if self._validated_categories_cache is not None:
+            return self._validated_categories_cache
+        try:
+            import json
+            from pathlib import Path
+
+            mapping_path = Path(config.OUTPUT_DIR) / "semantic_mapping.json"
+            if not mapping_path.exists():
+                self._validated_categories_cache = set()
+                return self._validated_categories_cache
+            data = json.loads(mapping_path.read_text(encoding="utf-8"))
+            if not isinstance(data, dict):
+                self._validated_categories_cache = set()
+                return self._validated_categories_cache
+            validated = {
+                str(category)
+                for category, entry in data.items()
+                if isinstance(entry, dict)
+                and str(entry.get("review_status", "")) in {"approved", "overridden"}
+                and not category.startswith("__")
+            }
+            self._validated_categories_cache = validated
+            return validated
+        except Exception:
+            self._validated_categories_cache = set()
+            return self._validated_categories_cache
+
+    def _build_survey_validated(self) -> pd.DataFrame:
+        """Apply the validated-layer filter against `self._survey`.
+
+        Two gates:
+        - Category-level: clinical_category must be in the validated set
+        - Label-level: normalization_status (if present) must be in
+          `{complete, partial}` — `unknown`, `no_mapping`, `skipped` rows
+          flow into the raw layer only
+
+        If `normalization_status` is missing (older substrate), only the
+        category gate is applied and a warning is logged once.
+        """
+        df = self._survey
+        if df.empty:
+            return df.copy()
+
+        validated_cats = self._validated_categories()
+        if not validated_cats:
+            # No mapping file or empty validated set — return empty validated
+            # surface rather than the full raw survey, so downstream
+            # consumers fail safely instead of silently using raw data.
+            return df.iloc[0:0].copy()
+
+        cat_mask = (
+            df["clinical_category"].isin(validated_cats)
+            if "clinical_category" in df.columns
+            else pd.Series([False] * len(df), index=df.index)
+        )
+
+        if "normalization_status" not in df.columns:
+            return df.iloc[0:0].copy()
+
+        registry = NormalizationRegistry.from_disk()
+        registry_status = {
+            (record.category, record.original_value): record.review_status
+            for record in registry.records
+        }
+
+        def _label_is_currently_valid(row: pd.Series) -> bool:
+            status = str(row.get("normalization_status", "") or "")
+            if status == "not_applicable":
+                return True
+            if status not in {"complete", "partial"}:
+                return False
+
+            category = str(row.get("clinical_category", "") or "")
+            values = _extract_normalized_values(row.get("normalized_value"))
+            if not category or not values:
+                return False
+
+            approved_seen = False
+            for value in values:
+                review_status = registry_status.get((category, value))
+                if review_status is None:
+                    continue
+                if review_status not in {"approved", "overridden"}:
+                    return False
+                approved_seen = True
+            return approved_seen
+
+        label_mask = df.apply(_label_is_currently_valid, axis=1)
+        return df[cat_mask & label_mask].reset_index(drop=True)
+
+        # Fallback: substrate predates P0.3 — gate on category only.
     # ---- Typed patient-keyed reads ----------------------------------------
 
     def patient(self, user_id: int) -> PatientRecord | None:
@@ -304,8 +477,30 @@ class UnifiedDataRepository:
         *,
         category: str | None = None,
     ) -> pd.DataFrame:
-        """Survey rows for one patient, optionally filtered by clinical_category."""
+        """Survey rows for one patient (raw), optionally filtered by category.
+
+        For patient-facing consumers (artifacts, FHIR export), prefer
+        `survey_validated_for_patient` — that one applies the trust gate.
+        This raw variant exists for audit / debug paths."""
         df = self._survey[self._survey["user_id"] == int(user_id)]
+        if category is not None:
+            df = df[df["clinical_category"] == category]
+        return df.reset_index(drop=True)
+
+    def survey_validated_for_patient(
+        self,
+        user_id: int,
+        *,
+        category: str | None = None,
+    ) -> pd.DataFrame:
+        """Validated survey rows for one patient.
+
+        Same signature as `survey_for_patient`, but reads from the trust-
+        gated `survey_validated` view. Use this in any consumer that
+        ships clinical content downstream (FHIR export, patient_record,
+        opportunity_list, analyst-derived artifacts)."""
+        df = self.survey_validated
+        df = df[df["user_id"] == int(user_id)]
         if category is not None:
             df = df[df["clinical_category"] == category]
         return df.reset_index(drop=True)

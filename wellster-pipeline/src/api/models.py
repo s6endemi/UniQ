@@ -41,6 +41,10 @@ class MappingEntry(BaseModel):
     review_status: ReviewStatus = "pending"
     reasoning: str | None = None
     validation_errors: list[str] | None = None
+    reviewed_by: str | None = None
+    reviewed_role: str | None = None
+    reviewed_at: str | None = None
+    review_note: str | None = None
 
 
 class MappingUpdate(BaseModel):
@@ -70,6 +74,190 @@ class SchemaResponse(BaseModel):
 class CategoriesResponse(BaseModel):
     categories: list[str]
     count: int
+
+
+# --- Normalization registry + queue -----------------------------------------
+#
+# The answer-normalization governance layer. Records are inspectable +
+# reviewable per (category, original_value); unknowns surface in a queue
+# rather than silently falling to null. Together they give Wellster a
+# concrete answer to "how do you trust the answer normalization?".
+
+
+NormalizationReviewStatus = Literal["pending", "approved", "overridden", "rejected"]
+NormalizationQueueStatus = Literal["open", "promoted", "dismissed"]
+
+
+class NormalizationRecordOut(BaseModel):
+    id: str
+    category: str
+    original_value: str
+    canonical_label: str
+    review_status: NormalizationReviewStatus
+    source_count: int
+    first_seen: str | None = None
+    last_seen: str | None = None
+    reviewed_by: str | None = None
+    reviewed_role: str | None = None
+    reviewed_at: str | None = None
+    review_note: str | None = None
+
+
+class NormalizationRecordPatch(BaseModel):
+    canonical_label: str | None = None
+    review_status: NormalizationReviewStatus | None = None
+    review_note: str | None = None
+
+
+class NormalizationCoverage(BaseModel):
+    total_records: int
+    by_status_approved: int
+    by_status_overridden: int
+    by_status_pending: int
+    by_status_rejected: int
+
+
+class NormalizationListResponse(BaseModel):
+    coverage: NormalizationCoverage
+    records: list[NormalizationRecordOut]
+
+
+class UnknownEntryOut(BaseModel):
+    id: str
+    category: str
+    original_value: str
+    first_seen: str
+    last_seen: str
+    occurrence_count: int
+    status: NormalizationQueueStatus
+    resolution: str | None = None
+    resolved_by: str | None = None
+    resolved_role: str | None = None
+    resolved_at: str | None = None
+
+
+class UnknownResolvePayload(BaseModel):
+    """Payload for promoting / dismissing one unknown queue entry."""
+
+    canonical_label: str | None = None
+    status: NormalizationQueueStatus = "promoted"
+
+
+class UnknownQueueResponse(BaseModel):
+    stats: dict[str, int]
+    entries: list[UnknownEntryOut]
+
+
+# --- Clinical annotations ---------------------------------------------------
+#
+# First write-back resource on the substrate. Approval signs the schema;
+# annotations let clinicians contribute clinical context back into the
+# record post-signing. The substrate stops being a one-shot snapshot and
+# starts being operational memory — the "Living Substrate" beat that
+# Martin pushed for after the Spira call.
+#
+# Persistence is intentionally a flat JSON list (atomic_write_json) and
+# not a database. For pitch + Wellster pilot we need durability and
+# audit trail, not concurrent multi-writer integrity.
+
+
+AnnotationCategory = Literal[
+    "clinical_note",
+    "correction",
+    "follow_up",
+    "risk_flag",
+]
+
+
+class ClinicalAnnotation(BaseModel):
+    id: str
+    patient_id: int
+    event_id: str | None = Field(
+        None,
+        description=(
+            "When the annotation is pinned to a specific timeline event "
+            "(BMI measurement, medication change, side-effect report). "
+            "Null for patient-level notes that don't belong to any one event."
+        ),
+    )
+    category: AnnotationCategory = "clinical_note"
+    note: str = Field(..., min_length=1)
+    author: str
+    role: str
+    created_at: str  # ISO
+
+
+class ClinicalAnnotationCreate(BaseModel):
+    """Inbound payload for POST. Author/role/timestamp filled server-side."""
+
+    note: str = Field(..., min_length=1, max_length=2000)
+    event_id: str | None = None
+    category: AnnotationCategory = "clinical_note"
+
+
+# --- Substrate manifest ----------------------------------------------------
+
+
+ResourceStatus = Literal["signed", "queryable", "exportable", "monitored", "next"]
+
+
+class SubstrateForeignKey(BaseModel):
+    target_resource: str
+    key: str
+    label: str
+
+
+class SubstrateResource(BaseModel):
+    name: str
+    label: str
+    row_count: int
+    primary_key: str
+    foreign_keys: list[SubstrateForeignKey] = Field(default_factory=list)
+    sample_fields: list[str] = Field(default_factory=list)
+    status: ResourceStatus
+    api_hooks: list[str] = Field(default_factory=list)
+
+
+class SubstrateRelationship(BaseModel):
+    from_resource: str
+    to_resource: str
+    key: str
+    label: str
+
+
+class SubstrateAuditEvent(BaseModel):
+    label: str
+    detail: str
+    status: ReviewStatus
+
+
+class MaterializationManifestSummary(BaseModel):
+    """Subset of the materialization manifest exposed via the substrate API.
+
+    The full manifest lives at `output/materialization_manifest.json`.
+    The summary surfaces the fields a consumer would actually verify
+    (run_id, hashes, coverage stats) without forcing them to fetch a
+    second endpoint."""
+
+    run_id: str
+    generated_at: str
+    git_commit: str | None = None
+    input_row_count: int | None = None
+    semantic_mapping_categories: int = 0
+    semantic_mapping_by_status: dict[str, int] = Field(default_factory=dict)
+    normalization_total_records: int = 0
+    normalization_by_status: dict[str, int] = Field(default_factory=dict)
+    normalization_queue_open: int = 0
+    output_table_hashes: dict[str, str | None] = Field(default_factory=dict)
+
+
+class SubstrateManifestResponse(BaseModel):
+    version: str
+    headline: str
+    resources: list[SubstrateResource]
+    relationships: list[SubstrateRelationship]
+    audit_events: list[SubstrateAuditEvent] = Field(default_factory=list)
+    materialization: MaterializationManifestSummary | None = None
 
 
 # --- Patients --------------------------------------------------------------
@@ -226,7 +414,7 @@ class PatientMedicationSegment(BaseModel):
 
 
 PatientEventTrack = Literal[
-    "bmi", "medication", "side_effect", "condition", "quality", "survey"
+    "bmi", "medication", "side_effect", "condition", "quality", "survey", "annotation"
 ]
 PatientEventSeverity = Literal["normal", "info", "warn", "alert"]
 
@@ -278,6 +466,60 @@ class PatientRecordPayload(BaseModel):
     )
 
 
+# ---- Opportunity / screening-candidates artifact -------------------------
+#
+# Cross-brand candidate list: patients on `source_brand` who could be
+# screened for `target_brand` follow-up based on a clinical filter (today:
+# BMI threshold) and exclusion of existing target-brand history. The
+# UI-facing language is "Screening candidates", never "eligible patients"
+# or "leads" — we surface the cohort, the operational decision belongs to
+# the customer's clinical / outreach team. No revenue figures appear in
+# the payload; the truth layer reports the cohort, the customer values it.
+
+
+CandidatePriority = Literal["high", "medium", "low"]
+TrendDirection = Literal["up", "down", "stable", "unknown"]
+
+
+class ActivationFilterStep(BaseModel):
+    """One step in the funnel from total source cohort to final candidates."""
+
+    label: str
+    count: int
+    description: str | None = None
+
+
+class ScreeningCandidate(BaseModel):
+    user_id: int
+    label: str  # display id, e.g. "PT-381119"
+    latest_bmi: float | None = None
+    bmi_trend: TrendDirection = "unknown"
+    age: int | None = None
+    gender: str | None = None
+    current_treatment: str | None = None
+    current_dosage: str | None = None
+    tenure_days: int | None = None
+    days_since_activity: int | None = None
+    reason_summary: str
+    priority: CandidatePriority = "medium"
+
+
+class OpportunityListPayload(BaseModel):
+    headline: str
+    methodology: str
+    activation_path: list[ActivationFilterStep]
+    kpis: list[Kpi]
+    candidates: list[ScreeningCandidate]
+    total_candidates: int = Field(
+        ...,
+        description="True total candidate count (may exceed the rendered list).",
+    )
+    source_brand: str
+    target_brand: str
+    bmi_threshold: float
+    activity_window_days: int
+
+
 # ---- Artifact discriminated union -----------------------------------------
 
 
@@ -321,16 +563,30 @@ class PatientRecordArtifact(BaseModel):
     payload: PatientRecordPayload
 
 
+class OpportunityListArtifact(BaseModel):
+    kind: Literal["opportunity_list"] = "opportunity_list"
+    id: str
+    title: str
+    subtitle: str
+    payload: OpportunityListPayload
+
+
 ChatArtifact = (
     CohortTrendArtifact
     | AlertsTableArtifact
     | TableArtifact
     | FhirBundleArtifact
     | PatientRecordArtifact
+    | OpportunityListArtifact
 )
 
 ArtifactKind = Literal[
-    "cohort_trend", "alerts_table", "table", "fhir_bundle", "patient_record"
+    "cohort_trend",
+    "alerts_table",
+    "table",
+    "fhir_bundle",
+    "patient_record",
+    "opportunity_list",
 ]
 
 

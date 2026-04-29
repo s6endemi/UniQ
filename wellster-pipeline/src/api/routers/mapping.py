@@ -4,11 +4,19 @@ Design choice: semantic_mapping.json is the single source of truth. The API
 owns write access through the AppState lock so the Streamlit review UI and
 any other client cannot race. AI regeneration (pipeline re-run) preserves
 approved/overridden entries verbatim — the human decisions win.
+
+Reviewer identity (P0.6): every governance write attaches the reviewing
+clinician via the `X-Uniq-Reviewer` / `X-Uniq-Role` headers when present.
+Falls back to a demo author for the showcase. The audit trail records
+`reviewed_by`, `reviewed_at`, and the AI's pre-existing `reasoning` so a
+clinical reviewer can always reconstruct who decided what when.
 """
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException
+from datetime import datetime, timezone
+
+from fastapi import APIRouter, Depends, Header, HTTPException
 from pydantic import BaseModel
 
 from src.api.deps import AppState, get_mapping_state
@@ -16,6 +24,24 @@ from src.api.models import MappingEntry, MappingUpdate
 from src.semantic_mapping_ai import _validate_entry  # reuse the contract check
 
 router = APIRouter(prefix="/mapping", tags=["mapping"])
+
+
+_DEMO_REVIEWER = "Dr. M. Hassan"
+_DEMO_ROLE = "Clinical Reviewer"
+
+
+def _resolve_reviewer(
+    reviewer_header: str | None,
+    role_header: str | None,
+) -> tuple[str, str]:
+    return (
+        reviewer_header.strip() if reviewer_header and reviewer_header.strip() else _DEMO_REVIEWER,
+        role_header.strip() if role_header and role_header.strip() else _DEMO_ROLE,
+    )
+
+
+def _now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
 
 
 # Categories that should NOT be part of the audit-ready clinical substrate
@@ -26,6 +52,15 @@ _RESET_REJECT_CATEGORIES: frozenset[str] = frozenset({
     "PATIENT_PHOTO_UPLOAD",
     "PHOTO_UPLOAD_DECISION",
 })
+
+
+def _clear_runtime_caches(state: AppState) -> None:
+    """Make mapping-review writes visible to artifacts and SQL immediately."""
+    from src import artifact_builders
+
+    if hasattr(artifact_builders._load_semantic_mapping, "_cache"):
+        delattr(artifact_builders._load_semantic_mapping, "_cache")
+    state.reload_artifacts()
 
 
 class ResetResponse(BaseModel):
@@ -49,6 +84,10 @@ def _to_model(category: str, raw: dict) -> MappingEntry:
         review_status=raw.get("review_status", "pending"),
         reasoning=raw.get("reasoning"),
         validation_errors=raw.get("validation_errors"),
+        reviewed_by=raw.get("reviewed_by"),
+        reviewed_role=raw.get("reviewed_role"),
+        reviewed_at=raw.get("reviewed_at"),
+        review_note=raw.get("review_note"),
     )
 
 
@@ -80,6 +119,8 @@ def update_mapping(
     category: str,
     update: MappingUpdate,
     state: AppState = Depends(get_mapping_state),
+    x_uniq_reviewer: str | None = Header(None),
+    x_uniq_role: str | None = Header(None),
 ) -> MappingEntry:
     """Apply a partial update + re-validate + persist atomically.
 
@@ -126,15 +167,27 @@ def update_mapping(
                 detail={"errors": errors, "submitted": merged},
             )
 
+        # Attach reviewer identity for the audit trail. Always set when
+        # the entry is being modified (the alternative — leaving stale
+        # reviewer attribution on overwritten content — would corrupt
+        # the audit log).
+        reviewer, role = _resolve_reviewer(x_uniq_reviewer, x_uniq_role)
+        merged["reviewed_by"] = reviewer
+        merged["reviewed_role"] = role
+        merged["reviewed_at"] = _now_iso()
+
         mapping[category] = merged
         state.write_mapping(mapping)
 
+    _clear_runtime_caches(state)
     return _to_model(category, merged)
 
 
 @router.post("/reset", response_model=ResetResponse)
 def reset_mapping(
     state: AppState = Depends(get_mapping_state),
+    x_uniq_reviewer: str | None = Header(None),
+    x_uniq_role: str | None = Header(None),
 ) -> ResetResponse:
     """Reset every mapping to its pitch-ready review_status.
 
@@ -150,6 +203,9 @@ def reset_mapping(
     semantic_mapping cache in `src.artifact_builders` is cleared so the
     next artifact build picks up the new state without a server restart.
     """
+    reviewer, role = _resolve_reviewer(x_uniq_reviewer, x_uniq_role)
+    when = _now_iso()
+
     with state.mapping_lock():
         mapping = state.read_mapping()
         changed = 0
@@ -166,18 +222,19 @@ def reset_mapping(
             old_status = entry.get("review_status", "pending")
             if old_status != new_status:
                 entry["review_status"] = new_status
+                # Attribution attaches only on actual change so we don't
+                # blanket-overwrite reviewer attribution from genuine
+                # per-mapping clinician decisions with the bulk reset
+                # actor every time the script runs.
+                entry["reviewed_by"] = reviewer
+                entry["reviewed_role"] = role
+                entry["reviewed_at"] = when
+                entry["review_note"] = "bulk reset to pitch-ready policy"
                 changed += 1
             counts[new_status] = counts.get(new_status, 0) + 1
 
         state.write_mapping(mapping)
 
-    # Clear the semantic_mapping cache so the next patient_record build
-    # reflects the new review_status values immediately. Without this,
-    # artifacts would still show stale pending/rejected markers until
-    # the server restarts.
-    from src import artifact_builders
-
-    if hasattr(artifact_builders._load_semantic_mapping, "_cache"):
-        delattr(artifact_builders._load_semantic_mapping, "_cache")
+    _clear_runtime_caches(state)
 
     return ResetResponse(**counts, changed=changed)

@@ -240,6 +240,53 @@ def main() -> int:
                 f"kind={getattr(resp.artifact, 'kind', None)!r}",
             )
 
+        # 5. Opportunity list terminal tool builds the deterministic
+        # cross-brand screening artifact directly, without SQL handles.
+        client = FakeAnthropic([
+            SimpleNamespace(stop_reason="tool_use", content=[
+                _tool_block(
+                    "present_opportunity_list",
+                    {
+                        "source_brand": "spring",
+                        "target_brand": "golighter",
+                        "bmi_threshold": 27,
+                        "activity_window_days": 180,
+                        "limit": 20,
+                        "title": "Screening candidates · Spring → GoLighter",
+                        "subtitle": "Cross-brand cohort · BMI ≥ 27 · GoLighter-naive",
+                        "reply_text": "Found Spring patients for GoLighter screening review.",
+                    },
+                    "tool-7",
+                )
+            ])
+        ])
+        resp = run_chat_agent_v2(
+            "Find GoLighter screening candidates from Spring",
+            query=query,
+            repo=repo,
+            client=client,
+        )
+        payload = resp.artifact.payload if resp.artifact else None
+        if (
+            resp.artifact
+            and resp.artifact.kind == "opportunity_list"
+            and not resp.trace.sql
+            and payload.total_candidates > 0
+            and all(
+                c.latest_bmi is not None and c.latest_bmi >= 27
+                for c in payload.candidates
+            )
+        ):
+            _ok(
+                "present_opportunity_list builds screening artifact",
+                f"{payload.total_candidates} candidates, no SQL",
+            )
+        else:
+            _fail(
+                "present_opportunity_list builds screening artifact",
+                f"kind={getattr(resp.artifact, 'kind', None)!r}, sql={resp.trace.sql}",
+            )
+
         return _report_and_exit()
     finally:
         query.close()

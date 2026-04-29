@@ -55,13 +55,16 @@ def main() -> int:
     try:
         # 1. Schema introspection
         schema = svc.schema()
-        expected_tables = {"survey_unified", "patients", "treatment_episodes",
+        # 8 tables since P0.4: raw `survey_unified` plus the validated layer
+        # `survey_validated` which gates downstream consumers.
+        expected_tables = {"survey_unified", "survey_validated",
+                           "patients", "treatment_episodes",
                            "bmi_timeline", "medication_history",
                            "mapping_table", "quality_report"}
         if set(schema.keys()) == expected_tables:
-            _ok("schema lists 7 tables", ", ".join(sorted(schema.keys())))
+            _ok("schema lists 8 tables", ", ".join(sorted(schema.keys())))
         else:
-            _fail("schema lists 7 tables",
+            _fail("schema lists 8 tables",
                   f"got {sorted(schema.keys())}")
             return _report_and_exit()
 
@@ -70,7 +73,7 @@ def main() -> int:
                 _fail(f"{table} has columns", "0 columns")
                 return _report_and_exit()
         _ok("every table has columns",
-            f"total {sum(len(c) for c in schema.values())} across 7 tables")
+            f"total {sum(len(c) for c in schema.values())} across 8 tables")
 
         # 2. Categories introspection
         cats = svc.list_categories()

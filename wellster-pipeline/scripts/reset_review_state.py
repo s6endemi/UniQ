@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import json
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Let the script find src/ + config when run from either wellster-pipeline/
@@ -60,6 +61,7 @@ def main() -> int:
     before = {"approved": 0, "rejected": 0, "pending": 0, "overridden": 0}
     after = {"approved": 0, "rejected": 0, "pending": 0, "overridden": 0}
     changes: list[tuple[str, str, str]] = []
+    reviewed_at = datetime.now(timezone.utc).isoformat()
 
     for category, entry in data.items():
         if not isinstance(entry, dict):
@@ -72,6 +74,10 @@ def main() -> int:
 
         if old_status != new_status:
             entry["review_status"] = new_status
+            entry["reviewed_by"] = "scripts/reset_review_state.py"
+            entry["reviewed_role"] = "system"
+            entry["reviewed_at"] = reviewed_at
+            entry["review_note"] = "bulk reset to pitch-ready policy"
             changes.append((category, old_status, new_status))
 
     atomic_write_json(mapping_path, data)

@@ -1123,6 +1123,615 @@ html {
   border-bottom: none;
 }
 
+/* Repository map */
+.substrate-repository {
+  border: 1px solid var(--rule-soft);
+  background: var(--paper-rise);
+  padding: 22px;
+  opacity: 0;
+  animation: sr-fade-in 400ms var(--ease) 1400ms both;
+}
+.substrate-repository__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.substrate-repository__head h2 {
+  margin: 6px 0 0;
+  max-width: 720px;
+  font-family: var(--f-display);
+  font-size: 26px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.substrate-repository__version {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border: 1px solid var(--rule-soft);
+  padding: 6px 8px;
+}
+/* ─── Audit strip · standalone "live" indicator ───────────────────── */
+.substrate-audit {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto auto;
+  gap: 14px;
+  align-items: center;
+  margin: 16px 0 24px;
+  padding: 12px 16px;
+  border: 1px solid color-mix(in oklab, var(--signal-ink) 18%, var(--rule-soft));
+  background: color-mix(in oklab, var(--signal-wash) 32%, var(--paper-rise));
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+.substrate-audit__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--signal-ink);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--signal-ink) 18%, transparent);
+  animation: substrate-pulse 2.4s var(--ease) infinite;
+}
+@keyframes substrate-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.substrate-audit__status {
+  text-transform: uppercase;
+  color: var(--signal-ink);
+  letter-spacing: 0.14em;
+  font-weight: 500;
+}
+.substrate-audit__label { color: var(--ink); font-weight: 500; }
+.substrate-audit__detail { color: var(--ink-3); }
+.substrate-audit__when {
+  color: var(--ink-4);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ─── Two-zone layout: slim entity tree (nav) + cards (substance) ── */
+.substrate-repository__layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+/* ─── Entity tree · navigational only, no row counts ──────────────── */
+.entity-tree {
+  position: sticky;
+  top: 24px;
+  border: 1px solid var(--rule-soft);
+  background: var(--paper);
+  padding: 16px 14px;
+  font-family: var(--f-mono);
+}
+.entity-tree__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule-soft);
+  margin-bottom: 12px;
+}
+.entity-tree__hint {
+  font-size: 10px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+}
+.entity-tree__root {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 6px 0 8px;
+}
+.entity-tree__root-name {
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+.entity-tree__root-key {
+  font-size: 10px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+}
+.entity-tree__join {
+  padding: 4px 0 4px 6px;
+  color: var(--signal-ink);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+.entity-tree__children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid var(--rule-soft);
+  margin-left: 6px;
+}
+.entity-tree__child {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 6px;
+  align-items: baseline;
+  padding: 5px 0 5px 6px;
+  font-size: 11.5px;
+  color: var(--ink-2);
+}
+.entity-tree__branch {
+  color: var(--ink-4);
+  font-size: 11px;
+}
+.entity-tree__name {
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.entity-tree__governance-head {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--rule-soft);
+}
+.entity-tree__children--governance {
+  margin-top: 4px;
+}
+.entity-tree__children--governance .entity-tree__name {
+  color: var(--signal-ink);
+  font-weight: 500;
+}
+
+/* ─── Status pill · shared between hero and card ──────────────────── */
+.resource-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 4px 8px;
+  border: 1px solid var(--rule-soft);
+  border-radius: 2px;
+  background: var(--paper-rise);
+  white-space: nowrap;
+}
+.resource-status__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ink-3);
+}
+.resource-status[data-status="signed"],
+.resource-status[data-status="exportable"] {
+  color: var(--signal-ink);
+  border-color: color-mix(in oklab, var(--signal-ink) 28%, var(--rule));
+  background: color-mix(in oklab, var(--signal-wash) 35%, var(--paper-rise));
+}
+.resource-status[data-status="signed"] .resource-status__dot,
+.resource-status[data-status="exportable"] .resource-status__dot {
+  background: var(--signal-ink);
+}
+.resource-status[data-status="monitored"] {
+  color: var(--pending);
+  border-color: color-mix(in oklab, var(--pending) 25%, var(--rule));
+}
+.resource-status[data-status="monitored"] .resource-status__dot {
+  background: var(--pending);
+}
+
+/* ─── Cards container: hero on top, grid below ────────────────────── */
+.resource-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.resource-cards__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+/* ─── Resource hero · the patients card, full-width, structural ───── */
+.resource-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(220px, 0.9fr);
+  gap: 32px;
+  border: 1px solid color-mix(in oklab, var(--signal-ink) 22%, var(--rule));
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--signal-wash) 30%, var(--paper-rise)) 0%,
+    var(--paper-rise) 65%
+  );
+  padding: 24px 28px;
+  opacity: 0;
+  animation: sr-rise-in 360ms var(--ease) both;
+  min-width: 0;
+}
+.resource-hero__lhs {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.resource-hero__title {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.resource-hero__title h3 {
+  margin: 0;
+  font-family: var(--f-display);
+  font-size: 30px;
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.resource-hero__codename {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+}
+.resource-hero__caption {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 52ch;
+}
+.resource-hero__caption code {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--signal-ink);
+  background: var(--signal-wash);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+.resource-hero__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  letter-spacing: 0.01em;
+}
+.resource-hero__meta strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+.resource-hero__meta code {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--ink-2);
+  background: color-mix(in oklab, var(--paper-sunk) 50%, transparent);
+  padding: 0 4px;
+}
+.resource-hero__consumers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid color-mix(in oklab, var(--signal-ink) 12%, var(--rule-soft));
+}
+.resource-hero__consumer {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  color: var(--ink-2);
+  background: var(--paper-rise);
+  border: 1px solid var(--rule-soft);
+  padding: 4px 9px;
+  border-radius: 2px;
+  letter-spacing: 0.02em;
+}
+
+.resource-hero__rhs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-end;
+  text-align: right;
+  min-width: 0;
+}
+.resource-hero__count {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.resource-hero__count-value {
+  font-family: var(--f-display);
+  font-size: 64px;
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--signal-ink);
+}
+.resource-hero__count-label {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  color: var(--ink-3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.resource-hero__hooks {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-end;
+}
+.resource-hero__hooks code {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  color: var(--signal-ink);
+  background: color-mix(in oklab, var(--signal-wash) 50%, var(--paper-rise));
+  border: 1px solid color-mix(in oklab, var(--signal-ink) 22%, var(--rule));
+  padding: 4px 9px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+/* ─── Resource card · uniform height, hero number, inline pills ───── */
+.resource-card {
+  border: 1px solid var(--rule-soft);
+  background: var(--paper);
+  padding: 16px;
+  display: grid;
+  grid-template-rows: auto auto auto auto 1fr;
+  gap: 12px;
+  min-width: 0;
+  min-height: 220px;
+  opacity: 0;
+  animation: sr-rise-in 360ms var(--ease) both;
+  transition: border-color var(--dur-1) var(--ease), background var(--dur-1) var(--ease);
+}
+.resource-card:hover {
+  border-color: var(--rule);
+  background: var(--paper-rise);
+}
+
+.resource-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+.resource-card__head h3 {
+  margin: 0;
+  font-family: var(--f-display);
+  font-size: 18px;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.resource-card__hero {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0 2px;
+}
+.resource-card__hero-value {
+  font-family: var(--f-display);
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+.resource-card__hero-label {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  color: var(--ink-3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.resource-card__keys {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--ink-2);
+  letter-spacing: 0.005em;
+  padding-top: 4px;
+  border-top: 1px solid var(--rule-soft);
+}
+.resource-card__keys-label {
+  display: inline-block;
+  width: 18px;
+  color: var(--ink-4);
+  letter-spacing: 0.08em;
+  font-size: 9.5px;
+}
+
+.resource-card__consumers {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+}
+.resource-card__consumers-list {
+  color: var(--ink-2);
+  line-height: 1.45;
+}
+.resource-card__consumers-more {
+  color: var(--ink-3);
+  font-style: italic;
+}
+
+/* ─── Governance strip · semantic_mapping pulled out of data grid ─── */
+.governance-strip {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) auto minmax(0, 0.9fr);
+  gap: 24px;
+  align-items: center;
+  padding: 16px 22px;
+  border: 1px solid color-mix(in oklab, var(--pending) 20%, var(--rule));
+  background: color-mix(in oklab, var(--pending-wash) 22%, var(--paper-rise));
+  opacity: 0;
+  animation: sr-rise-in 360ms var(--ease) both;
+  min-width: 0;
+}
+.governance-strip__lhs {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.governance-strip__title {
+  margin: 0;
+  font-family: var(--f-display);
+  font-size: 20px;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.governance-strip__caption {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.governance-strip__caption code {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--signal-ink);
+  background: var(--signal-wash);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+.governance-strip__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 0 18px;
+  border-left: 1px solid color-mix(in oklab, var(--pending) 16%, var(--rule-soft));
+  border-right: 1px solid color-mix(in oklab, var(--pending) 16%, var(--rule-soft));
+}
+.governance-strip__count {
+  font-family: var(--f-display);
+  font-size: 32px;
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  color: var(--ink);
+}
+.governance-strip__count span {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink-3);
+  letter-spacing: 0;
+}
+.governance-strip__count-label {
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  color: var(--ink-3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.governance-strip__rhs {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+.governance-strip__hooks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px;
+}
+.governance-strip__hooks code {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  color: var(--signal-ink);
+  background: color-mix(in oklab, var(--signal-wash) 38%, var(--paper-rise));
+  border: 1px solid color-mix(in oklab, var(--signal-ink) 18%, var(--rule));
+  padding: 3px 7px;
+  white-space: nowrap;
+}
+
+.resource-card__hooks {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-self: end;
+}
+.resource-card__hooks code {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  color: var(--signal-ink);
+  background: color-mix(in oklab, var(--signal-wash) 32%, transparent);
+  border: 1px solid color-mix(in oklab, var(--signal-ink) 16%, var(--rule-soft));
+  padding: 4px 7px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.resource-card__foot {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--rule-soft);
+}
+
+/* ─── Snapshot link · trust signal, not main CTA ─────────────────── */
+.snapshot-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  text-decoration: none;
+  padding: 2px 0;
+  border-bottom: 1px dotted transparent;
+  transition: color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease);
+}
+.snapshot-link:hover {
+  color: var(--ink);
+  border-bottom-color: var(--ink-3);
+}
+.snapshot-link--inline {
+  cursor: default;
+  color: var(--ink-4);
+  font-style: italic;
+}
+.snapshot-link--inline:hover {
+  color: var(--ink-4);
+  border-bottom-color: transparent;
+}
+
 /* Unlock cards */
 .unlock-cards {
   display: grid;
@@ -1193,6 +1802,32 @@ html {
 @media (max-width: 980px) {
   .substrate-metrics { grid-template-columns: repeat(2, 1fr); }
   .substrate-metric:nth-child(2) { border-right: none; }
+  .substrate-repository__layout { grid-template-columns: 1fr; }
+  .entity-tree { position: static; }
+  .resource-cards__grid { grid-template-columns: 1fr; }
+  .substrate-audit {
+    grid-template-columns: auto auto 1fr;
+    grid-template-rows: auto auto;
+  }
+  .substrate-audit__detail { grid-column: 1 / -1; }
+  .substrate-audit__when { grid-column: 1 / -1; }
+  .resource-hero {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .resource-hero__rhs { align-items: flex-start; text-align: left; }
+  .resource-hero__hooks { align-items: flex-start; }
+  .governance-strip {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .governance-strip__center {
+    border: none;
+    padding: 0;
+    align-items: flex-start;
+  }
+  .governance-strip__rhs { align-items: flex-start; }
+  .governance-strip__hooks { justify-content: flex-start; }
   .unlock-cards { grid-template-columns: 1fr; }
 }
 
@@ -3433,6 +4068,42 @@ html {
 .patient-record__dot--alert {
   background: var(--alert);
 }
+.patient-record__dot--annotation {
+  /* Square instead of circle, signal-ink fill, ✎ glyph centred. The
+     write-back beat reads as "human contribution" against the round
+     observation dots — different shape carries different meaning. */
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  background: color-mix(in oklab, var(--signal-wash) 80%, var(--paper-rise));
+  border: 1.5px solid var(--signal-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.patient-record__dot-glyph {
+  font-family: var(--f-display);
+  font-size: 11px;
+  font-style: italic;
+  color: var(--signal-ink);
+  pointer-events: none;
+  line-height: 1;
+}
+.patient-record__dot--annotation:hover,
+.patient-record__dot--annotation.is-hover {
+  width: 20px;
+  height: 20px;
+  background: var(--signal-wash);
+}
+.patient-record__dot--annotation.is-selected {
+  width: 20px;
+  height: 20px;
+  background: var(--signal-ink);
+  border-color: var(--signal-ink);
+}
+.patient-record__dot--annotation.is-selected .patient-record__dot-glyph {
+  color: var(--paper-rise);
+}
 .patient-record__dot--neutral:hover,
 .patient-record__dot--neutral.is-hover,
 .patient-record__dot--warn:hover,
@@ -3442,7 +4113,7 @@ html {
   width: 14px;
   height: 14px;
 }
-.patient-record__dot.is-selected:not(.patient-record__dot--bmi) {
+.patient-record__dot.is-selected:not(.patient-record__dot--bmi):not(.patient-record__dot--annotation) {
   width: 16px;
   height: 16px;
   box-shadow: 0 0 0 3px color-mix(in oklab, var(--ink) 18%, transparent);
@@ -4031,4 +4702,534 @@ html {
   .mapping-row__actions { grid-column: 1 / -1; justify-content: flex-start; margin-top: 4px; }
   .analyst.has-artifact { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
   .artifact { border-left: none; border-top: 1px solid var(--rule); }
+}
+
+/* =========================================================
+   ARTIFACT · opportunity_list (cross-brand screening candidates)
+   The "we found money in your data" artifact. Visual hierarchy:
+   headline → methodology → KPI strip → activation funnel →
+   ranked candidate list → compliance footer. The funnel is the
+   one differentiating visual that distinguishes this from a
+   generic table.
+   ========================================================= */
+
+.opportunity {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.opportunity__head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.opportunity__headline {
+  margin: 0;
+  font-family: var(--f-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.opportunity__methodology {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+  padding: 8px 12px;
+  border-left: 2px solid var(--rule);
+  background: color-mix(in oklab, var(--paper-sunk) 18%, transparent);
+}
+
+/* ---- Activation funnel ---- */
+
+.funnel {
+  border: 1px solid var(--rule-soft);
+  background: var(--paper-rise);
+  padding: 18px 20px 16px;
+}
+.funnel__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule-soft);
+  margin-bottom: 14px;
+}
+.funnel__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.funnel__step {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.funnel__step-meta {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  align-items: baseline;
+  gap: 14px;
+}
+.funnel__step-num {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--ink-4);
+}
+.funnel__step-label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.funnel__step-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.funnel__step-desc {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  color: var(--ink-3);
+  letter-spacing: 0.02em;
+}
+.funnel__step-count {
+  font-family: var(--f-display);
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.funnel__step-bar-wrap {
+  height: 4px;
+  background: var(--paper-sunk);
+  position: relative;
+  overflow: hidden;
+}
+.funnel__step-bar {
+  height: 100%;
+  background: var(--ink-3);
+  transition: width var(--dur-3) var(--ease);
+}
+.funnel__step--final .funnel__step-bar {
+  background: var(--signal-ink);
+}
+.funnel__step--final .funnel__step-name {
+  color: var(--signal-ink);
+}
+.funnel__step--final .funnel__step-count {
+  color: var(--signal-ink);
+  font-style: italic;
+}
+
+/* ---- Candidate cohort list ---- */
+
+.opportunity__candidates {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.opportunity__candidates-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.opportunity__candidates-empty {
+  padding: 32px 16px;
+  border: 1px dashed var(--rule-soft);
+  text-align: center;
+}
+
+.opp-row-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.opp-row {
+  display: grid;
+  grid-template-columns: 32px 1.1fr 0.7fr 1.1fr 0.9fr 1.4fr 70px;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 8px;
+  border-bottom: 1px solid var(--rule-soft);
+  transition: background var(--dur-1) var(--ease);
+}
+.opp-row:hover {
+  background: color-mix(in oklab, var(--paper-rise) 80%, var(--paper));
+}
+.opp-row[data-priority="high"] {
+  border-left: 2px solid var(--signal-ink);
+  padding-left: 10px;
+}
+.opp-row[data-priority="medium"] {
+  border-left: 2px solid var(--rule);
+  padding-left: 10px;
+}
+.opp-row[data-priority="low"] {
+  border-left: 2px solid transparent;
+  padding-left: 10px;
+  opacity: 0.85;
+}
+
+.opp-row__idx {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  color: var(--ink-4);
+  letter-spacing: 0.04em;
+}
+.opp-row__id {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.opp-row__patient {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+.opp-row__demo {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  color: var(--ink-3);
+}
+
+.opp-row__bmi {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  justify-content: flex-end;
+}
+.opp-row__bmi-value {
+  font-family: var(--f-display);
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.opp-row__bmi-trend {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.opp-row__bmi-trend--down { color: var(--signal-ink); }
+.opp-row__bmi-trend--up { color: var(--alert); }
+.opp-row__bmi-trend--stable { color: var(--ink-3); }
+.opp-row__bmi-trend--unknown { color: var(--ink-4); }
+
+.opp-row__treatment {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.opp-row__treatment-name {
+  font-size: 13px;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.opp-row__treatment-dose {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  color: var(--ink-3);
+}
+
+.opp-row__activity {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.opp-row__activity-value {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.opp-row__reason {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--ink-2);
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+}
+
+.opp-row__priority {
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  text-align: center;
+  justify-self: end;
+}
+.opp-row__priority--high {
+  background: var(--signal-wash);
+  color: var(--signal-ink);
+  border-color: color-mix(in oklab, var(--signal-ink) 25%, var(--rule));
+}
+.opp-row__priority--medium {
+  background: var(--paper-rise);
+  color: var(--ink-2);
+  border-color: var(--rule);
+}
+.opp-row__priority--low {
+  background: transparent;
+  color: var(--ink-3);
+  border-color: var(--rule-soft);
+}
+
+/* ---- Compliance footer ---- */
+
+.opportunity__footer {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule-soft);
+}
+.opportunity__export {
+  padding: 10px 16px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
+}
+.opportunity__export:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+.opportunity__compliance {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  line-height: 1.55;
+  color: var(--ink-3);
+  letter-spacing: 0.02em;
+  flex: 1;
+}
+
+/* responsive collapse */
+@media (max-width: 1100px) {
+  .opp-row {
+    grid-template-columns: 28px 1fr auto;
+    grid-auto-rows: auto;
+    row-gap: 6px;
+  }
+  .opp-row__bmi { justify-content: flex-start; }
+  .opp-row__treatment,
+  .opp-row__activity,
+  .opp-row__reason {
+    grid-column: 2 / -1;
+  }
+  .opportunity__footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* =========================================================
+   Patient record · clinical annotations (Slice 2)
+   The "Living Substrate" beat: clinicians don't just sign
+   the schema, they contribute clinical context back into the
+   record. The composer lives inside the SelectedEventCard so
+   any timeline event can carry a clinician note.
+   ========================================================= */
+
+.patient-record__detail-card--annotation {
+  border-left: 2px solid var(--signal-ink);
+  background: color-mix(in oklab, var(--signal-wash) 14%, var(--paper));
+}
+
+.annotation-composer {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--rule-soft);
+}
+
+.annotation-composer--collapsed {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.annotation-composer__open {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--signal-ink);
+  background: color-mix(in oklab, var(--signal-wash) 40%, var(--paper-rise));
+  border: 1px solid color-mix(in oklab, var(--signal-ink) 25%, var(--rule));
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
+}
+.annotation-composer__open:hover {
+  background: var(--signal-ink);
+  color: var(--paper-rise);
+}
+.annotation-composer__hint {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  color: var(--ink-3);
+  letter-spacing: 0.02em;
+}
+.annotation-composer__hint code {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  color: var(--ink-2);
+  background: color-mix(in oklab, var(--paper-sunk) 50%, transparent);
+  padding: 0 4px;
+  border-radius: 2px;
+}
+
+.annotation-composer--open {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px 16px;
+  background: color-mix(in oklab, var(--signal-wash) 30%, var(--paper-rise));
+  border: 1px solid color-mix(in oklab, var(--signal-ink) 22%, var(--rule));
+  border-radius: 2px;
+  animation: editor-open var(--dur-2) var(--ease);
+}
+.annotation-composer__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.annotation-composer__pin {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  color: var(--ink-3);
+  letter-spacing: 0.02em;
+}
+.annotation-composer__pin code {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  color: var(--signal-ink);
+  background: var(--paper-rise);
+  padding: 1px 5px;
+  border-radius: 2px;
+  border: 1px solid var(--rule-soft);
+}
+.annotation-composer__input {
+  width: 100%;
+  resize: vertical;
+  min-height: 76px;
+  padding: 10px 12px;
+  font-family: var(--f-body);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--paper-rise);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  outline: none;
+  transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
+}
+.annotation-composer__input:focus {
+  border-color: var(--signal-ink);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--signal-wash) 60%, transparent);
+}
+.annotation-composer__input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.annotation-composer__error {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--alert);
+  background: var(--alert-wash);
+  border: 1px solid color-mix(in oklab, var(--alert) 30%, var(--rule));
+  padding: 6px 10px;
+  border-radius: 2px;
+}
+.annotation-composer__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.annotation-composer__author {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  color: var(--ink-3);
+  letter-spacing: 0.02em;
+}
+.annotation-composer__buttons {
+  display: flex;
+  gap: 6px;
+}
+.annotation-composer__cancel,
+.annotation-composer__save {
+  padding: 7px 14px;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
+}
+.annotation-composer__cancel {
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--ink-3);
+}
+.annotation-composer__cancel:hover:not(:disabled) {
+  border-color: var(--ink-3);
+  color: var(--ink);
+}
+.annotation-composer__save {
+  border: 1px solid var(--signal-ink);
+  background: var(--signal-ink);
+  color: var(--paper-rise);
+}
+.annotation-composer__save:hover:not(:disabled) {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.annotation-composer__save:disabled,
+.annotation-composer__cancel:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

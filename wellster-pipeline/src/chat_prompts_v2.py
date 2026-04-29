@@ -9,6 +9,7 @@ from src.chat_v2_models import (
     PresentAlertsTableInput,
     PresentCohortTrendInput,
     PresentFhirBundleInput,
+    PresentOpportunityListInput,
     PresentPatientRecordInput,
     PresentTableInput,
     SampleRowsInput,
@@ -116,6 +117,35 @@ TOOL_PRESENT_PATIENT_RECORD = _tool_schema(
     PresentPatientRecordInput,
 )
 
+TOOL_PRESENT_OPPORTUNITY_LIST = _tool_schema(
+    "present_opportunity_list",
+    (
+        "Terminal tool. Render a cross-brand screening-candidate list — "
+        "patients on `source_brand` who could be screened for "
+        "`target_brand` follow-up based on a BMI threshold and exclusion "
+        "of any existing target-brand history, filtered to those with "
+        "recent activity. The artifact shows a 4-step activation funnel, "
+        "KPIs, and a ranked candidate table with priority badges and "
+        "per-row reason summaries.\n\n"
+        "USE THIS when the user asks about cross-brand candidates, "
+        "screening candidates, cohort outreach across brands, "
+        "Spring-to-GoLighter pipelines, candidate identification for a "
+        "specific brand, or 'who could we treat / contact next' style "
+        "questions. Trigger verbs include: 'find', 'identify', 'show', "
+        "'list', 'screen', 'flag'. Trigger nouns include: 'candidates', "
+        "'opportunity', 'cross-brand', 'cross-sell', 'outreach', "
+        "'pipeline', 'eligibility' (in the screening sense), 'screening'.\n\n"
+        "DO NOT USE for single-patient queries (use present_patient_record), "
+        "for cohort-trend / time-series questions (use present_cohort_trend), "
+        "or for data-quality alerts (use present_alerts_table).\n\n"
+        "Backend executes a fixed deterministic Pandas filter — no SQL "
+        "handle needed and no execute_sql call required. Defaults: "
+        "source_brand='spring', target_brand='golighter', bmi_threshold=27, "
+        "activity_window_days=180."
+    ),
+    PresentOpportunityListInput,
+)
+
 V2_TOOLS = [
     TOOL_EXECUTE_SQL_V2,
     TOOL_SAMPLE_ROWS_V2,
@@ -123,6 +153,7 @@ V2_TOOLS = [
     TOOL_PRESENT_ALERTS_TABLE,
     TOOL_PRESENT_FHIR_BUNDLE,
     TOOL_PRESENT_PATIENT_RECORD,
+    TOOL_PRESENT_OPPORTUNITY_LIST,
     TOOL_PRESENT_TABLE,
 ]
 
@@ -163,6 +194,11 @@ Registered clinical categories:
 {categories_block}
 
 Important domain notes:
+- `survey_validated` is the default survey/event table for clinical
+  analysis. It contains only signed categories and currently approved
+  answer-normalization records.
+- Use `survey_unified` only when the user explicitly asks for raw,
+  audit, rejected, unvalidated, or debugging data.
 - `patients` holds demographics such as gender and current_age.
 - `bmi_timeline` is the clean longitudinal BMI table (user_id, date, bmi).
 - `medication_history.product` contains drug names like "Mounjaro", "Wegovy".
@@ -240,6 +276,20 @@ A2) `present_patient_record` IS REQUIRED when ALL of:
    substrate. This rule wins over present_table AND over present_fhir_bundle
    whenever the FHIR keywords are absent.
 
+A3) `present_opportunity_list` IS REQUIRED when ANY of:
+   - the user asks about cross-brand candidates, screening candidates,
+     cohort outreach, "Spring patients on GoLighter", "Spring → GoLighter",
+     candidate identification, or "who could we treat / contact next"
+   - the user explicitly mentions two Wellster brands as source/target
+   - the user names a clinical filter (BMI threshold) plus a brand transition
+   Trigger nouns: "candidates", "screening", "cross-brand", "cross-sell",
+     "outreach", "pipeline", "opportunities" (in the cohort sense).
+   Trigger verbs: "find", "identify", "list", "screen", "flag".
+   No execute_sql is needed — call present_opportunity_list directly with
+   the desired source_brand / target_brand / bmi_threshold. The backend
+   runs a fixed deterministic Pandas filter against the substrate.
+   This rule wins over present_table for any cross-brand candidate query.
+
 B) `present_cohort_trend` IS REQUIRED when ALL of:
    - the user asks about change over time, trajectory, trend, weekly change,
      response, "Verlauf", "Entwicklung", "Zeitverlauf", or top-N responders
@@ -287,6 +337,9 @@ the second SQL first, or degrade to present_table.
 ## Patient timeline / clinical record (default for single-patient queries):
 1. present_patient_record(user_id=383871, title="Patient PT-383871 · clinical timeline", subtitle="Mounjaro cohort · multi-track substrate view", reply_text="Opened PT-383871's audited clinical timeline. 11 BMI measurements, 11 medication segments, side-effect signals, with per-event provenance to source survey fields.")
 
+## Cross-brand screening candidates (Spring → GoLighter and similar):
+1. present_opportunity_list(source_brand="spring", target_brand="golighter", bmi_threshold=27.0, activity_window_days=180, limit=20, title="Screening candidates · Spring → GoLighter", subtitle="Cross-brand cohort · BMI ≥ 27 · GoLighter-naive", reply_text="Found Spring patients with elevated BMI who have no GoLighter treatment history yet — ranked by clinical priority, with the funnel from full Spring cohort down to the active candidate list.")
+
 ## Data quality alerts (TWO queries — total count + top rows):
 1. execute_sql(handle="alerts_count", sql="SELECT COUNT(*) AS n FROM quality_report")
 2. execute_sql(handle="alerts", sql="SELECT severity, check_type, user_id, treatment_id, description FROM quality_report ORDER BY CASE severity WHEN 'error' THEN 0 WHEN 'warning' THEN 1 ELSE 2 END LIMIT 50")
@@ -314,6 +367,15 @@ User: "Show patient 383871" or "Open PT-383871" or "Zeig mir Patient 383871"
 WRONG: present_table after a SELECT * FROM patients WHERE user_id = 383871
 WRONG: present_fhir_bundle (the user did not say "FHIR" or "export")
 RIGHT: present_patient_record(user_id=383871, ...) directly with no SQL.
+
+User: "Find Spring patients with BMI over 27 who are not on GoLighter"
+   or "Show GoLighter screening candidates from Spring"
+   or "Cross-brand opportunity Spring to GoLighter"
+WRONG: execute_sql followed by present_table — that loses the funnel,
+       priority ranking, and reason summaries that make this artifact distinct.
+WRONG: present_cohort_trend (this is not a time-series question).
+RIGHT: present_opportunity_list(source_brand="spring", target_brand="golighter",
+       bmi_threshold=27, ...) directly with no SQL.
 
 User: "Show me patient 381119" (note the verb 'show me')
 WRONG: present_fhir_bundle — the literal word "FHIR" / "bundle" / "export"

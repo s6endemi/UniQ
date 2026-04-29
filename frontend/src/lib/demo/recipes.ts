@@ -19,6 +19,7 @@ import type {
   CohortTrendPayload,
   FhirBundlePayload,
   AlertsTablePayload,
+  OpportunityListPayload,
 } from "@/lib/api";
 
 export interface PromptSuggestion {
@@ -38,12 +39,16 @@ export interface PromptSuggestion {
 // and 12 s (cohort trend).
 export const PROMPT_SUGGESTIONS: PromptSuggestion[] = [
   {
-    meta: "Cohort · trend",
-    text: "Show BMI trends for the Mounjaro cohort",
-  },
-  {
     meta: "Patient · timeline",
     text: "Open patient 383871",
+  },
+  {
+    meta: "Cross-brand · opportunity",
+    text: "Find GoLighter screening candidates from Spring",
+  },
+  {
+    meta: "Cohort · trend",
+    text: "Show BMI trends for the Mounjaro cohort",
   },
   {
     meta: "Data quality",
@@ -148,6 +153,146 @@ const DEMO_FHIR_BUNDLE: FhirBundlePayload = {
       },
     },
   ],
+};
+
+const DEMO_OPPORTUNITY_LIST: OpportunityListPayload = {
+  headline: "456 Spring patients can be screened for GoLighter follow-up",
+  methodology:
+    "Based on 5,374 unified Wellster patients · BMI ≥ 27 on file · " +
+    "GoLighter history checked across substrate",
+  activation_path: [
+    {
+      label: "Spring cohort",
+      count: 4557,
+      description: "All patients ever on Spring",
+    },
+    {
+      label: "BMI ≥ 27",
+      count: 2029,
+      description: "With at least one BMI measurement above threshold",
+    },
+    {
+      label: "No GoLighter history",
+      count: 2014,
+      description: "Excluded if any GoLighter treatment found in substrate",
+    },
+    {
+      label: "Active in last 180 days",
+      count: 456,
+      description: "Recent enough for review to be meaningful",
+    },
+  ],
+  kpis: [
+    { label: "Spring patients", value: "4,557" },
+    { label: "BMI ≥ 27", value: "2,029", delta: "45% of cohort" },
+    { label: "No GoLighter history", value: "2,014" },
+    { label: "High priority", value: "60", delta: "of 456 active" },
+  ],
+  candidates: [
+    {
+      user_id: 382652,
+      label: "PT-382652",
+      latest_bmi: 45.9,
+      bmi_trend: "stable",
+      age: 45,
+      gender: "male",
+      current_treatment: "Sildenafil",
+      current_dosage: "100mg",
+      tenure_days: 412,
+      days_since_activity: 53,
+      reason_summary: "BMI 45.9 · Spring patient · no GoLighter history",
+      priority: "high",
+    },
+    {
+      user_id: 384765,
+      label: "PT-384765",
+      latest_bmi: 44.5,
+      bmi_trend: "unknown",
+      age: 62,
+      gender: "male",
+      current_treatment: "Sildenafil",
+      current_dosage: "50mg",
+      tenure_days: 287,
+      days_since_activity: 48,
+      reason_summary: "BMI 44.5 · Spring patient · no GoLighter history",
+      priority: "high",
+    },
+    {
+      user_id: 395209,
+      label: "PT-395209",
+      latest_bmi: 39.2,
+      bmi_trend: "unknown",
+      age: 39,
+      gender: "male",
+      current_treatment: "Tadalafil",
+      current_dosage: "20mg",
+      tenure_days: 156,
+      days_since_activity: 42,
+      reason_summary: "BMI 39.2 · Spring patient · no GoLighter history",
+      priority: "high",
+    },
+    {
+      user_id: 393901,
+      label: "PT-393901",
+      latest_bmi: 39.2,
+      bmi_trend: "unknown",
+      age: 28,
+      gender: "male",
+      current_treatment: "Sildenafil",
+      current_dosage: "50mg",
+      tenure_days: 198,
+      days_since_activity: 41,
+      reason_summary: "BMI 39.2 · Spring patient · no GoLighter history",
+      priority: "high",
+    },
+    {
+      user_id: 392811,
+      label: "PT-392811",
+      latest_bmi: 38.0,
+      bmi_trend: "down",
+      age: 53,
+      gender: "male",
+      current_treatment: "Sildenafil",
+      current_dosage: "100mg",
+      tenure_days: 234,
+      days_since_activity: 50,
+      reason_summary: "BMI 38.0 · Spring patient · no GoLighter history",
+      priority: "high",
+    },
+    {
+      user_id: 382732,
+      label: "PT-382732",
+      latest_bmi: 37.9,
+      bmi_trend: "down",
+      age: 37,
+      gender: "male",
+      current_treatment: "Sildenafil",
+      current_dosage: "50mg",
+      tenure_days: 391,
+      days_since_activity: 41,
+      reason_summary: "BMI 37.9 · Spring patient · no GoLighter history",
+      priority: "high",
+    },
+    {
+      user_id: 392096,
+      label: "PT-392096",
+      latest_bmi: 37.4,
+      bmi_trend: "stable",
+      age: 38,
+      gender: "male",
+      current_treatment: "Tadalafil",
+      current_dosage: "20mg",
+      tenure_days: 178,
+      days_since_activity: 39,
+      reason_summary: "BMI 37.4 · Spring patient · no GoLighter history",
+      priority: "high",
+    },
+  ],
+  total_candidates: 456,
+  source_brand: "spring",
+  target_brand: "golighter",
+  bmi_threshold: 27,
+  activity_window_days: 180,
 };
 
 const DEMO_ALERTS: AlertsTablePayload = {
@@ -288,7 +433,63 @@ const recipeAlerts: Recipe = {
   },
 };
 
-const RECIPES: Recipe[] = [recipeFhir, recipeCohort, recipeAlerts];
+const recipeOpportunity: Recipe = {
+  match: (q) => {
+    const s = q.toLowerCase();
+    // Tight matcher: need a brand-transition signal OR a candidate-keyword
+    // signal. Avoids stealing the cohort_trend or patient_record prompt by
+    // accident.
+    const hasBrandTransition =
+      (s.includes("spring") && (s.includes("golighter") || s.includes("go lighter"))) ||
+      s.includes("cross-brand") ||
+      s.includes("cross brand") ||
+      s.includes("cross-sell") ||
+      s.includes("cross sell");
+    const hasCandidateKeyword =
+      s.includes("screening candidate") ||
+      s.includes("opportunity") ||
+      s.includes("outreach") ||
+      (s.includes("candidate") && (s.includes("spring") || s.includes("golighter")));
+    return hasBrandTransition || hasCandidateKeyword;
+  },
+  build: () => {
+    const artifact: ChatArtifact = {
+      kind: "opportunity_list",
+      id: mkId("opportunity"),
+      title: "Screening candidates · Spring → GoLighter",
+      subtitle: "Cross-brand cohort · BMI ≥ 27 · GoLighter-naive",
+      payload: DEMO_OPPORTUNITY_LIST,
+    };
+    return {
+      steps: [
+        "Classified intent · cross-brand candidate identification",
+        "Scoped Spring cohort · 4,557 patients on file",
+        "Applied BMI filter · 2,029 with BMI ≥ 27",
+        "Excluded GoLighter history · 2,014 candidates",
+        "Filtered to active patients (180d) · 456 actionable",
+        "Selected artifact · opportunity_list",
+      ],
+      reply:
+        "Found 456 active Spring patients with BMI ≥ 27 who have no " +
+        "GoLighter treatment history — 60 are clinically high-priority. " +
+        "The funnel below shows how the cohort collapses from full " +
+        "Spring to actionable list, with reason summaries per patient.",
+      artifact,
+      trace: {
+        intent: "cross_brand_opportunity",
+        recipe: "cross_brand_opportunity",
+        sql: ["-- demo fallback (deterministic Pandas filter)"],
+        row_counts: [4557, 2029, 2014, 456],
+        artifact_kind: "opportunity_list",
+      },
+    };
+  },
+};
+
+// Order matters: more specific recipes first, generic fallbacks last.
+// recipeOpportunity must precede recipeCohort because both can be
+// triggered by a "Spring patients" query — the candidate framing wins.
+const RECIPES: Recipe[] = [recipeFhir, recipeOpportunity, recipeCohort, recipeAlerts];
 
 /**
  * Pick a scripted response that matches the user's question — or null.

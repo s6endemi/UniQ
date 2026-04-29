@@ -20,7 +20,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from src.api.deps import state
-from src.api.routers import chat, mapping, meta, patients
+from src.api.routers import chat, mapping, meta, normalization, patients
 
 
 @asynccontextmanager
@@ -41,4 +41,5 @@ app = FastAPI(
 app.include_router(meta.router)
 app.include_router(mapping.router)
 app.include_router(patients.router)
+app.include_router(normalization.router)
 app.include_router(chat.router)

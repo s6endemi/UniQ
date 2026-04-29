@@ -5,6 +5,7 @@ import type { ChatArtifact } from "@/lib/api";
 import { ArtifactAlertsTable } from "./artifact-alerts-table";
 import { ArtifactDashboard } from "./artifact-dashboard";
 import { ArtifactFhir } from "./artifact-fhir";
+import { ArtifactOpportunityList } from "./artifact-opportunity-list";
 import { ArtifactPatientRecord } from "./artifact-patient-record";
 import { ArtifactPlainTable } from "./artifact-plain-table";
 
@@ -135,6 +136,8 @@ function ViewBody({ artifact }: { artifact: ChatArtifact }) {
       return <ArtifactFhir bundle={artifact.payload} />;
     case "patient_record":
       return <ArtifactPatientRecord payload={artifact.payload} />;
+    case "opportunity_list":
+      return <ArtifactOpportunityList payload={artifact.payload} />;
   }
 }
 
